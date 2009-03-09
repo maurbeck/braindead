@@ -32,6 +32,7 @@ namespace ValidMoves
         int mouseX;
         int mouseY;
 
+
         public ValidMoves()
         {
             graphics = new GraphicsDeviceManager(this);
