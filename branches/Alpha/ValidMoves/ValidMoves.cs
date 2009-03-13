@@ -451,7 +451,7 @@ namespace ValidMoves
                         for (int moveNum = 1; moveNum < 3; moveNum++)
                         {
                             // Northwest
-                            if (y > 0 && x > 0)
+                            if (y > (0 + (moveNum - 1)) && x > (0 + (moveNum - 1)))
                             {
                                 if (pieces[(y - moveNum), (x - moveNum)] == 0)
                                     return true;
