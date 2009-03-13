@@ -465,7 +465,7 @@ namespace ValidMoves
                             // Northeast
                             if (y < (7 - (moveNum - 1)) && x > (0 + (moveNum - 1)))
                             {
-                                if (pieces[(y - moveNum), (x + moveNum)] == 0)
+                                if (pieces[(y + moveNum), (x + moveNum)] == 0)
                                     return true;
                             }
                             // East
