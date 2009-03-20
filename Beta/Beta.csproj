@@ -87,6 +87,7 @@
     <Compile Include="Board.cs" />
     <Compile Include="Cursor.cs" />
     <Compile Include="Image.cs" />
+    <Compile Include="Instructions.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="Piece.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
