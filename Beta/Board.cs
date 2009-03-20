@@ -22,7 +22,7 @@ namespace Beta
         enum State
         {
             Menu = 1,
-            Tutorial = 2,
+            Instructions = 2,
             Game = 3,
             Quit = 4
         }

@@ -15,7 +15,7 @@ namespace Beta
         enum State
         {
             Menu = 1,
-            Tutorial = 2,
+            Instructions = 2,
             Game = 3,
             Quit = 4
         }
@@ -43,9 +43,9 @@ namespace Beta
             // Initialize cursor
             cursor.Initialize(Vector2.Zero, new Rectangle(0, 0, 50, 50), Color.White, Vector2.Zero, Vector2.One, 0.0f);
             // Initialize buttons
-            gameButton.Initialize(new Vector2(200, 200), new Rectangle(0, 0, 150, 50), Vector2.Zero, 0.5f, 10, 2, false);
-            tutorialButton.Initialize(new Vector2(300, 300), new Rectangle(0, 0, 150, 50), Vector2.Zero, 0.5f, 10, 2, false);
-            quitButton.Initialize(new Vector2(400, 400), new Rectangle(0, 0, 150, 50), Vector2.Zero, 0.5f, 10, 2, false);
+            gameButton.Initialize(new Vector2(279, 200), new Rectangle(0, 0, 240, 100), Vector2.Zero, 0.5f, 10, 2, false);
+            tutorialButton.Initialize(new Vector2(279, 349), new Rectangle(0, 0, 240, 100), Vector2.Zero, 0.5f, 10, 2, false);
+            quitButton.Initialize(new Vector2(279, 500), new Rectangle(0, 0, 240, 100), Vector2.Zero, 0.5f, 10, 2, false);
         }
 
         public void LoadContent(SpriteBatch spriteBatch, Texture2D menuBackground, Texture2D cursorTex, Texture2D gameBtnTex, Texture2D tutorialBtnTex, Texture2D quitBtnTex)
@@ -68,19 +68,19 @@ namespace Beta
             KeyboardState keyState = Keyboard.GetState();
 
             // Change game button on mouse over
-            if (mouseState.X > 200 && mouseState.X < 350 && mouseState.Y > 200 && mouseState.Y < 250)
+            if (mouseState.X > 279 && mouseState.X < 519 && mouseState.Y > 200 && mouseState.Y < 300)
                 gameButton.LastFrame();
             else
                 gameButton.Reset();
 
             // Change tutorial button on mouse over
-            if (mouseState.X > 300 && mouseState.X < 450 && mouseState.Y > 300 && mouseState.Y < 350)
+            if (mouseState.X > 279 && mouseState.X < 519  && mouseState.Y > 349 && mouseState.Y < 449)
                 tutorialButton.LastFrame();
             else
                 tutorialButton.Reset();
 
             // Change quit button on mouse over
-            if (mouseState.X > 400 && mouseState.X < 550 && mouseState.Y > 400 && mouseState.Y < 450)
+            if (mouseState.X > 279 && mouseState.X < 519 && mouseState.Y > 500 && mouseState.Y < 600)
                 quitButton.LastFrame();
             else
                 quitButton.Reset();
@@ -96,22 +96,21 @@ namespace Beta
         public void Click(MouseState mouseState, ref int state)
         {
             // Check if clicked on tutorial button
-            if (mouseState.X > 300 && mouseState.X < 450 && mouseState.Y > 300 && mouseState.Y < 350)
+            if (mouseState.X > 279 && mouseState.X < 519 && mouseState.Y > 349 && mouseState.Y < 449)
             {
                 // No tutorial state yet
-                // Uncomment this line after implemented
-                //state = (int)State.Tutorial;
+                state = (int)State.Instructions;
             }
 
             // Check if clicked on game button
-            if (mouseState.X > 200 && mouseState.X < 350 && mouseState.Y > 200 && mouseState.Y < 250)
+            if (mouseState.X > 279 && mouseState.X < 519 && mouseState.Y > 200 && mouseState.Y < 300)
             {
                 // Set the state to the game state
                 state = (int)State.Game;
             }
 
             // Check if clicked on quit button
-            if (mouseState.X > 400 && mouseState.X < 550 && mouseState.Y > 400 && mouseState.Y < 450)
+            if (mouseState.X > 279 && mouseState.X < 519 && mouseState.Y > 500 && mouseState.Y < 600)
             {
                 state = (int)State.Quit;
             }
