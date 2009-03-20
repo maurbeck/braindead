@@ -23,6 +23,8 @@ namespace Beta
 
         Menu menu = new Menu();
 
+        Instructions instructions = new Instructions();
+
         Board board = new Board();
 
         // Cursor textures
@@ -34,6 +36,13 @@ namespace Beta
         Texture2D gameBtnTex;
         Texture2D tutorialBtnTex;
         Texture2D quitBtnTex;
+
+        // Textures for instructions
+        Texture2D instruction1BgTex;
+        Texture2D instruction2BgTex;
+        Texture2D mainBtnTex;
+        Texture2D backBtnTex;
+        Texture2D nextBtnTex;
 
         // Textures for the game state
         Texture2D boardTex;
@@ -47,7 +56,7 @@ namespace Beta
         enum State
         {
             Menu = 1,
-            Tutorial = 2,
+            Instructions = 2,
             Game = 3,
             Quit = 4
         }
@@ -72,6 +81,7 @@ namespace Beta
         {
             gameState = (int)State.Menu;
             menu.Initialize();
+            instructions.Initialize();
             board.Initialize();
 
             base.Initialize();
@@ -90,6 +100,15 @@ namespace Beta
             redCursor = Content.Load<Texture2D>("RedCursor"); // This is used as the normal cursor, will also be used in other states
 
             menu.LoadContent(spriteBatch, menuBgTex, redCursor, gameBtnTex, tutorialBtnTex, quitBtnTex);
+
+            // Load the content for the instructions state
+            instruction1BgTex = Content.Load<Texture2D>("Instructions1");
+            instruction2BgTex = Content.Load<Texture2D>("Instructions2");
+            mainBtnTex = Content.Load<Texture2D>("MainButton");
+            backBtnTex = Content.Load<Texture2D>("BackButton");
+            nextBtnTex = Content.Load<Texture2D>("NextButton");
+
+            instructions.LoadContent(spriteBatch, instruction1BgTex, instruction2BgTex, redCursor, mainBtnTex, backBtnTex, nextBtnTex);
 
             // Load the content for the game state
             boardTex = Content.Load<Texture2D>("Board");
@@ -119,7 +138,8 @@ namespace Beta
                         case (int)State.Menu:
                             menu.Click(mouseState, ref gameState);
                             break;
-                        case (int)State.Tutorial:
+                        case (int)State.Instructions:
+                            instructions.Click(mouseState, ref gameState);
                             break;
                         case (int)State.Game:
                             board.Click(mouseState);
@@ -142,7 +162,8 @@ namespace Beta
                 case (int)State.Menu:
                     menu.Update(gameTime, ref gameState);
                     break;
-                case (int)State.Tutorial:
+                case (int)State.Instructions:
+                    instructions.Update(gameTime, ref gameState);
                     break;
                 case (int)State.Game:
                     board.Update(gameTime, ref gameState);
@@ -167,7 +188,8 @@ namespace Beta
                 case (int)State.Menu:
                     menu.Draw();
                     break;
-                case (int)State.Tutorial:
+                case (int)State.Instructions:
+                    instructions.Draw();
                     break;
                 case (int)State.Game:
                     board.Draw();
