@@ -572,31 +572,31 @@ namespace Beta
                             }
                             // Northeast
                             // crashing bug was here, was checking if y < (7 - (moveNum - 1)) and x > (0 + (moveNum - 1))
-                            if (y > (0 + (moveNum - 1)) && x < (7 - (moveNum - 1)))
+                            if (y > (0 + (moveNum - 1)) && x < (6 - (moveNum - 1)))
                             {
                                 if (pieces[(x + moveNum), (y - moveNum)].Value() == 0)
                                     return true;
                             }
                             // East
-                            if (x < (7 - (moveNum - 1)))
+                            if (x < (6 - (moveNum - 1)))
                             {
                                 if (pieces[(x + moveNum), (y)].Value() == 0)
                                     return true;
                             }
                             // Southeast
-                            if (y < (7 - (moveNum - 1)) && x < (7 - (moveNum - 1)))
+                            if (y < (6 - (moveNum - 1)) && x < (6 - (moveNum - 1)))
                             {
                                 if (pieces[(x + moveNum), (y + moveNum)].Value() == 0)
                                     return true;
                             }
                             // South
-                            if (y < (7 - (moveNum - 1)))
+                            if (y < (6 - (moveNum - 1)))
                             {
                                 if (pieces[(x), (y + moveNum)].Value() == 0)
                                     return true;
                             }
                             // Southwest
-                            if (y < (7 - (moveNum - 1)) && x > (0 + (moveNum - 1)))
+                            if (y < (6 - (moveNum - 1)) && x > (0 + (moveNum - 1)))
                             {
                                 if (pieces[(x - moveNum), (y + moveNum)].Value() == 0)
                                     return true;
