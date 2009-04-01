@@ -155,8 +155,8 @@ namespace Beta
             redCursor.Update();
             greenCursor.Update();
 
-            
-            if (animate.Count > 0)
+            /*
+            if (animate.Count > 0 || time < 500)
             {
                 time += Math.Max(1, gameTime.ElapsedRealTime.Milliseconds);
                 if (time > 500)
@@ -165,7 +165,23 @@ namespace Beta
                     animate.Dequeue();
                     time = 0;
                 }
+            }*/
+
+            if (time < 500)
+            {
+                time += Math.Max(1, gameTime.ElapsedRealTime.Milliseconds);
             }
+            if (time >= 500)
+            {
+                if (animate.Count > 0)
+                {
+                    pieces[(int)animate.Peek().X, (int)animate.Peek().Y].Animate();
+                    animate.Dequeue();
+                    time = 0;
+                }
+            }
+            
+
             // Update all pieces on the board
             for (int x = 0; x < 7; x++)
             {
@@ -203,7 +219,7 @@ namespace Beta
             int mouseX = (int)Math.Floor((double)(mouseState.X - offset.X) / 100);
             int mouseY = (int)Math.Floor((double)(mouseState.Y - offset.Y) / 100);
 
-            if (animate.Count == 0)
+            if (animate.Count == 0 && time >= 500)
             {
                 switch (playerTurn)
                 {
