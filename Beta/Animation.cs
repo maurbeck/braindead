@@ -52,7 +52,7 @@ namespace Beta
         {
             if (started)
             {
-                time += gameTime.ElapsedRealTime.Milliseconds;
+                time += Math.Max(1,gameTime.ElapsedRealTime.Milliseconds);
                 if (time >= delay)
                 {
                     curFrame++;

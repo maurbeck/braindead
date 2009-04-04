@@ -77,7 +77,7 @@ namespace Beta
             animate.Clear();
             // Initialize the cursors
             redCursor.Initialize(Vector2.Zero, new Rectangle(0, 0, 50, 50), Color.White, Vector2.Zero, Vector2.One, 0.0f);
-            greenCursor.Initialize(Vector2.Zero, new Rectangle(0, 0, 50, 50), Color.White, new Vector2(50,50), Vector2.One, 0.0f);
+            greenCursor.Initialize(Vector2.Zero, new Rectangle(0, 0, 50, 50), Color.White, Vector2.Zero, Vector2.One, 0.0f);
 
             // Initialize the board image
             board.Initialize(Vector2.Zero, new Rectangle(0, 0, 798, 798), Color.White, Vector2.Zero, Vector2.One, 1f);
@@ -155,7 +155,8 @@ namespace Beta
             redCursor.Update();
             greenCursor.Update();
 
-            /*
+            #region Handle animations one at a time
+            /* Old version: allowed for movement before the last piece was animated
             if (animate.Count > 0 || time < 500)
             {
                 time += Math.Max(1, gameTime.ElapsedRealTime.Milliseconds);
@@ -180,8 +181,9 @@ namespace Beta
                     time = 0;
                 }
             }
-            
+            #endregion
 
+            #region Update all the pieces on the board
             // Update all pieces on the board
             for (int x = 0; x < 7; x++)
             {
@@ -190,7 +192,9 @@ namespace Beta
                     pieces[x, y].Update(gameTime);
                 }
             }
+            #endregion
 
+            #region Keep running total of pieces on board
             // Update count of pieces if all animations are finished
             // and the total of the last count is less than 49
             if (animate.Count == 0 && ((redCount + greenCount) < 49))
@@ -211,6 +215,7 @@ namespace Beta
                     }
                 }
             }
+            #endregion
         }
 
         public void Click(MouseState mouseState)
