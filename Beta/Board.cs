@@ -59,6 +59,10 @@ namespace Beta
         int redCount;
         int greenCount;
 
+        // final scores for each player
+        int plr1score;
+        int plr2score;
+
         //Sounds
         SoundEffect selectPiece;
         SoundEffect unMove;
@@ -100,10 +104,62 @@ namespace Beta
             }
 
             // Set the initial corner pieces
+            //pieces[0, 0].SetState(1);
+            //pieces[6, 6].SetState(1);
+            //pieces[0, 6].SetState(2);
+            //pieces[6, 0].SetState(2);
+
+            //Peices for quick end of game
+
             pieces[0, 0].SetState(1);
-            pieces[6, 6].SetState(1);
-            pieces[0, 6].SetState(2);
+            pieces[1, 0].SetState(2);
+            pieces[2, 0].SetState(1);
+            pieces[3, 0].SetState(2);
+            pieces[4, 0].SetState(2);
+            pieces[5, 0].SetState(1);
             pieces[6, 0].SetState(2);
+            pieces[0, 1].SetState(1);
+            //pieces[1, 1].SetState(2);
+            //pieces[2, 1].SetState(2);
+            //pieces[3, 1].SetState(1);
+            //pieces[4, 1].SetState(2);
+            pieces[5, 1].SetState(2);
+            pieces[6, 1].SetState(1);
+            pieces[0, 2].SetState(2);
+            pieces[1, 2].SetState(2);
+            pieces[2, 2].SetState(1);
+            pieces[3, 2].SetState(1);
+            pieces[4, 2].SetState(1);
+            pieces[5, 2].SetState(2);
+            pieces[6, 2].SetState(1);
+            pieces[0, 3].SetState(1);
+            pieces[1, 3].SetState(1);
+            pieces[2, 3].SetState(2);
+            pieces[3, 3].SetState(2);
+            pieces[4, 3].SetState(2);
+            pieces[5, 3].SetState(2);
+            pieces[6, 3].SetState(1);
+            pieces[0, 4].SetState(2);
+            pieces[1, 4].SetState(2);
+            pieces[2, 4].SetState(2);
+            pieces[3, 4].SetState(2);
+            pieces[4, 4].SetState(1);
+            pieces[5, 4].SetState(1);
+            pieces[6, 4].SetState(2);
+            pieces[0, 5].SetState(1);
+            pieces[1, 5].SetState(1);
+            pieces[2, 5].SetState(2);
+            pieces[3, 5].SetState(2);
+            pieces[4, 5].SetState(2);
+            pieces[5, 5].SetState(1);
+            pieces[6, 5].SetState(1);
+            pieces[0, 6].SetState(2);
+            pieces[1, 6].SetState(2);
+            pieces[2, 6].SetState(2);
+            pieces[3, 6].SetState(2);
+            pieces[4, 6].SetState(1);
+            pieces[5, 6].SetState(1);
+            pieces[6, 6].SetState(2);
            
 
 
@@ -232,6 +288,14 @@ namespace Beta
                         }
                     }
                 }
+            }
+            
+
+
+            if (boardFull == true && animate.Count == 0 && time > 1000)
+            {
+                ClearBoard();
+                PlopEndPieces();
             }
             #endregion
         }
@@ -679,5 +743,112 @@ namespace Beta
             }
             return true;
         }
+                public void ClearBoard()
+        {
+            //save the score before board is erased
+            for (int x = 0; x < 7; x++)
+            {
+                for (int y = 0; y < 7; y++)
+                {
+                    switch (pieces[x, y].Value())
+                    {
+                        case 1:
+                            plr1score++;
+                            break;
+                        case 2:
+                            plr2score++;
+                            break;
+                    }
+                }
+                
+            }
+
+            //clear pieces
+            for (int x = 0; x < 7; x++)
+            {
+                for (int y = 0; y < 7; y++)
+                {
+                    pieces[x, y].SetState(0);
+                }
+            }
+            return;
+        }
+
+                public void PlopEndPieces()
+                {
+                    bool plr1working = true;
+
+                    #region
+
+                    while (plr1working == true)
+                    {
+
+                        int y1 = 0;
+
+                        for (int x1 = 0; x1 <= 7; x1++)
+                        {
+                            if (plr1score > 0)
+                            {
+                                if (x1 == 7)
+                                {
+                                    x1 = 0;
+                                    y1++;
+
+                                }
+                                if (y1 == 7)
+                                {
+                                    break;
+                                }
+
+                                else
+                                {
+                                    pieces[x1, y1].SetState(1);
+                                }
+                                plr1score--;
+                            }
+                            else
+                            {
+                                plr1working = false;
+                                break;
+                            }
+                        }
+                    }
+
+                    while (plr1working == false)
+                    {
+                        int yIterations = 0;
+                        int y2 = 6;
+
+                        for (int x2 = 6; x2 >= -1; x2--)
+                        {
+                            if (plr2score > 0)
+                            {
+                                if (x2 == -1)
+                                {
+                                    x2 = 6;
+                                    y2--;
+
+                                }
+                                if (y2 == -1)
+                                {
+                                    y2 = 6;
+                                    yIterations++;
+                                }
+
+                                else
+                                {
+                                    pieces[x2, y2].SetState(2);
+                                    //plr1working = false;
+                                }
+                                plr2score--;
+                            }
+                            else
+                            {
+                                return;
+                            }
+                        }
+                    }
+                    #endregion
+                }
     }
 }
