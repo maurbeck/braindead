@@ -120,6 +120,93 @@
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AvailableMove_8Bit.wav">
+      <Name>AvailableMove_8Bit</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="BconvertsG.wav">
+      <Name>BconvertsG</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="BlueRebuttle1.wav">
+      <Name>BlueRebuttle1</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Bluerebuttle2.wav">
+      <Name>Bluerebuttle2</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="ForceTurn_8Bit.wav">
+      <Name>ForceTurn_8Bit</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="GconvertsB.wav">
+      <Name>GconvertsB</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Grebuttle1.wav">
+      <Name>Grebuttle1</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Grebuttle2.wav">
+      <Name>Grebuttle2</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="MouseClick.wav">
+      <Name>MouseClick</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="MouseToneInstructionScreen_8Bit%28hi%29.wav">
+      <Name>MouseToneInstructionScreen_8Bit%28hi%29</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="MouseToneinstructionScreen_8Bit%28low%29.wav">
+      <Name>MouseToneinstructionScreen_8Bit%28low%29</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="MouseToneinstructionScreen_8Bit%28mid%29.wav">
+      <Name>MouseToneinstructionScreen_8Bit%28mid%29</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="MouseTonemainScreen_8Bit%28hi1%29.wav">
+      <Name>MouseTonemainScreen_8Bit%28hi1%29</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="MouseTonemainScreen_8Bit%28mid%29.wav">
+      <Name>MouseTonemainScreen_8Bit%28mid%29</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="PlayerTurnSwitchTone.wav">
+      <Name>PlayerTurnSwitchTone</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="SelectPiece_8Bit.wav">
+      <Name>SelectPiece_8Bit</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="UnavailableMove_8Bit.wav">
+      <Name>UnavailableMove_8Bit</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\v3.0\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
