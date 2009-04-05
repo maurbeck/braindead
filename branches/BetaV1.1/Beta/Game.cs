@@ -51,6 +51,25 @@ namespace Beta
         Texture2D redToGreen;
         Texture2D greenToRed;
 
+        //Sounds
+        SoundEffect mtInstructionScreen1;
+        SoundEffect mtInstructionScreen2;
+        SoundEffect mtInstructionScreen3;
+        SoundEffect mtMainScreen1;
+        SoundEffect mtMainScreen2;
+        SoundEffect switchTurn;
+        SoundEffect playerOneToPlayerTwo;
+        SoundEffect playerTwoToPlayerOne;
+        SoundEffect playerOneUnknown1;
+        SoundEffect playerOneUnknown2;
+        SoundEffect playerTwoUnknown1;
+        SoundEffect playerTwoUnknown2;
+        SoundEffect mouseClick;
+        SoundEffect selectPiece;
+        SoundEffect unavailableMove;
+        SoundEffect availableMove;
+        SoundEffect passTurn;
+
         bool clickEnabled = true;
 
         enum State
@@ -118,7 +137,29 @@ namespace Beta
             greenToRed = Content.Load<Texture2D>("GreenToRed");
             greenCursor = Content.Load<Texture2D>("GreenCursor");
 
+            //Load the sounds
+            mtInstructionScreen1 = Content.Load<SoundEffect>("MouseToneInstructionScreen_8Bit(hi)");
+            mtInstructionScreen2 = Content.Load<SoundEffect>("MouseToneInstructionScreen_8Bit(low)");
+            mtInstructionScreen3 = Content.Load<SoundEffect>("MouseToneInstructionScreen_8Bit(mid)");
+            mtMainScreen1 = Content.Load<SoundEffect>("MouseToneMainScreen_8Bit(hi1)");
+            mtMainScreen2 = Content.Load<SoundEffect>("MouseToneMainScreen_8Bit(mid)");
+            switchTurn = Content.Load<SoundEffect>("PlayerTurnSwitchTone");
+            playerOneToPlayerTwo = Content.Load<SoundEffect>("BconvertsG");
+            playerTwoToPlayerOne = Content.Load<SoundEffect>("GconvertsB");
+            playerOneUnknown1 = Content.Load<SoundEffect>("BlueRebuttle1");
+            playerOneUnknown2 = Content.Load<SoundEffect>("BlueRebuttle2");
+            playerTwoUnknown1 = Content.Load<SoundEffect>("Grebuttle1");
+            playerTwoUnknown2 = Content.Load<SoundEffect>("GRebuttle2");
+            mouseClick = Content.Load<SoundEffect>("MouseClick");
+            selectPiece = Content.Load<SoundEffect>("SelectPiece_8Bit");
+            unavailableMove = Content.Load<SoundEffect>("UnavailableMove_8Bit");
+            availableMove = Content.Load<SoundEffect>("AvailableMove_8Bit");
+            passTurn = Content.Load<SoundEffect>("ForceTurn_8Bit");
+
+            selectPiece.Play(1.0f, 0.0f, 0.0f, false);
+            
             board.LoadContent(spriteBatch, boardTex, redTex, greenTex, redToGreen, greenToRed, redCursor, greenCursor);
+            board.LoadAudio(selectPiece, unavailableMove, availableMove, playerOneToPlayerTwo);
         }
 
         protected override void UnloadContent()
