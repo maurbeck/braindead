@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Beta
 {
@@ -40,7 +41,6 @@ namespace Beta
         // Queue to handle the animations one at a time
         Queue<Vector2> animate = new Queue<Vector2>();
         // Time for animation delay
-        // Make not public when dubugging is done
         int time;
 
         // Selected Piece
@@ -58,6 +58,12 @@ namespace Beta
         // Piece count
         int redCount;
         int greenCount;
+
+        //Sounds
+        SoundEffect selectPiece;
+        SoundEffect unMove;
+        SoundEffect aMove;
+        SoundEffect convert;
 
         public Board()
         {
@@ -98,13 +104,15 @@ namespace Beta
             pieces[6, 6].SetState(1);
             pieces[0, 6].SetState(2);
             pieces[6, 0].SetState(2);
+           
+
 
             // Set playerTurn
             playerTurn = (int)PlayerTurn.Red;
             // Set selected piece
             selectedPiece = new Vector2(-1, -1);
             // Set time
-            time = 1000;
+            time = 0;
             // Board full
             boardFull = false;
             // Set counts
@@ -128,6 +136,14 @@ namespace Beta
 
             redCursor.LoadContent(spriteBatch, redCur);
             greenCursor.LoadContent(spriteBatch, greenCur);
+        }
+
+        public void LoadAudio(SoundEffect selectPiece, SoundEffect unMove, SoundEffect aMove, SoundEffect convert)
+        {
+            this.selectPiece = selectPiece;
+            this.unMove = unMove;
+            this.aMove = aMove;
+            this.convert = convert;
         }
 
         public void Update(GameTime gameTime, ref int state)
@@ -173,13 +189,14 @@ namespace Beta
             {
                 time += Math.Max(1, gameTime.ElapsedRealTime.Milliseconds);
             }
-            if (time >= 1000)
+            if (time >= 750)
             {
                 if (animate.Count > 0)
                 {
                     pieces[(int)animate.Peek().X, (int)animate.Peek().Y].Animate();
                     animate.Dequeue();
                     time = 0;
+                    convert.Play(1.0f, 0.0f, 0.0f, false);
                 }
             }
             #endregion
@@ -247,6 +264,7 @@ namespace Beta
                                     case 1:     // If clicked on red piece
                                         // Select the red piece
                                         selectedPiece = new Vector2(mouseX, mouseY);
+                                        selectPiece.Play(1.0f, 0.0f, 0.0f, false);
                                         break;
                                     case 2:     // If clicked on green piece
                                         // Do nothing for now
@@ -274,7 +292,10 @@ namespace Beta
                                         {
                                             // Prepare for next player
                                             if (AnyMoves(2))
+                                            {
                                                 playerTurn = 2;
+                                                aMove.Play(1.0f, 0.0f, 0.0f, false);
+                                            }
                                             else
                                                 if (BoardFull())
                                                     boardFull = true;
@@ -285,15 +306,18 @@ namespace Beta
                                         {
                                             // Deselect piece
                                             selectedPiece = new Vector2(-1, -1);
+                                            unMove.Play(1.0f, 0.0f, 0.0f, false);
                                         }
                                         break;
                                     case 1:     // If clicked on red piece
                                         // Select piece
                                         selectedPiece = new Vector2(mouseX, mouseY);
+                                        selectPiece.Play(1.0f, 0.0f, 0.0f, false);
                                         break;
                                     case 2:     // If clicked on green piece
                                         // Deselect piece
                                         selectedPiece = new Vector2(-1, -1);
+                                        unMove.Play(1.0f, 0.0f, 0.0f, false);
                                         break;
                                     default:    // Error
                                         // Error
@@ -326,6 +350,7 @@ namespace Beta
                                     case 2:     // If clicked on green piece
                                         // Select the green piece
                                         selectedPiece = new Vector2(mouseX, mouseY);
+                                        selectPiece.Play(1.0f, 0.0f, 0.0f, false);
                                         break;
                                     default:    // Error
                                         // Error
@@ -349,7 +374,10 @@ namespace Beta
                                         {
                                             // Prepare for next player
                                             if (AnyMoves(1))
+                                            {
                                                 playerTurn = 1;
+                                                aMove.Play(1.0f, 0.0f, 0.0f, false);
+                                            }
                                             else
                                                 if (BoardFull())
                                                     boardFull = true;
@@ -360,15 +388,18 @@ namespace Beta
                                         {
                                             // Deselect piece
                                             selectedPiece = new Vector2(-1, -1);
+                                            unMove.Play(1.0f, 0.0f, 0.0f, false);
                                         }
                                         break;
                                     case 1:     // If clicked on red piece
                                         // Deselect piece
                                         selectedPiece = new Vector2(-1, -1);
+                                        unMove.Play(1.0f, 0.0f, 0.0f, false);
                                         break;
                                     case 2:     // If clicked on green piece
                                         // Deselect piece
                                         selectedPiece = new Vector2(mouseX, mouseY);
+                                        selectPiece.Play(1.0f, 0.0f, 0.0f, false);
                                         break;
                                     default:    // Error
                                         // Error
