@@ -38,6 +38,9 @@ namespace Beta
         // Array of pieces representing the board
         Piece[,] pieces = new Piece[7, 7];
 
+        // Selection image
+        Image selection = new Image();
+
         // Queue to handle the animations one at a time
         Queue<Vector2> animate = new Queue<Vector2>();
         // Time for animation delay
@@ -92,6 +95,9 @@ namespace Beta
 
             // Initialize the board image
             board.Initialize(Vector2.Zero, new Rectangle(0, 0, 798, 798), Color.White, Vector2.Zero, new Vector2(0.5f), 1f);
+
+            // Initialize the selection images
+            selection.Initialize(Vector2.Zero, new Rectangle(0, 0, 100, 100), Color.White, Vector2.Zero, new Vector2(0.5f), 0f);
 
             // Initialize Pieces to be all blank
             for (int x = 0; x < 7; x++)
@@ -176,10 +182,13 @@ namespace Beta
             greenCount = 0;
         }
 
-        public void LoadContent(SpriteBatch spriteBatch, Texture2D board, Texture2D red, Texture2D green, Texture2D redGreen, Texture2D greenRed, Texture2D redCur, Texture2D greenCur)
+        public void LoadContent(SpriteBatch spriteBatch, Texture2D board, Texture2D red, Texture2D green, Texture2D redGreen, Texture2D greenRed, Texture2D selection, Texture2D redCur, Texture2D greenCur)
         {
             // Load the content for the board image
             this.board.LoadContent(spriteBatch, board);
+
+            // Load the selection texture
+            this.selection.LoadContent(spriteBatch, selection);
 
             // Load the content for the pieces
             for (int x = 0; x < 7; x++)
@@ -498,6 +507,15 @@ namespace Beta
                     pieces[x, y].Draw();
                 }
             }
+
+            // Set the position of the selection images
+            // Draw the selection image
+            selection.SetPosition(new Vector2((selectedPiece.X * 50) + offset.X, (selectedPiece.Y * 50) + offset.Y));
+            if (selectedPiece.X != -1 && selectedPiece.Y != -1)
+            {
+                selection.Draw();
+            }
+
             if (!boardFull)
             {
                 // Draw the correct cursor

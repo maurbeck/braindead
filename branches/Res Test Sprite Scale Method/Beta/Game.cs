@@ -36,6 +36,7 @@ namespace Beta
         Texture2D gameBtnTex;
         Texture2D tutorialBtnTex;
         Texture2D quitBtnTex;
+        Texture2D selectionTex;
 
         // Textures for instructions
         Texture2D instruction1BgTex;
@@ -136,6 +137,7 @@ namespace Beta
             redToGreen = Content.Load<Texture2D>("RedToGreen");
             greenToRed = Content.Load<Texture2D>("GreenToRed");
             greenCursor = Content.Load<Texture2D>("GreenCursor");
+            selectionTex = Content.Load<Texture2D>("Selection");
 
             //Load the sounds
             mtInstructionScreen1 = Content.Load<SoundEffect>("MouseToneInstructionScreen_8Bit(hi)");
@@ -158,7 +160,7 @@ namespace Beta
 
             selectPiece.Play(1.0f, 0.0f, 0.0f, false);
             
-            board.LoadContent(spriteBatch, boardTex, redTex, greenTex, redToGreen, greenToRed, redCursor, greenCursor);
+            board.LoadContent(spriteBatch, boardTex, redTex, greenTex, redToGreen, greenToRed,selectionTex, redCursor, greenCursor);
             board.LoadAudio(selectPiece, unavailableMove, availableMove, playerOneToPlayerTwo);
         }
 
