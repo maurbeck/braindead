@@ -36,6 +36,10 @@ namespace Beta
         //Sounds
         SoundEffect mouseClick;
 
+        // Animations
+        Animation moveAnim = new Animation();
+        Animation attAnim = new Animation();
+
         // Which screen to draw
         int screen;
 
@@ -55,16 +59,23 @@ namespace Beta
             // initialize the cursor
             cursor.Initialize(Vector2.Zero, new Rectangle(0, 0, 50, 50), Color.White, Vector2.Zero, new Vector2(0.5f), 0.0f);
 
+            // instruction animations
+            moveAnim.Initialize(new Vector2(448/2, 40/2), new Rectangle(0, 0, 300, 300), Vector2.Zero, new Vector2(0.5f), 0f, 1, 2, true);
+            attAnim.Initialize(new Vector2(78/2, 448/2), new Rectangle(0, 0, 300, 300), Vector2.Zero, new Vector2(0.5f), 0f, 1, 2, true);
+
             // Initialize the buttons
             mainButton.Initialize(new Vector2(500/2, 680/2), new Rectangle(0, 0, 180, 110), Color.White, Vector2.Zero, new Vector2(0.5f), 0.5f);
             //backButton.Initialize(new Vector2(250/2, 680/2), new Rectangle(0, 0, 180, 110), Color.White, Vector2.Zero, new Vector2(0.5f), 0.5f);
             //nextButton.Initialize(new Vector2(250/2, 680/2), new Rectangle(0, 0, 180, 110), Color.White, Vector2.Zero, new Vector2(0.5f), 0.5f);
         }
 
-        public void LoadContent(SpriteBatch spriteBatch, Texture2D bg1Tex, Texture2D bg2Tex, Texture2D cursor, Texture2D mainBtnTex, Texture2D backBtnTex, Texture2D nextBtnTex)
+        public void LoadContent(SpriteBatch spriteBatch, Texture2D bg1Tex, Texture2D bg2Tex, Texture2D moveAnim, Texture2D attAnim, Texture2D cursor, Texture2D mainBtnTex, Texture2D backBtnTex, Texture2D nextBtnTex)
         {
             background1.LoadContent(spriteBatch, bg1Tex);
             background2.LoadContent(spriteBatch, bg2Tex);
+
+            this.moveAnim.LoadContent(spriteBatch, moveAnim);
+            this.attAnim.LoadContent(spriteBatch, attAnim);
 
             this.cursor.LoadContent(spriteBatch, cursor);
 
@@ -80,6 +91,8 @@ namespace Beta
 
         public void Update(GameTime gameTime, ref int state)
         {
+            this.moveAnim.Update(gameTime);
+            this.attAnim.Update(gameTime);
             cursor.Update();
         }
 
@@ -112,6 +125,8 @@ namespace Beta
                 case 1:
                     background1.Draw();
                     nextButton.Draw();
+                    moveAnim.Draw();
+                    attAnim.Draw();
                     break;
                 case 2:
                     background2.Draw();
