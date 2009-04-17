@@ -57,5 +57,12 @@ namespace Beta
             spriteBatch.Draw(this.texture, this.position, this.source, this.color, this.rotation, this.origin, this.scale, this.effects, this.depth);
             spriteBatch.End();
         }
+
+        // Set the position
+        public void SetPosition(Vector2 position)
+        {
+            this.position.X = position.X;
+            this.position.Y = position.Y;
+        }
     }
 }
