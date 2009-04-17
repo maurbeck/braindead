@@ -45,6 +45,9 @@ namespace Beta
             this.color = Color.White;
             this.rotation = 0;
             this.effects = SpriteEffects.None;
+            this.started = true;
+            CalculateSource();
+            CalculateDelay();
         }
 
         // Update the animation with the time
@@ -60,7 +63,7 @@ namespace Beta
                     {
                         curFrame = 1;
                     }
-                    else if (curFrame >= numFrame)
+                    else if (curFrame >= numFrame && loop == false)
                     {
                         curFrame = numFrame;
                         Pause();
