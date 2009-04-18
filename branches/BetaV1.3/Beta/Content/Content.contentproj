@@ -257,13 +257,15 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AttackAnim.png">
-      <Name>AttackAnim</Name>
+    <Compile Include="MoveAnim.png">
+      <Name>MoveAnim</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="MoveAnim.png">
-      <Name>MoveAnim</Name>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AttackAnim.png">
+      <Name>AttackAnim</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
