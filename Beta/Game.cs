@@ -56,6 +56,8 @@ namespace Beta
         Texture2D greenToRed;
         Texture2D transToPlr1;
         Texture2D transToPlr2;
+        Texture2D blueBanner;
+        Texture2D greenBanner;
 
         //Sounds
         SoundEffect mtInstructionScreen1;
@@ -147,6 +149,9 @@ namespace Beta
             greenToRed = Content.Load<Texture2D>("GreenToRed");
             transToPlr1 = Content.Load<Texture2D>("TransToPlr1");
             transToPlr2 = Content.Load<Texture2D>("TransToPlr2");
+            blueBanner = Content.Load<Texture2D>("BlueBanner");
+            greenBanner = Content.Load<Texture2D>("GreenBanner");
+            
 
             greenCursor = Content.Load<Texture2D>("GreenCursor");
 
@@ -171,7 +176,7 @@ namespace Beta
 
             selectPiece.Play(1.0f, 0.0f, 0.0f, false);
             
-            board.LoadContent(spriteBatch, boardTex, redTex, greenTex, greenSelectTex, redSelectTex, redToGreen, greenToRed, transToPlr1, transToPlr2, redCursor, greenCursor);
+            board.LoadContent(spriteBatch, boardTex, redTex, greenTex, greenSelectTex, redSelectTex, redToGreen, greenToRed, transToPlr1, transToPlr2, redCursor, greenCursor, blueBanner, greenBanner);
             board.LoadAudio(selectPiece, unavailableMove, availableMove, playerOneToPlayerTwo);
             menu.LoadAudio(mtInstructionScreen1);
             instructions.LoadAudio(mtInstructionScreen2);
