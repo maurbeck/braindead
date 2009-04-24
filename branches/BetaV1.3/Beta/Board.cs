@@ -53,7 +53,7 @@ namespace Beta
         Vector2 offset;
 
         // Board full
-        bool boardFull;
+        public static bool boardFull;
 
         // Piece count
         int redCount;
@@ -62,6 +62,18 @@ namespace Beta
         // final scores for each player
         int plr1score;
         int plr2score;
+
+        //limit of board dimensions
+        const int X = 7;
+        const int Y = 7;
+
+        //make counters for plopendpieces looping
+        int x1 = 0;
+        int y1 = 0;
+        int x2 = 6;
+        int y2 = 6;
+        int count1;
+        int count2;
 
         //Sounds
         SoundEffect selectPiece;
@@ -83,7 +95,7 @@ namespace Beta
         public void Initialize()
         {
             // Set the offset
-            offset = new Vector2(49/2, 49/2);
+            offset = new Vector2(49 / 2, 49 / 2);
             // Clear the animation queue
             animate.Clear();
             // Initialize the cursors
@@ -98,7 +110,7 @@ namespace Beta
             {
                 for (int y = 0; y < 7; y++)
                 {
-                    pieces[x, y].Initialize(new Vector2(((100 * x)/2 + offset.X), ((100 * y)/2 + offset.Y)), new Rectangle(0, 0, 100, 100), Vector2.Zero, new Vector2(0.5f), 0.5f);
+                    pieces[x, y].Initialize(new Vector2(((100 * x) / 2 + offset.X), ((100 * y) / 2 + offset.Y)), new Rectangle(0, 0, 100, 100), Vector2.Zero, new Vector2(0.5f), 0.5f);
                     pieces[x, y].SetState(0);
                 }
             }
@@ -119,10 +131,10 @@ namespace Beta
             pieces[5, 0].SetState(1);
             pieces[6, 0].SetState(2);
             pieces[0, 1].SetState(1);
-            //pieces[1, 1].SetState(2);
-            //pieces[2, 1].SetState(2);
-            //pieces[3, 1].SetState(1);
-            //pieces[4, 1].SetState(2);
+            pieces[1, 1].SetState(2);
+            pieces[2, 1].SetState(2);
+            pieces[3, 1].SetState(1);
+            pieces[4, 1].SetState(2);
             pieces[5, 1].SetState(2);
             pieces[6, 1].SetState(1);
             pieces[0, 2].SetState(2);
@@ -151,7 +163,7 @@ namespace Beta
             pieces[2, 5].SetState(2);
             pieces[3, 5].SetState(2);
             pieces[4, 5].SetState(2);
-            pieces[5, 5].SetState(1);
+            //pieces[5, 5].SetState(1);
             pieces[6, 5].SetState(1);
             pieces[0, 6].SetState(2);
             pieces[1, 6].SetState(2);
@@ -176,7 +188,7 @@ namespace Beta
             greenCount = 0;
         }
 
-        public void LoadContent(SpriteBatch spriteBatch, Texture2D board, Texture2D red, Texture2D green, Texture2D redGreen, Texture2D greenRed, Texture2D redCur, Texture2D greenCur)
+        public void LoadContent(SpriteBatch spriteBatch, Texture2D board, Texture2D red, Texture2D green, Texture2D redGreen, Texture2D greenRed, Texture2D tPlr1, Texture2D tPlr2, Texture2D redCur, Texture2D greenCur)
         {
             // Load the content for the board image
             this.board.LoadContent(spriteBatch, board);
@@ -186,7 +198,7 @@ namespace Beta
             {
                 for (int y = 0; y < 7; y++)
                 {
-                    pieces[x, y].LoadContent(spriteBatch, red, green, redGreen, greenRed);
+                    pieces[x, y].LoadContent(spriteBatch, red, green, redGreen, greenRed,tPlr1,tPlr2);
                 }
             }
 
@@ -775,6 +787,8 @@ namespace Beta
             return;
         }
 
+
+        /*OLD PlOP END PIECES/
         public void PlopEndPieces()
         {
 
@@ -870,6 +884,58 @@ namespace Beta
             //    //    }
             //    //}
             //    //#endregion
+        }*/
+
+        public void PlopEndPieces()
+        {
+            count1 = plr1score;
+            count2 = plr2score;
+            bool status1 = true;
+            bool status2 = true;
+            
+
+
+            while ((status1 || status2) == true)
+            {
+                status1 = DispPlr1();
+                status2 = DispPlr2();
+            }
+            boardFull = false;
         }
+
+        public bool DispPlr1()
+        {
+
+            if (count1 == 0)
+                return false;
+            pieces[x1, y1].SetState(5);
+            animate.Enqueue(new Vector2(x1, y1));
+            count1--;
+            y1++;
+            if (y1 == Y)
+            {
+                y1 = 0;
+                x1++;
+            }
+            return true;
+        }
+
+        public bool DispPlr2()
+        {
+
+            if (count2 == 0)
+                return false;
+            pieces[x2, y2].SetState(6);
+            animate.Enqueue(new Vector2(x2, y2));
+            count2--;
+            y2--;
+            if (y2 == -1)
+            {
+                y2 = 6;
+                x2--;
+            }
+            return true;
+        }
+
     }
 }
