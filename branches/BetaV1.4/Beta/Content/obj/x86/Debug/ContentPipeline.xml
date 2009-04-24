@@ -1,0 +1,419 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XnaContent xmlns:Pipeline="Microsoft.Xna.Framework.Content.Pipeline">
+  <Asset Type="Pipeline:BuildItemCollection">
+    <Item>
+      <Source>Board.png</Source>
+      <Name>Board</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\Miles Aurbeck\Desktop\Jojamian\branches\BetaV1.3\Beta\bin\x86\Debug\Content\Board.xnb</Output>
+      <Time>2009-04-17T19:50:47.234375-05:00</Time>
+    </Item>
+    <Item>
+      <Source>GameButton.png</Source>
+      <Name>GameButton</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\Miles Aurbeck\Desktop\Jojamian\branches\BetaV1.3\Beta\bin\x86\Debug\Content\GameButton.xnb</Output>
+      <Time>2009-04-17T19:50:46.9375-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Green.png</Source>
+      <Name>Green</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\Miles Aurbeck\Desktop\Jojamian\branches\BetaV1.3\Beta\bin\x86\Debug\Content\Green.xnb</Output>
+      <Time>2009-04-17T19:50:46.90625-05:00</Time>
+    </Item>
+    <Item>
+      <Source>GreenCursor.png</Source>
+      <Name>GreenCursor</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\Miles Aurbeck\Desktop\Jojamian\branches\BetaV1.3\Beta\bin\x86\Debug\Content\GreenCursor.xnb</Output>
+      <Time>2009-04-17T19:50:46.875-05:00</Time>
+    </Item>
+    <Item>
+      <Source>GreenToRed.png</Source>
+      <Name>GreenToRed</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\Miles Aurbeck\Desktop\Jojamian\branches\BetaV1.3\Beta\bin\x86\Debug\Content\GreenToRed.xnb</Output>
+      <Time>2009-04-17T19:50:46.875-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Menu.png</Source>
+      <Name>Menu</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\Miles Aurbeck\Desktop\Jojamian\branches\BetaV1.3\Beta\bin\x86\Debug\Content\Menu.xnb</Output>
+      <Time>2009-04-17T19:50:47.078125-05:00</Time>
+    </Item>
+    <Item>
+      <Source>QuitButton.png</Source>
+      <Name>QuitButton</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\Miles Aurbeck\Desktop\Jojamian\branches\BetaV1.3\Beta\bin\x86\Debug\Content\QuitButton.xnb</Output>
+      <Time>2009-04-17T19:50:47.171875-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Red.png</Source>
+      <Name>Red</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\Miles Aurbeck\Desktop\Jojamian\branches\BetaV1.3\Beta\bin\x86\Debug\Content\Red.xnb</Output>
+      <Time>2009-04-17T19:50:47.140625-05:00</Time>
+    </Item>
+    <Item>
+      <Source>RedCursor.png</Source>
+      <Name>RedCursor</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\Miles Aurbeck\Desktop\Jojamian\branches\BetaV1.3\Beta\bin\x86\Debug\Content\RedCursor.xnb</Output>
+      <Time>2009-04-17T19:50:47.109375-05:00</Time>
+    </Item>
+    <Item>
+      <Source>RedToGreen.png</Source>
+      <Name>RedToGreen</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\Miles Aurbeck\Desktop\Jojamian\branches\BetaV1.3\Beta\bin\x86\Debug\Content\RedToGreen.xnb</Output>
+      <Time>2009-04-17T19:50:46.859375-05:00</Time>
+    </Item>
+    <Item>
+      <Source>TutorialButton.png</Source>
+      <Name>TutorialButton</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\Miles Aurbeck\Desktop\Jojamian\branches\BetaV1.3\Beta\bin\x86\Debug\Content\TutorialButton.xnb</Output>
+      <Time>2009-04-17T19:50:46.890625-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Instructions1.png</Source>
+      <Name>Instructions1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\Miles Aurbeck\Desktop\Jojamian\branches\BetaV1.3\Beta\bin\x86\Debug\Content\Instructions1.xnb</Output>
+      <Time>2009-04-17T19:50:47.015625-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Instructions2.png</Source>
+      <Name>Instructions2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\Miles Aurbeck\Desktop\Jojamian\branches\BetaV1.3\Beta\bin\x86\Debug\Content\Instructions2.xnb</Output>
+      <Time>2009-04-17T19:50:47.046875-05:00</Time>
+    </Item>
+    <Item>
+      <Source>BackButton.png</Source>
+      <Name>BackButton</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\Miles Aurbeck\Desktop\Jojamian\branches\BetaV1.3\Beta\bin\x86\Debug\Content\BackButton.xnb</Output>
+      <Time>2009-04-17T19:50:47.078125-05:00</Time>
+    </Item>
+    <Item>
+      <Source>MainButton.png</Source>
+      <Name>MainButton</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\Miles Aurbeck\Desktop\Jojamian\branches\BetaV1.3\Beta\bin\x86\Debug\Content\MainButton.xnb</Output>
+      <Time>2009-04-17T19:50:46.984375-05:00</Time>
+    </Item>
+    <Item>
+      <Source>NextButton.png</Source>
+      <Name>NextButton</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\Miles Aurbeck\Desktop\Jojamian\branches\BetaV1.3\Beta\bin\x86\Debug\Content\NextButton.xnb</Output>
+      <Time>2009-04-17T19:50:47.140625-05:00</Time>
+    </Item>
+    <Item>
+      <Source>MainScreenPieces.png</Source>
+      <Name>MainScreenPieces</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\Miles Aurbeck\Desktop\Jojamian\branches\BetaV1.3\Beta\bin\x86\Debug\Content\MainScreenPieces.xnb</Output>
+      <Time>2009-04-17T19:50:47.15625-05:00</Time>
+    </Item>
+    <Item>
+      <Source>RulesBut.png</Source>
+      <Name>RulesBut</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\Miles Aurbeck\Desktop\Jojamian\branches\BetaV1.3\Beta\bin\x86\Debug\Content\RulesBut.xnb</Output>
+      <Time>2009-04-17T19:50:47.09375-05:00</Time>
+    </Item>
+    <Item>
+      <Source>StartBut.png</Source>
+      <Name>StartBut</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\Miles Aurbeck\Desktop\Jojamian\branches\BetaV1.3\Beta\bin\x86\Debug\Content\StartBut.xnb</Output>
+      <Time>2009-04-17T19:50:46.96875-05:00</Time>
+    </Item>
+    <Item>
+      <Source>EndBut.png</Source>
+      <Name>EndBut</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\Miles Aurbeck\Desktop\Jojamian\branches\BetaV1.3\Beta\bin\x86\Debug\Content\EndBut.xnb</Output>
+      <Time>2009-04-17T19:50:47.1875-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Instructions.png</Source>
+      <Name>Instructions</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\Miles Aurbeck\Desktop\Jojamian\branches\BetaV1.3\Beta\bin\x86\Debug\Content\Instructions.xnb</Output>
+      <Time>2009-04-17T19:50:46.921875-05:00</Time>
+    </Item>
+    <Item>
+      <Source>ReturnBut.png</Source>
+      <Name>ReturnBut</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\Miles Aurbeck\Desktop\Jojamian\branches\BetaV1.3\Beta\bin\x86\Debug\Content\ReturnBut.xnb</Output>
+      <Time>2009-04-17T19:50:47.296875-05:00</Time>
+    </Item>
+    <Item>
+      <Source>AttackAnim.png</Source>
+      <Name>AttackAnim</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\Miles Aurbeck\Desktop\Jojamian\branches\BetaV1.3\Beta\bin\x86\Debug\Content\AttackAnim.xnb</Output>
+      <Time>2009-04-18T09:44:34.46875-05:00</Time>
+    </Item>
+    <Item>
+      <Source>MoveAnim.png</Source>
+      <Name>MoveAnim</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\Miles Aurbeck\Desktop\Jojamian\branches\BetaV1.3\Beta\bin\x86\Debug\Content\MoveAnim.xnb</Output>
+      <Time>2009-04-18T09:46:37.859375-05:00</Time>
+    </Item>
+    <Item>
+      <Source>AvailableMove_8Bit.wav</Source>
+      <Name>AvailableMove_8Bit</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\Miles Aurbeck\Desktop\Jojamian\branches\BetaV1.3\Beta\bin\x86\Debug\Content\AvailableMove_8Bit.xnb</Output>
+      <Time>2009-04-17T19:50:47.09375-05:00</Time>
+    </Item>
+    <Item>
+      <Source>BconvertsG.wav</Source>
+      <Name>BconvertsG</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\Miles Aurbeck\Desktop\Jojamian\branches\BetaV1.3\Beta\bin\x86\Debug\Content\BconvertsG.xnb</Output>
+      <Time>2009-04-17T19:50:47.03125-05:00</Time>
+    </Item>
+    <Item>
+      <Source>BlueRebuttle1.wav</Source>
+      <Name>BlueRebuttle1</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\Miles Aurbeck\Desktop\Jojamian\branches\BetaV1.3\Beta\bin\x86\Debug\Content\BlueRebuttle1.xnb</Output>
+      <Time>2009-04-17T19:50:47.0625-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Bluerebuttle2.wav</Source>
+      <Name>Bluerebuttle2</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\Miles Aurbeck\Desktop\Jojamian\branches\BetaV1.3\Beta\bin\x86\Debug\Content\Bluerebuttle2.xnb</Output>
+      <Time>2009-04-17T19:50:47.265625-05:00</Time>
+    </Item>
+    <Item>
+      <Source>ForceTurn_8Bit.wav</Source>
+      <Name>ForceTurn_8Bit</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\Miles Aurbeck\Desktop\Jojamian\branches\BetaV1.3\Beta\bin\x86\Debug\Content\ForceTurn_8Bit.xnb</Output>
+      <Time>2009-04-17T19:50:46.953125-05:00</Time>
+    </Item>
+    <Item>
+      <Source>GconvertsB.wav</Source>
+      <Name>GconvertsB</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\Miles Aurbeck\Desktop\Jojamian\branches\BetaV1.3\Beta\bin\x86\Debug\Content\GconvertsB.xnb</Output>
+      <Time>2009-04-17T19:50:47.203125-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Grebuttle1.wav</Source>
+      <Name>Grebuttle1</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\Miles Aurbeck\Desktop\Jojamian\branches\BetaV1.3\Beta\bin\x86\Debug\Content\Grebuttle1.xnb</Output>
+      <Time>2009-04-17T19:50:47.234375-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Grebuttle2.wav</Source>
+      <Name>Grebuttle2</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\Miles Aurbeck\Desktop\Jojamian\branches\BetaV1.3\Beta\bin\x86\Debug\Content\Grebuttle2.xnb</Output>
+      <Time>2009-04-17T19:50:47.25-05:00</Time>
+    </Item>
+    <Item>
+      <Source>MouseClick.wav</Source>
+      <Name>MouseClick</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\Miles Aurbeck\Desktop\Jojamian\branches\BetaV1.3\Beta\bin\x86\Debug\Content\MouseClick.xnb</Output>
+      <Time>2009-04-17T19:50:46.953125-05:00</Time>
+    </Item>
+    <Item>
+      <Source>MouseToneInstructionScreen_8Bit(hi).wav</Source>
+      <Name>MouseToneInstructionScreen_8Bit(hi)</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\Miles Aurbeck\Desktop\Jojamian\branches\BetaV1.3\Beta\bin\x86\Debug\Content\MouseToneInstructionScreen_8Bit(hi).xnb</Output>
+      <Time>2009-04-17T19:50:47-05:00</Time>
+    </Item>
+    <Item>
+      <Source>MouseToneinstructionScreen_8Bit(low).wav</Source>
+      <Name>MouseToneinstructionScreen_8Bit(low)</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\Miles Aurbeck\Desktop\Jojamian\branches\BetaV1.3\Beta\bin\x86\Debug\Content\MouseToneinstructionScreen_8Bit(low).xnb</Output>
+      <Time>2009-04-17T19:50:47-05:00</Time>
+    </Item>
+    <Item>
+      <Source>MouseToneinstructionScreen_8Bit(mid).wav</Source>
+      <Name>MouseToneinstructionScreen_8Bit(mid)</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\Miles Aurbeck\Desktop\Jojamian\branches\BetaV1.3\Beta\bin\x86\Debug\Content\MouseToneinstructionScreen_8Bit(mid).xnb</Output>
+      <Time>2009-04-17T19:50:47.265625-05:00</Time>
+    </Item>
+    <Item>
+      <Source>MouseTonemainScreen_8Bit(hi1).wav</Source>
+      <Name>MouseTonemainScreen_8Bit(hi1)</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\Miles Aurbeck\Desktop\Jojamian\branches\BetaV1.3\Beta\bin\x86\Debug\Content\MouseTonemainScreen_8Bit(hi1).xnb</Output>
+      <Time>2009-04-17T19:50:46.9375-05:00</Time>
+    </Item>
+    <Item>
+      <Source>MouseTonemainScreen_8Bit(mid).wav</Source>
+      <Name>MouseTonemainScreen_8Bit(mid)</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\Miles Aurbeck\Desktop\Jojamian\branches\BetaV1.3\Beta\bin\x86\Debug\Content\MouseTonemainScreen_8Bit(mid).xnb</Output>
+      <Time>2009-04-17T19:50:46.84375-05:00</Time>
+    </Item>
+    <Item>
+      <Source>PlayerTurnSwitchTone.wav</Source>
+      <Name>PlayerTurnSwitchTone</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\Miles Aurbeck\Desktop\Jojamian\branches\BetaV1.3\Beta\bin\x86\Debug\Content\PlayerTurnSwitchTone.xnb</Output>
+      <Time>2009-04-17T19:50:47.03125-05:00</Time>
+    </Item>
+    <Item>
+      <Source>SelectPiece_8Bit.wav</Source>
+      <Name>SelectPiece_8Bit</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\Miles Aurbeck\Desktop\Jojamian\branches\BetaV1.3\Beta\bin\x86\Debug\Content\SelectPiece_8Bit.xnb</Output>
+      <Time>2009-04-17T19:50:47.203125-05:00</Time>
+    </Item>
+    <Item>
+      <Source>UnavailableMove_8Bit.wav</Source>
+      <Name>UnavailableMove_8Bit</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\Miles Aurbeck\Desktop\Jojamian\branches\BetaV1.3\Beta\bin\x86\Debug\Content\UnavailableMove_8Bit.xnb</Output>
+      <Time>2009-04-17T19:50:47.125-05:00</Time>
+    </Item>
+    <Item>
+      <Source>PieceSelectTone_8Bit.wav</Source>
+      <Name>PieceSelectTone_8Bit</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\Miles Aurbeck\Desktop\Jojamian\branches\BetaV1.3\Beta\bin\x86\Debug\Content\PieceSelectTone_8Bit.xnb</Output>
+      <Time>2009-04-17T19:50:46.984375-05:00</Time>
+    </Item>
+    <BuildSuccessful>true</BuildSuccessful>
+    <Settings>
+      <TargetPlatform>Windows</TargetPlatform>
+      <BuildConfiguration>Debug</BuildConfiguration>
+      <CompressContent>false</CompressContent>
+      <RootDirectory>C:\Documents and Settings\Miles Aurbeck\Desktop\Jojamian\branches\BetaV1.3\Beta\Content\</RootDirectory>
+      <LoggerRootDirectory>C:\Documents and Settings\Miles Aurbeck\Desktop\Jojamian\branches\BetaV1.3\Beta\</LoggerRootDirectory>
+      <IntermediateDirectory>C:\Documents and Settings\Miles Aurbeck\Desktop\Jojamian\branches\BetaV1.3\Beta\Content\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>C:\Documents and Settings\Miles Aurbeck\Desktop\Jojamian\branches\BetaV1.3\Beta\bin\x86\Debug\Content\</OutputDirectory>
+    </Settings>
+    <Assemblies>
+      <Assembly>
+        <Key>C:\Program Files\Microsoft XNA\XNA Game Studio\v3.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.XImporter.dll</Key>
+        <Value>2008-10-10T17:42:32-05:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files\Microsoft XNA\XNA Game Studio\v3.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.TextureImporter.dll</Key>
+        <Value>2008-10-10T17:43:28-05:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files\Microsoft XNA\XNA Game Studio\v3.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.FBXImporter.dll</Key>
+        <Value>2008-10-10T17:43:18-05:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files\Microsoft XNA\XNA Game Studio\v3.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.EffectImporter.dll</Key>
+        <Value>2008-10-10T17:48:18-05:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files\Microsoft XNA\XNA Game Studio\v3.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.AudioImporters.dll</Key>
+        <Value>2008-10-10T17:48:50-05:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\WINDOWS\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\3.0.0.0__6d5c3888ef60e27d\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
+        <Value>2009-03-11T16:21:21.09375-05:00</Value>
+      </Assembly>
+    </Assemblies>
+  </Asset>
+</XnaContent>
