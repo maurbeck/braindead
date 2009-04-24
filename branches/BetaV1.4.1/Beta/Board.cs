@@ -555,12 +555,12 @@ namespace Beta
             {
                 switch (playerTurn)
                 {
-                    case 2:
+                    case 1:
                         redSelect.SetPosition(new Vector2(((100 * selectedPiece.X) / 2 + offset.X), ((100 * selectedPiece.Y) / 2 + offset.Y)));
                         redSelect.Draw();
                         break;
 
-                    case 1:
+                    case 2:
                         greenSelect.SetPosition(new Vector2(((100 * selectedPiece.X) / 2 + offset.X), ((100 * selectedPiece.Y) / 2 + offset.Y)));
                         greenSelect.Draw();
                         break;
