@@ -48,6 +48,7 @@ namespace Beta
             this.started = true;
             CalculateSource();
             CalculateDelay();
+
         }
 
         // Update the animation with the time
@@ -108,6 +109,12 @@ namespace Beta
         protected void CalculateDelay()
         {
             delay = 1000 / fps;
+        }
+
+        // Calculate what the delay is by the fps specified
+        protected void CalculateDelay2()
+        {
+            delay = 300;
         }
 
         // Calculat which source rectangle to draw
