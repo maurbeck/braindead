@@ -61,7 +61,7 @@ namespace Beta
 
             // instruction animations
             moveAnim.Initialize(new Vector2(448/2, 40/2), new Rectangle(0, 0, 300, 300), Vector2.Zero, new Vector2(0.5f), 0f, 1, 2, true);
-            attAnim.Initialize(new Vector2(78/2, 448/2), new Rectangle(0, 0, 300, 300), Vector2.Zero, new Vector2(0.5f), 0f, 1, 2, true);
+            attAnim.Initialize(new Vector2(78/2, 448/2), new Rectangle(0, 0, 300, 300), Vector2.Zero, new Vector2(0.5f), 0f, 1, 6, true);
 
             // Initialize the buttons
             mainButton.Initialize(new Vector2(500/2, 680/2), new Rectangle(0, 0, 180, 110), Color.White, Vector2.Zero, new Vector2(0.5f), 0.5f);
@@ -103,6 +103,7 @@ namespace Beta
                 mouseClick.Play(1.0f, 0.0f, 0.0f, false);
                 screen = 1;
                 state = (int)State.Menu;
+                Initialize();
             }
  /*           if (mouseState.X > 250/2 && mouseState.X < 430/2 && mouseState.Y > 680/2 && mouseState.Y < 790/2)
             {

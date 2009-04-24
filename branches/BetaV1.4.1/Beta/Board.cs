@@ -39,6 +39,10 @@ namespace Beta
         Image redSelect = new Image();
         Image greenSelect = new Image();
 
+        // Images for the banners
+        Image blueBanner = new Image();
+        Image greenBanner = new Image();
+
         // Array of pieces representing the board
         Piece[,] pieces = new Piece[7, 7];
 
@@ -70,6 +74,11 @@ namespace Beta
         //limit of board dimensions
         const int X = 7;
         const int Y = 7;
+
+        // To draw the banners or not
+        // Will be combined with animate.Count == 0
+        bool drawBlueBanner;
+        bool drawGreenBanner;
 
         //make counters for plopendpieces looping
         //int x1;
@@ -109,6 +118,10 @@ namespace Beta
             // Initialize the selected peices
             redSelect.Initialize(Vector2.Zero, new Rectangle(0, 0, 100, 100), Color.White, Vector2.Zero, new Vector2(0.5f), 0f);
             greenSelect.Initialize(Vector2.Zero, new Rectangle(0, 0, 100, 100), Color.White, Vector2.Zero, new Vector2(0.5f), 0f);
+
+            // Initialize the banners
+            blueBanner.Initialize(new Vector2(0, 297/2), new Rectangle(0, 0, 798, 204), Color.White, Vector2.Zero, new Vector2(0.5f), 0f);
+            greenBanner.Initialize(new Vector2(0, 297/2), new Rectangle(0, 0, 798, 204), Color.White, Vector2.Zero, new Vector2(0.5f), 0f);
 
             // Initialize the board image
             board.Initialize(Vector2.Zero, new Rectangle(0, 0, 798, 798), Color.White, Vector2.Zero, new Vector2(0.5f), 1f);
@@ -195,6 +208,9 @@ namespace Beta
             //redCount = 0;
             //greenCount = 0;
 
+            drawBlueBanner = false;
+            drawGreenBanner = false;
+
             //x1 = 0;
             //y1 = 0;
             //x2 = 6;
@@ -202,7 +218,7 @@ namespace Beta
             
         }
 
-        public void LoadContent(SpriteBatch spriteBatch, Texture2D board, Texture2D red, Texture2D green, Texture2D redSelection, Texture2D greenSelection, Texture2D redGreen, Texture2D greenRed, Texture2D tPlr1, Texture2D tPlr2, Texture2D redCur, Texture2D greenCur)
+        public void LoadContent(SpriteBatch spriteBatch, Texture2D board, Texture2D red, Texture2D green, Texture2D redSelection, Texture2D greenSelection, Texture2D redGreen, Texture2D greenRed, Texture2D tPlr1, Texture2D tPlr2, Texture2D redCur, Texture2D greenCur, Texture2D blueBanner, Texture2D greenBanner)
         {
             // Load the content for the board image
             this.board.LoadContent(spriteBatch, board);
@@ -210,6 +226,10 @@ namespace Beta
             // Load the content for the selected piece images
             this.redSelect.LoadContent(spriteBatch, redSelection);
             this.greenSelect.LoadContent(spriteBatch, greenSelection);
+
+            // Load the banners
+            this.blueBanner.LoadContent(spriteBatch, blueBanner);
+            this.greenBanner.LoadContent(spriteBatch, greenBanner);
 
             // Load the content for the pieces
             for (int x = 0; x < 7; x++)
@@ -337,7 +357,7 @@ namespace Beta
             int mouseX = (int)Math.Floor((double)(mouseState.X - offset.X) / 50);
             int mouseY = (int)Math.Floor((double)(mouseState.Y - offset.Y) / 50);
 
-            if (animate.Count == 0 && time >= 500)
+            if (animate.Count == 0 && time >= 500 && !drawBlueBanner && !drawGreenBanner)
             {
                 switch (playerTurn)
                 {
@@ -545,6 +565,16 @@ namespace Beta
                         greenSelect.Draw();
                         break;
                 }
+            }
+
+            // Draw the banners
+            if (drawGreenBanner == true && animate.Count == 0 && time >= 1000)
+            {
+                greenBanner.Draw();
+            }
+            if (drawBlueBanner == true && animate.Count == 0 && time >= 1000)
+            {
+                blueBanner.Draw();
             }
 
             if (!boardFull)
@@ -929,6 +959,11 @@ namespace Beta
             //count2 = plr2score;
             //bool status1 = true;
             //bool status2 = true;
+
+            if (plr1score > plr2score)
+                drawBlueBanner = true;
+            else
+                drawGreenBanner = true;
 
 
             for (int y = 0; y < 7; y++)
