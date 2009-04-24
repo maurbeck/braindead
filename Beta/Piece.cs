@@ -16,6 +16,8 @@ namespace Beta
         Texture2D greenTex;
         Texture2D redToGreen;
         Texture2D greenToRed;
+        Texture2D transToPlr1;
+        Texture2D transToPlr2;
         int state;
 
 
@@ -25,7 +27,9 @@ namespace Beta
             Red = 1,
             Green = 2,
             RedToGreen = 3,
-            GreenToRed = 4
+            GreenToRed = 4,
+            TransToPlr1 = 5,
+            TransToPlr2 = 6
         }
 
         // Constructor
@@ -47,7 +51,10 @@ namespace Beta
             // Initialize constant variables
             //this.state = (int)State.Blank;
             this.fps = 15;
-            CalculateDelay();
+            if (Board.boardFull == true)
+                CalculateDelay2();
+            else
+                CalculateDelay();
             this.loop = false;
             this.started = false;
             this.curFrame = 1;
@@ -58,13 +65,15 @@ namespace Beta
         }
 
         // Load all required graphics content
-        public void LoadContent(SpriteBatch spriteBatch, Texture2D red, Texture2D green, Texture2D redGreen, Texture2D greenRed)
+        public void LoadContent(SpriteBatch spriteBatch, Texture2D red, Texture2D green, Texture2D redGreen, Texture2D greenRed, Texture2D tPlr1, Texture2D tPlr2)
         {
             this.spriteBatch = spriteBatch;
             this.redTex = red;
             this.greenTex = green;
             this.redToGreen = redGreen;
             this.greenToRed = greenRed;
+            this.transToPlr1 = tPlr1;
+            this.transToPlr2 = tPlr2;
         }
 
         // Update the animations
@@ -88,6 +97,14 @@ namespace Beta
                         if (state == (int)State.GreenToRed)
                         {
                             state = 1;
+                        }
+                        if (state == (int)State.TransToPlr1)
+                        {
+                            state = 1;
+                        }
+                        if (state == (int)State.TransToPlr2)
+                        {
+                            state = 2;
                         }
                     }
                     CalculateSource();
@@ -159,6 +176,16 @@ namespace Beta
                 case 4:
                     spriteBatch.Begin();
                     spriteBatch.Draw(this.greenToRed, this.position, this.source, this.color, this.rotation, this.origin, this.scale, this.effects, this.depth);
+                    spriteBatch.End();
+                    break;
+                case 5:
+                    spriteBatch.Begin();
+                    spriteBatch.Draw(this.transToPlr1, this.position, this.source, this.color, this.rotation, this.origin, this.scale, this.effects, this.depth);
+                    spriteBatch.End();
+                    break;
+                case 6:
+                    spriteBatch.Begin();
+                    spriteBatch.Draw(this.transToPlr2, this.position, this.source, this.color, this.rotation, this.origin, this.scale, this.effects, this.depth);
                     spriteBatch.End();
                     break;
             }
