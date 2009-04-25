@@ -676,7 +676,7 @@ namespace Beta
 
         private void Mutate(int targetX, int targetY, int player)
         {
-            if (targetY > 0 && targetX > 0)
+            if (targetY > 0 && targetX > 0)//1
             {
                 // animation bug here, was checking if pieces[targetX - 1, targetX - 1].Value() != player
                 if (pieces[targetX - 1, targetY - 1].Value() > 0 && pieces[targetX - 1, targetY - 1].Value() != player)
@@ -685,7 +685,7 @@ namespace Beta
                     animate.Enqueue(new Vector2(targetX - 1, targetY - 1));
                 }
             }
-            if (targetY > 0)
+            if (targetY > 0)//2
             {
                 if (pieces[targetX, targetY - 1].Value() > 0 && pieces[targetX, targetY - 1].Value() != player)
                 {
@@ -693,7 +693,7 @@ namespace Beta
                     animate.Enqueue(new Vector2(targetX, targetY - 1));
                 }
             }
-            if (targetY > 0 && targetX < 6)
+            if (targetY > 0 && targetX < 6)//3
             {
                 if (pieces[targetX + 1, targetY - 1].Value() > 0 && pieces[targetX + 1, targetY - 1].Value() != player)
                 {
@@ -701,15 +701,7 @@ namespace Beta
                     animate.Enqueue(new Vector2(targetX + 1, targetY - 1));
                 }
             }
-            if (targetX > 0)
-            {
-                if (pieces[targetX - 1, targetY].Value() > 0 && pieces[targetX - 1, targetY].Value() != player)
-                {
-                    pieces[targetX - 1, targetY].Mutate(player);
-                    animate.Enqueue(new Vector2(targetX - 1, targetY));
-                }
-            }
-            if (targetX < 6)
+            if (targetX < 6)//5
             {
                 if (pieces[targetX + 1, targetY].Value() > 0 && pieces[targetX + 1, targetY].Value() != player)
                 {
@@ -717,7 +709,23 @@ namespace Beta
                     animate.Enqueue(new Vector2(targetX + 1, targetY));
                 }
             }
-            if (targetY < 6 && targetX > 0)
+            if (targetY < 6 && targetX < 6)//8
+            {
+                if (pieces[targetX + 1, targetY + 1].Value() > 0 && pieces[targetX + 1, targetY + 1].Value() != player)
+                {
+                    pieces[targetX + 1, targetY + 1].Mutate(player);
+                    animate.Enqueue(new Vector2(targetX + 1, targetY + 1));
+                }
+            }
+            if (targetY < 6)//7
+            {
+                if (pieces[targetX, targetY + 1].Value() > 0 && pieces[targetX, targetY + 1].Value() != player)
+                {
+                    pieces[targetX, targetY + 1].Mutate(player);
+                    animate.Enqueue(new Vector2(targetX, targetY + 1));
+                }
+            }
+            if (targetY < 6 && targetX > 0)//6
             {
                 if (pieces[targetX - 1, targetY + 1].Value() > 0 && pieces[targetX - 1, targetY + 1].Value() != player)
                 {
@@ -726,20 +734,12 @@ namespace Beta
                 }
 
             }
-            if (targetY < 6)
+            if (targetX > 0)//4
             {
-                if (pieces[targetX, targetY + 1].Value() > 0 && pieces[targetX, targetY + 1].Value() != player)
+                if (pieces[targetX - 1, targetY].Value() > 0 && pieces[targetX - 1, targetY].Value() != player)
                 {
-                    pieces[targetX, targetY + 1].Mutate(player);
-                    animate.Enqueue(new Vector2(targetX, targetY + 1));
-                }
-            }
-            if (targetY < 6 && targetX < 6)
-            {
-                if (pieces[targetX + 1, targetY + 1].Value() > 0 && pieces[targetX + 1, targetY + 1].Value() != player)
-                {
-                    pieces[targetX + 1, targetY + 1].Mutate(player);
-                    animate.Enqueue(new Vector2(targetX + 1, targetY + 1));
+                    pieces[targetX - 1, targetY].Mutate(player);
+                    animate.Enqueue(new Vector2(targetX - 1, targetY));
                 }
             }
         }
