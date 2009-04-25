@@ -24,6 +24,8 @@ Content\MoveAnim.xnb
 Content\AttackAnim.xnb
 Content\TransToPlr1.xnb
 Content\TransToPlr2.xnb
+Content\BlueSelection.xnb
+Content\GreenSelection.xnb
 Content\AvailableMove_8Bit.xnb
 Content\BconvertsG.xnb
 Content\BlueRebuttle1.xnb
@@ -42,5 +44,5 @@ Content\PlayerTurnSwitchTone.xnb
 Content\SelectPiece_8Bit.xnb
 Content\UnavailableMove_8Bit.xnb
 Content\PieceSelectTone_8Bit.xnb
-Content\BlueSelection.xnb
-Content\GreenSelection.xnb
+Content\BlueBanner.xnb
+Content\GreenBanner.xnb
