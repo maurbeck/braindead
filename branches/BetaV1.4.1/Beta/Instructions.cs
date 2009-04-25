@@ -24,6 +24,7 @@ namespace Beta
         // Background image
         Image background1 = new Image();
         Image background2 = new Image();
+        Image background3 = new Image();
 
         // Cursor
         Cursor cursor = new Cursor();
@@ -55,24 +56,26 @@ namespace Beta
             // Initialize background images
             background1.Initialize(Vector2.Zero, new Rectangle(0, 0, 798, 798), Color.White, Vector2.Zero, new Vector2(0.5f), 1.0f);
             background2.Initialize(Vector2.Zero, new Rectangle(0, 0, 798, 798), Color.White, Vector2.Zero, new Vector2(0.5f), 1.0f);
+            background3.Initialize(Vector2.Zero, new Rectangle(0, 0, 798, 798), Color.White, Vector2.Zero, new Vector2(0.5f), 1.0f);
 
             // initialize the cursor
             cursor.Initialize(Vector2.Zero, new Rectangle(0, 0, 50, 50), Color.White, Vector2.Zero, new Vector2(0.5f), 0.0f);
 
             // instruction animations
-            moveAnim.Initialize(new Vector2(448/2, 40/2), new Rectangle(0, 0, 300, 300), Vector2.Zero, new Vector2(0.5f), 0f, 1, 2, true);
-            attAnim.Initialize(new Vector2(78/2, 448/2), new Rectangle(0, 0, 300, 300), Vector2.Zero, new Vector2(0.5f), 0f, 1, 6, true);
+            moveAnim.Initialize(new Vector2(249/2, 249/2), new Rectangle(0, 0, 300, 300), Vector2.Zero, new Vector2(0.5f), 0f, 1, 2, true);
+            attAnim.Initialize(new Vector2(249/2, 249/2), new Rectangle(0, 0, 300, 300), Vector2.Zero, new Vector2(0.5f), 0f, 1, 6, true);
 
             // Initialize the buttons
-            mainButton.Initialize(new Vector2(500/2, 680/2), new Rectangle(0, 0, 180, 110), Color.White, Vector2.Zero, new Vector2(0.5f), 0.5f);
-            //backButton.Initialize(new Vector2(250/2, 680/2), new Rectangle(0, 0, 180, 110), Color.White, Vector2.Zero, new Vector2(0.5f), 0.5f);
-            //nextButton.Initialize(new Vector2(250/2, 680/2), new Rectangle(0, 0, 180, 110), Color.White, Vector2.Zero, new Vector2(0.5f), 0.5f);
+            mainButton.Initialize(new Vector2(10/2, 680/2), new Rectangle(0, 0, 180, 110), Color.White, Vector2.Zero, new Vector2(0.5f), 0.5f);
+            backButton.Initialize(new Vector2(400/2, 680/2), new Rectangle(0, 0, 180, 110), Color.White, Vector2.Zero, new Vector2(0.5f), 0.5f);
+            nextButton.Initialize(new Vector2(610/2, 680/2), new Rectangle(0, 0, 180, 110), Color.White, Vector2.Zero, new Vector2(0.5f), 0.5f);
         }
 
-        public void LoadContent(SpriteBatch spriteBatch, Texture2D bg1Tex, Texture2D bg2Tex, Texture2D moveAnim, Texture2D attAnim, Texture2D cursor, Texture2D mainBtnTex, Texture2D backBtnTex, Texture2D nextBtnTex)
+        public void LoadContent(SpriteBatch spriteBatch, Texture2D bg1Tex, Texture2D bg2Tex, Texture2D bg3Tex, Texture2D moveAnim, Texture2D attAnim, Texture2D cursor, Texture2D mainBtnTex, Texture2D backBtnTex, Texture2D nextBtnTex)
         {
             background1.LoadContent(spriteBatch, bg1Tex);
             background2.LoadContent(spriteBatch, bg2Tex);
+            background3.LoadContent(spriteBatch, bg3Tex);
 
             this.moveAnim.LoadContent(spriteBatch, moveAnim);
             this.attAnim.LoadContent(spriteBatch, attAnim);
@@ -91,32 +94,69 @@ namespace Beta
 
         public void Update(GameTime gameTime, ref int state)
         {
-            this.moveAnim.Update(gameTime);
-            this.attAnim.Update(gameTime);
+            switch (screen)
+            {
+                case 1:
+                    moveAnim.Update(gameTime);
+                    break;
+                case 2:
+                    attAnim.Update(gameTime);
+                    break;
+            }
             cursor.Update();
         }
 
         public void Click(MouseState mouseState, ref int state)
         {
-            if (mouseState.X > 500/2 && mouseState.X < 680/2 && mouseState.Y > 680/2 && mouseState.Y < 900/2)
+            if (mouseState.X > 10/2 && mouseState.X < 190/2 && mouseState.Y > 680/2 && mouseState.Y < 900/2)
             {
                 mouseClick.Play(1.0f, 0.0f, 0.0f, false);
                 screen = 1;
                 state = (int)State.Menu;
                 Initialize();
             }
- /*           if (mouseState.X > 250/2 && mouseState.X < 430/2 && mouseState.Y > 680/2 && mouseState.Y < 790/2)
+
+            switch (screen)
             {
-                if (screen == 1)
-                {
-                    screen = 2;
-                }
-                else
-                {
-                    screen = 1;
-                }
+                case 1:
+                    // Next button
+                    if (mouseState.X > 610 / 2 && mouseState.X < 790 / 2 && mouseState.Y > 680 / 2 && mouseState.Y < 900 / 2)
+                    {
+                        mouseClick.Play(1.0f, 0.0f, 0.0f, false);
+                        moveAnim.Reset();
+                        moveAnim.Start();
+                        screen = 2;
+                    }
+                    break;
+                case 2:
+                    // Next button
+                    if (mouseState.X > 610 / 2 && mouseState.X < 790 / 2 && mouseState.Y > 680 / 2 && mouseState.Y < 900 / 2)
+                    {
+                        mouseClick.Play(1.0f, 0.0f, 0.0f, false);
+                        attAnim.Reset();
+                        attAnim.Start();
+                        screen = 3;
+                    }
+                    // Back button
+                    if (mouseState.X > 400 / 2 && mouseState.X < 580 / 2 && mouseState.Y > 680 / 2 && mouseState.Y < 900 / 2)
+                    {
+                        mouseClick.Play(1.0f, 0.0f, 0.0f, false);
+                        attAnim.Reset();
+                        attAnim.Start();
+                        screen = 1;
+                    }
+                    break;
+                case 3:
+                    // Back button
+                    if (mouseState.X > 400 / 2 && mouseState.X < 580 / 2 && mouseState.Y > 680 / 2 && mouseState.Y < 900 / 2)
+                    {
+                        mouseClick.Play(1.0f, 0.0f, 0.0f, false);
+                        screen = 2;
+                    }
+                    break;
             }
- */
+            
+
         }
 
         public void Draw()
@@ -127,10 +167,15 @@ namespace Beta
                     background1.Draw();
                     nextButton.Draw();
                     moveAnim.Draw();
-                    attAnim.Draw();
                     break;
                 case 2:
                     background2.Draw();
+                    nextButton.Draw();
+                    backButton.Draw();
+                    attAnim.Draw();
+                    break;
+                case 3:
+                    background3.Draw();
                     backButton.Draw();
                     break;
             }

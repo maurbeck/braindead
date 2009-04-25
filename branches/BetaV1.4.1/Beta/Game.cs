@@ -40,6 +40,7 @@ namespace Beta
         // Textures for instructions
         Texture2D instruction1BgTex;
         Texture2D instruction2BgTex;
+        Texture2D instruction3BgTex;
         Texture2D mainBtnTex;
         Texture2D backBtnTex;
         Texture2D nextBtnTex;
@@ -130,14 +131,15 @@ namespace Beta
 
             // Load the content for the instructions state
             instruction1BgTex = Content.Load<Texture2D>("Instructions");
-            instruction2BgTex = Content.Load<Texture2D>("Instructions2");
+            instruction2BgTex = Content.Load<Texture2D>("Instructions1");
+            instruction3BgTex = Content.Load<Texture2D>("Instructions2");
             mainBtnTex = Content.Load<Texture2D>("ReturnBut");
             backBtnTex = Content.Load<Texture2D>("BackButton");
             nextBtnTex = Content.Load<Texture2D>("NextButton");
             moveAnim = Content.Load<Texture2D>("MoveAnim");
             attAnim = Content.Load<Texture2D>("AttackAnim");
 
-            instructions.LoadContent(spriteBatch, instruction1BgTex, instruction2BgTex, moveAnim, attAnim, redCursor, mainBtnTex, backBtnTex, nextBtnTex);
+            instructions.LoadContent(spriteBatch, instruction1BgTex, instruction2BgTex, instruction3BgTex, moveAnim, attAnim, redCursor, mainBtnTex, backBtnTex, nextBtnTex);
 
             // Load the content for the game state
             boardTex = Content.Load<Texture2D>("Board");
