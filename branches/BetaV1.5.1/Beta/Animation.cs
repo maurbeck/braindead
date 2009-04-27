@@ -12,8 +12,8 @@ namespace Beta
     {
         // Derives all variables from Image
         // Animation specific variables
-        protected int fps;      // Frames per second of the animation
-        protected int delay;    // Delay in milliseconds per frame of the animation
+        protected float fps;      // Frames per second of the animation
+        protected float delay;    // Delay in milliseconds per frame of the animation
         protected bool loop;    // To loop or not to loop
         protected bool started; // Is the animation started
         protected int curFrame; // What frame number it is on
@@ -27,7 +27,7 @@ namespace Beta
         }
 
         // Initialize all variables
-        public void Initialize(Vector2 pos, Rectangle src, Vector2 origin, Vector2 scale, Single depth, int fps, int numFrame, bool loop)
+        public void Initialize(Vector2 pos, Rectangle src, Vector2 origin, Vector2 scale, Single depth, float fps, int numFrame, bool loop)
         {
             // Initialize user defined variables
             this.position = pos;
