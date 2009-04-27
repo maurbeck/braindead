@@ -1,4 +1,3 @@
-Content\Board.xnb
 Content\GameButton.xnb
 Content\Green.xnb
 Content\GreenCursor.xnb
@@ -16,7 +15,6 @@ Content\MainScreenPieces.xnb
 Content\RulesBut.xnb
 Content\StartBut.xnb
 Content\EndBut.xnb
-Content\ReturnBut.xnb
 Content\TransToPlr1.xnb
 Content\TransToPlr2.xnb
 Content\BlueSelection.xnb
@@ -27,15 +25,15 @@ Content\NewAttackAnim.xnb
 Content\NewInstructions.xnb
 Content\NewInstructions1.xnb
 Content\NewMoveAnim.xnb
+Content\StartGameBut.xnb
+Content\NewInstructions2.xnb
+Content\TipsAnim.xnb
+Content\BoardTest.xnb
+Content\TipsAnimLeft.xnb
+Content\TipsAnimRight.xnb
 Content\AvailableMove_8Bit.xnb
 Content\MouseToneInstructionScreen_8Bit(hi).xnb
 Content\MouseToneinstructionScreen_8Bit(low).xnb
 Content\UnavailableMove_8Bit.xnb
 Content\PieceSelectTone_8Bit.xnb
-Content\StartGameBut.xnb
-Content\NewInstructions2.xnb
 Content\Transform_8bit.xnb
-Content\TipsAnim.xnb
-Content\BoardTest.xnb
-Content\TipsAnimLeft.xnb
-Content\TipsAnimRight.xnb
