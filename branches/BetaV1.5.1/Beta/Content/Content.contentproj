@@ -35,11 +35,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Board.png">
-      <Name>Board</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
     <Compile Include="GameButton.png">
       <Name>GameButton</Name>
       <Importer>TextureImporter</Importer>
@@ -154,13 +149,6 @@
   <ItemGroup>
     <Compile Include="EndBut.png">
       <Name>EndBut</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="ReturnBut.png">
-      <Name>ReturnBut</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
