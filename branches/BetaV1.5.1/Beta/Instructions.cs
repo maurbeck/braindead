@@ -67,9 +67,9 @@ namespace Beta
             // instruction animations
             moveAnim.Initialize(new Vector2(249/2, 249/2), new Rectangle(0, 0, 300, 394), Vector2.Zero, new Vector2(0.5f), 0f, 1, 2, true);
             attAnim.Initialize(new Vector2(249/2, 249/2), new Rectangle(0, 0, 300, 300), Vector2.Zero, new Vector2(0.5f), 0f, 1, 6, true);
-            tipsAnim.Initialize(new Vector2(249/2, 249/2), new Rectangle(0, 0, 300, 394), Vector2.Zero, new Vector2(0.5f), 0f, 1, 6, true);
-            tipsAnimLeft.Initialize(new Vector2(34/2, 262/2), new Rectangle(0, 0, 190, 270), Vector2.Zero, new Vector2(0.5f), 0f, 1, 6, true);
-            tipsAnimRight.Initialize(new Vector2(572/2, 262/2), new Rectangle(0, 0, 190, 270), Vector2.Zero, new Vector2(0.5f), 0f, 1, 6, true);
+            tipsAnim.Initialize(new Vector2(249/2, 249/2), new Rectangle(0, 0, 300, 394), Vector2.Zero, new Vector2(0.5f), 0f, 0.41f, 6, true);
+            tipsAnimLeft.Initialize(new Vector2(34/2, 262/2), new Rectangle(0, 0, 190, 270), Vector2.Zero, new Vector2(0.5f), 0f, 0.41f, 6, true);
+            tipsAnimRight.Initialize(new Vector2(572/2, 262/2), new Rectangle(0, 0, 190, 270), Vector2.Zero, new Vector2(0.5f), 0f, 0.41f, 6, true);
 
             // Initialize the buttons
             mainButton.Initialize(new Vector2(580/2, 660/2), new Rectangle(0, 0, 180, 110), Color.White, Vector2.Zero, new Vector2(0.5f), 0.5f);
