@@ -93,6 +93,7 @@ namespace Beta
         SoundEffect unMove;
         SoundEffect aMove;
         SoundEffect convert;
+        SoundEffectInstance seiConvert;
 
         public Board()
         {
@@ -253,6 +254,8 @@ namespace Beta
             this.unMove = unMove;
             this.aMove = aMove;
             this.convert = convert;
+
+            seiConvert = convert.Play(1.0f, 0.0f, 0.0f, false);
         }
 
         public void Update(GameTime gameTime, ref int state)
@@ -298,14 +301,15 @@ namespace Beta
             {
                 time += Math.Max(1, gameTime.ElapsedRealTime.Milliseconds);
             }
-            if (time >= 750)
+            if (time >= 700)
             {
                 if (animate.Count > 0)
                 {
+                    seiConvert.Stop();
                     pieces[(int)animate.Peek().X, (int)animate.Peek().Y].Animate();
                     animate.Dequeue();
                     time = 0;
-                    convert.Play(1.0f, 0.0f, 0.0f, false);
+                    seiConvert.Play();
                 }
             }
             #endregion
