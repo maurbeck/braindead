@@ -50,7 +50,7 @@ namespace Beta
 
             // Initialize constant variables
             //this.state = (int)State.Blank;
-            this.fps = 15;
+            this.fps = 25;
             if (Board.boardFull == true)
                 CalculateDelay2();
             else
