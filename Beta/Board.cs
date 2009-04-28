@@ -224,15 +224,15 @@ namespace Beta
         public void LoadContent(SpriteBatch spriteBatch, Texture2D board, Texture2D red, Texture2D green, Texture2D redSelection, Texture2D greenSelection, Texture2D redGreen, Texture2D greenRed, Texture2D tPlr1, Texture2D tPlr2, Texture2D redCur, Texture2D greenCur, Texture2D blueBanner, Texture2D greenBanner)
         {
             // Load the content for the board image
-            this.board.LoadContent(spriteBatch, board);
+            this.board.LoadContent(spriteBatch, ref board);
 
             // Load the content for the selected piece images
-            this.redSelect.LoadContent(spriteBatch, redSelection);
-            this.greenSelect.LoadContent(spriteBatch, greenSelection);
+            this.redSelect.LoadContent(spriteBatch, ref redSelection);
+            this.greenSelect.LoadContent(spriteBatch, ref greenSelection);
 
             // Load the banners
-            this.blueBanner.LoadContent(spriteBatch, blueBanner);
-            this.greenBanner.LoadContent(spriteBatch, greenBanner);
+            this.blueBanner.LoadContent(spriteBatch, ref blueBanner);
+            this.greenBanner.LoadContent(spriteBatch, ref greenBanner);
 
             // Load the content for the pieces
             for (int x = 0; x < 7; x++)
@@ -243,8 +243,8 @@ namespace Beta
                 }
             }
 
-            redCursor.LoadContent(spriteBatch, redCur);
-            greenCursor.LoadContent(spriteBatch, greenCur);
+            redCursor.LoadContent(spriteBatch, ref redCur);
+            greenCursor.LoadContent(spriteBatch, ref greenCur);
         }
 
         public void LoadAudio(SoundEffect selectPiece, SoundEffect unMove, SoundEffect aMove, SoundEffect convert)
