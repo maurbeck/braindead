@@ -43,7 +43,7 @@ namespace Beta
         }
 
         // Load all content used
-        public void LoadContent(SpriteBatch spriteBatch, Texture2D texture)
+        public void LoadContent(SpriteBatch spriteBatch, ref Texture2D texture)
         {
             // Load user inputed content
             this.spriteBatch = spriteBatch;

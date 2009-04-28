@@ -79,21 +79,21 @@ namespace Beta
 
         public void LoadContent(SpriteBatch spriteBatch, Texture2D bg1Tex, Texture2D bg2Tex, Texture2D bg3Tex, Texture2D moveAnim, Texture2D attAnim, Texture2D tipsAnim, Texture2D tipsAnimLeft, Texture2D tipsAnimRight, Texture2D cursor, Texture2D mainBtnTex, Texture2D backBtnTex, Texture2D nextBtnTex)
         {
-            background1.LoadContent(spriteBatch, bg1Tex);
-            background2.LoadContent(spriteBatch, bg2Tex);
-            background3.LoadContent(spriteBatch, bg3Tex);
+            background1.LoadContent(spriteBatch, ref bg1Tex);
+            background2.LoadContent(spriteBatch, ref bg2Tex);
+            background3.LoadContent(spriteBatch, ref bg3Tex);
 
-            this.moveAnim.LoadContent(spriteBatch, moveAnim);
-            this.attAnim.LoadContent(spriteBatch, attAnim);
-            this.tipsAnim.LoadContent(spriteBatch, tipsAnim);
-            this.tipsAnimLeft.LoadContent(spriteBatch, tipsAnimLeft);
-            this.tipsAnimRight.LoadContent(spriteBatch, tipsAnimRight);
+            this.moveAnim.LoadContent(spriteBatch, ref moveAnim);
+            this.attAnim.LoadContent(spriteBatch, ref attAnim);
+            this.tipsAnim.LoadContent(spriteBatch, ref tipsAnim);
+            this.tipsAnimLeft.LoadContent(spriteBatch, ref tipsAnimLeft);
+            this.tipsAnimRight.LoadContent(spriteBatch, ref tipsAnimRight);
 
-            this.cursor.LoadContent(spriteBatch, cursor);
+            this.cursor.LoadContent(spriteBatch, ref cursor);
 
-            mainButton.LoadContent(spriteBatch, mainBtnTex);
-            backButton.LoadContent(spriteBatch, backBtnTex);
-            nextButton.LoadContent(spriteBatch, nextBtnTex);
+            mainButton.LoadContent(spriteBatch, ref mainBtnTex);
+            backButton.LoadContent(spriteBatch, ref backBtnTex);
+            nextButton.LoadContent(spriteBatch, ref nextBtnTex);
         }
 
         public void LoadAudio(SoundEffect mouseClick)
