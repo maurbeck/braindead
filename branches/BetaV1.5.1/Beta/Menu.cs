@@ -55,13 +55,13 @@ namespace Beta
         public void LoadContent(SpriteBatch spriteBatch, Texture2D menuBackground, Texture2D cursorTex, Texture2D gameBtnTex, Texture2D tutorialBtnTex, Texture2D quitBtnTex)
         {
             // Pass content to the background image
-            background.LoadContent(spriteBatch, menuBackground);
+            background.LoadContent(spriteBatch, ref menuBackground);
             // Pass content to the cursor
-            cursor.LoadContent(spriteBatch, cursorTex);
+            cursor.LoadContent(spriteBatch, ref cursorTex);
             // Pass content to the buttons
-            gameButton.LoadContent(spriteBatch, gameBtnTex);
-            tutorialButton.LoadContent(spriteBatch, tutorialBtnTex);
-            quitButton.LoadContent(spriteBatch, quitBtnTex);
+            gameButton.LoadContent(spriteBatch, ref gameBtnTex);
+            tutorialButton.LoadContent(spriteBatch, ref tutorialBtnTex);
+            quitButton.LoadContent(spriteBatch, ref quitBtnTex);
         }
 
         public void LoadAudio(SoundEffect mouseClick)
