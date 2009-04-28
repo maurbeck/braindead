@@ -143,58 +143,61 @@ namespace Beta
             //pieces[6, 0].SetState(2);
 
             //Peices for quick end of game
+            //pieces[0, 0].SetState(1);
+            //pieces[1, 0].SetState(1);
+            //pieces[2, 0].SetState(1);
+            //pieces[3, 0].SetState(1);
+            //pieces[4, 0].SetState(1);
+            //pieces[5, 0].SetState(1);
+            //pieces[6, 0].SetState(1);
+            //pieces[0, 1].SetState(1);
+            //pieces[1, 1].SetState(2);
+            //pieces[2, 1].SetState(1);
+            //pieces[3, 1].SetState(1);
+            //pieces[4, 1].SetState(1);
+            //pieces[5, 1].SetState(2);
+            //pieces[6, 1].SetState(1);
+            //pieces[0, 2].SetState(1);
+            ////pieces[1, 2].SetState(2);
+            ////pieces[2, 2].SetState(1);
+            ////pieces[3, 2].SetState(1);
+            //pieces[4, 2].SetState(1);
+            //pieces[5, 2].SetState(2);
+            //pieces[6, 2].SetState(1);
+            //pieces[0, 3].SetState(1);
+            //pieces[1, 3].SetState(1);
+            //pieces[2, 3].SetState(2);
+            //pieces[3, 3].SetState(2);
+            //pieces[4, 3].SetState(2);
+            //pieces[5, 3].SetState(2);
+            //pieces[6, 3].SetState(1);
+            //pieces[0, 4].SetState(2);
+            //pieces[1, 4].SetState(2);
+            //pieces[2, 4].SetState(2);
+            //pieces[3, 4].SetState(2);
+            //pieces[4, 4].SetState(1);
+            //pieces[5, 4].SetState(1);
+            //pieces[6, 4].SetState(2);
+            //pieces[0, 5].SetState(1);
+            //pieces[1, 5].SetState(1);
+            //pieces[2, 5].SetState(2);
+            //pieces[3, 5].SetState(2);
+            //pieces[4, 5].SetState(2);
+            //pieces[5, 5].SetState(1);
+            //pieces[6, 5].SetState(1);
+            //pieces[0, 6].SetState(2);
+            //pieces[1, 6].SetState(1);
+            //pieces[2, 6].SetState(1);
+            //pieces[3, 6].SetState(1);
+            //pieces[4, 6].SetState(1);
+            //pieces[5, 6].SetState(1);
+            //pieces[6, 6].SetState(1);
 
+            // Fill board to test complete green elimination
             pieces[0, 0].SetState(1);
             pieces[1, 0].SetState(1);
-            pieces[2, 0].SetState(1);
-            pieces[3, 0].SetState(1);
-            pieces[4, 0].SetState(1);
-            pieces[5, 0].SetState(1);
-            pieces[6, 0].SetState(1);
             pieces[0, 1].SetState(1);
-            pieces[1, 1].SetState(2);
-            pieces[2, 1].SetState(1);
-            pieces[3, 1].SetState(1);
-            pieces[4, 1].SetState(1);
-            pieces[5, 1].SetState(2);
-            pieces[6, 1].SetState(1);
-            pieces[0, 2].SetState(1);
-            //pieces[1, 2].SetState(2);
-            //pieces[2, 2].SetState(1);
-            //pieces[3, 2].SetState(1);
-            pieces[4, 2].SetState(1);
-            pieces[5, 2].SetState(2);
-            pieces[6, 2].SetState(1);
-            pieces[0, 3].SetState(1);
-            pieces[1, 3].SetState(1);
-            pieces[2, 3].SetState(2);
-            pieces[3, 3].SetState(2);
-            pieces[4, 3].SetState(2);
-            pieces[5, 3].SetState(2);
-            pieces[6, 3].SetState(1);
-            pieces[0, 4].SetState(2);
-            pieces[1, 4].SetState(2);
-            pieces[2, 4].SetState(2);
-            pieces[3, 4].SetState(2);
-            pieces[4, 4].SetState(1);
-            pieces[5, 4].SetState(1);
-            pieces[6, 4].SetState(2);
-            pieces[0, 5].SetState(1);
-            pieces[1, 5].SetState(1);
-            pieces[2, 5].SetState(2);
-            pieces[3, 5].SetState(2);
-            pieces[4, 5].SetState(2);
-            pieces[5, 5].SetState(1);
-            pieces[6, 5].SetState(1);
-            pieces[0, 6].SetState(2);
-            pieces[1, 6].SetState(1);
-            pieces[2, 6].SetState(1);
-            pieces[3, 6].SetState(1);
-            pieces[4, 6].SetState(1);
-            pieces[5, 6].SetState(1);
-            pieces[6, 6].SetState(1);
-
-
+            pieces[2, 2].SetState(2);
 
             // Set playerTurn
             playerTurn = (int)PlayerTurn.Red;
@@ -411,6 +414,11 @@ namespace Beta
                                                 playerTurn = 2;
                                                 aMove.Play(1.0f, 0.0f, 0.0f, false);
                                             }
+                                            else if (!AnyPieces(2))
+                                            {
+                                                FillBoard(1);
+                                                drawBlueBanner = true;
+                                            }
                                             else
                                                 if (BoardFull())
                                                     boardFull = true;
@@ -492,6 +500,11 @@ namespace Beta
                                             {
                                                 playerTurn = 1;
                                                 aMove.Play(1.0f, 0.0f, 0.0f, false);
+                                            }
+                                            else if (!AnyPieces(1))
+                                            {
+                                                FillBoard(2);
+                                                drawGreenBanner = true;
                                             }
                                             else
                                                 if (BoardFull())
@@ -808,6 +821,36 @@ namespace Beta
                 }
             }
             return false;
+        }
+
+        public bool AnyPieces(int player)
+        {
+            for (int y = 0; y < 7; y++)
+            {
+                for (int x = 0; x < 7; x++)
+                {
+                    if (pieces[x, y].Value() == player)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        public void FillBoard(int player)
+        {
+            for (int y = 0; y < 7; y++)
+            {
+                for (int x = 0; x < 7; x++)
+                {
+                    if (pieces[x, y].Value() == 0)
+                    {
+                        pieces[x, y].SetState(player + 4);
+                        animate.Enqueue(new Vector2(x, y));
+                    }
+                }
+            }
         }
 
         public bool BoardFull()
