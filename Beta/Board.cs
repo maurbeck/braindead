@@ -94,6 +94,7 @@ namespace Beta
         SoundEffect aMove;
         SoundEffect convert;
         SoundEffectInstance seiConvert;
+        SoundEffectInstance seiAvaMove;
 
         public Board()
         {
@@ -138,10 +139,10 @@ namespace Beta
             }
 
             // Set the initial corner pieces
-            //pieces[0, 0].SetState(1);
-            //pieces[6, 6].SetState(1);
-            //pieces[0, 6].SetState(2);
-            //pieces[6, 0].SetState(2);
+            pieces[0, 0].SetState(1);
+            pieces[6, 6].SetState(1);
+            pieces[0, 6].SetState(2);
+            pieces[6, 0].SetState(2);
 
             //Peices for quick end of game
             //pieces[0, 0].SetState(1);
@@ -195,10 +196,10 @@ namespace Beta
             //pieces[6, 6].SetState(1);
 
             // Fill board to test complete green elimination
-            pieces[0, 0].SetState(1);
-            pieces[1, 0].SetState(1);
-            pieces[0, 1].SetState(1);
-            pieces[2, 2].SetState(2);
+            //pieces[0, 0].SetState(1);
+            //pieces[1, 0].SetState(1);
+            //pieces[0, 1].SetState(1);
+            //pieces[2, 2].SetState(2);
 
             // Set playerTurn
             playerTurn = (int)PlayerTurn.Red;
@@ -256,6 +257,7 @@ namespace Beta
             this.convert = convert;
 
             seiConvert = convert.Play(1.0f, 0.0f, 0.0f, false);
+            seiAvaMove = aMove.Play(1.0f, 0.0f, 0.0f, false);
         }
 
         public void Update(GameTime gameTime, ref int state)
@@ -415,8 +417,9 @@ namespace Beta
                                             // Prepare for next player
                                             if (AnyMoves(2))
                                             {
+                                                seiAvaMove.Stop();
                                                 playerTurn = 2;
-                                                aMove.Play(1.0f, 0.0f, 0.0f, false);
+                                                seiAvaMove.Play();
                                             }
                                             else if (!AnyPieces(2))
                                             {
@@ -502,8 +505,9 @@ namespace Beta
                                             // Prepare for next player
                                             if (AnyMoves(1))
                                             {
+                                                seiAvaMove.Stop();
                                                 playerTurn = 1;
-                                                aMove.Play(1.0f, 0.0f, 0.0f, false);
+                                                seiAvaMove.Play();
                                             }
                                             else if (!AnyPieces(1))
                                             {
