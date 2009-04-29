@@ -262,6 +262,7 @@ namespace Beta
 
         public void Update(GameTime gameTime, ref int state)
         {
+          
             // Get the keyboard state
             KeyboardState keyState = Keyboard.GetState();
 
@@ -299,11 +300,11 @@ namespace Beta
                 }
             }*/
 
-            if (time < 1000)
+            if (time < 1050)
             {
-                time += Math.Max(1, gameTime.ElapsedRealTime.Milliseconds);
+                time += gameTime.ElapsedGameTime.Milliseconds;
             }
-            if (time >= 700)
+            if (time >= 1015)
             {
                 if (animate.Count > 0)
                 {
@@ -697,6 +698,7 @@ namespace Beta
 
         private void Mutate(int targetX, int targetY, int player)
         {
+
             if (targetY > 0 && targetX > 0)//1
             {
                 // animation bug here, was checking if pieces[targetX - 1, targetX - 1].Value() != player
