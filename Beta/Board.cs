@@ -25,7 +25,8 @@ namespace Beta
             Menu = 1,
             Instructions = 2,
             Game = 3,
-            Quit = 4
+            Quit = 4,
+            Credits = 5
         }
 
         // Image of the board
