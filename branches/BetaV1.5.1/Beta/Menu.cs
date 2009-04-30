@@ -18,7 +18,8 @@ namespace Beta
             Menu = 1,
             Instructions = 2,
             Game = 3,
-            Quit = 4
+            Quit = 4,
+            Credits = 5
         }
 
         // Background image
@@ -123,7 +124,7 @@ namespace Beta
             // Check if clicked on quit button
             if (mouseState.X > 279/2 && mouseState.X < 519/2 && mouseState.Y > 500/2 && mouseState.Y < 600/2)
             {
-                state = (int)State.Quit;
+                state = (int)State.Credits;
             }
         }
 

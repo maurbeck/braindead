@@ -71,6 +71,7 @@
     <Reference Include="System">
       <Private>False</Private>
     </Reference>
+    <Reference Include="System.Data" />
     <Reference Include="System.Xml">
       <Private>False</Private>
     </Reference>
@@ -86,6 +87,7 @@
   <ItemGroup>
     <Compile Include="Animation.cs" />
     <Compile Include="Board.cs" />
+    <Compile Include="Credits.cs" />
     <Compile Include="Cursor.cs" />
     <Compile Include="Image.cs" />
     <Compile Include="Instructions.cs" />
