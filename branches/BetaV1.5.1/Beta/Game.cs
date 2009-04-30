@@ -27,6 +27,8 @@ namespace Beta
 
         Board board = new Board();
 
+        Credits credits = new Credits();
+
         // Cursor textures
         Texture2D greenCursor;
         Texture2D redCursor;
@@ -63,6 +65,9 @@ namespace Beta
         Texture2D blueBanner;
         Texture2D greenBanner;
 
+        // Textures for the credits state
+        Texture2D creditBgTex;
+
         //Sounds
         SoundEffect mtInstructionScreen1;
         SoundEffect mtInstructionScreen2;
@@ -78,7 +83,8 @@ namespace Beta
             Menu = 1,
             Instructions = 2,
             Game = 3,
-            Quit = 4
+            Quit = 4,
+            Credits = 5
         }
 
         int gameState;
@@ -103,6 +109,7 @@ namespace Beta
             menu.Initialize();
             instructions.Initialize();
             board.Initialize();
+            credits.Initialize();
 
             base.Initialize();
         }
@@ -148,9 +155,14 @@ namespace Beta
             transToPlr2 = Content.Load<Texture2D>("TransToPlr2");
             blueBanner = Content.Load<Texture2D>("BlueBanner");
             greenBanner = Content.Load<Texture2D>("GreenBanner");
+
+            // Load the content for the credit state
+            creditBgTex = Content.Load<Texture2D>("Credits");
             
 
             greenCursor = Content.Load<Texture2D>("GreenCursor");
+
+            credits.LoadContent(spriteBatch, creditBgTex, greenCursor);
 
             //Load the sounds
             mtInstructionScreen1 = Content.Load<SoundEffect>("MouseToneInstructionScreen_8Bit(hi)");
@@ -192,6 +204,9 @@ namespace Beta
                         case (int)State.Game:
                             board.Click(mouseState);
                             break;
+                        case (int)State.Credits:
+                            credits.Click(ref gameState);
+                            break;
                     }
                     clickEnabled = false;
                 }
@@ -215,6 +230,9 @@ namespace Beta
                     break;
                 case (int)State.Game:
                     board.Update(gameTime, ref gameState);
+                    break;
+                case (int)State.Credits:
+                    credits.Update(gameTime, ref gameState);
                     break;
             }
 
@@ -241,6 +259,9 @@ namespace Beta
                     break;
                 case (int)State.Game:
                     board.Draw();
+                    break;
+                case (int)State.Credits:
+                    credits.Draw();
                     break;
             }
 
