@@ -85,6 +85,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AIBoard.cs" />
     <Compile Include="Animation.cs" />
     <Compile Include="Board.cs" />
     <Compile Include="Credits.cs" />
@@ -92,6 +93,7 @@
     <Compile Include="Image.cs" />
     <Compile Include="Instructions.cs" />
     <Compile Include="Menu.cs" />
+    <Compile Include="OthelloBoard.cs" />
     <Compile Include="Piece.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
