@@ -19,7 +19,9 @@ namespace Beta
             Instructions = 2,
             Game = 3,
             Quit = 4,
-            Credits = 5
+            Credits = 5,
+            AIGame = 6,
+            Othello = 7
         }
 
         // Background image
@@ -76,6 +78,19 @@ namespace Beta
             MouseState mouseState = Mouse.GetState();
             // Get the keyboard state
             KeyboardState keyState = Keyboard.GetState();
+
+            // Temporary keyboard shortcuts to get to the new state
+            // Will be removed with the UI has these buttons
+            if (keyState.IsKeyDown(Keys.NumPad1))
+            {
+                state = (int)State.AIGame;
+                return;
+            }
+            else if (keyState.IsKeyDown(Keys.NumPad2))
+            {
+                state = (int)State.Othello;
+                return;
+            }
 
             // Change game button on mouse over
             if (mouseState.X > 279/2 && mouseState.X < 519/2 && mouseState.Y > 200/2 && mouseState.Y < 300/2)

@@ -27,6 +27,10 @@ namespace Beta
 
         Board board = new Board();
 
+        AIBoard aiBoard = new AIBoard();
+
+        OthelloBoard othello = new OthelloBoard();
+
         Credits credits = new Credits();
 
         // Cursor textures
@@ -84,7 +88,9 @@ namespace Beta
             Instructions = 2,
             Game = 3,
             Quit = 4,
-            Credits = 5
+            Credits = 5,
+            AIGame = 6,
+            Othello = 7
         }
 
         int gameState;
@@ -110,6 +116,9 @@ namespace Beta
             instructions.Initialize();
             board.Initialize();
             credits.Initialize();
+
+            aiBoard.Initialize();
+            othello.Initialize();
 
             base.Initialize();
         }
@@ -179,6 +188,12 @@ namespace Beta
             board.LoadAudio(selectPiece, unavailableMove, availableMove, playerOneToPlayerTwo);
             menu.LoadAudio(mtInstructionScreen1);
             instructions.LoadAudio(mtInstructionScreen2);
+
+            aiBoard.LoadContent(spriteBatch, boardTex, redTex, greenTex, greenSelectTex, redSelectTex, redToGreen, greenToRed, transToPlr1, transToPlr2, redCursor, greenCursor, blueBanner, greenBanner);
+            aiBoard.LoadAudio(selectPiece, unavailableMove, availableMove, playerOneToPlayerTwo);
+
+            othello.LoadContent(spriteBatch, boardTex, redTex, greenTex, greenSelectTex, redSelectTex, redToGreen, greenToRed, transToPlr1, transToPlr2, redCursor, greenCursor, blueBanner, greenBanner);
+            othello.LoadAudio(selectPiece, unavailableMove, availableMove, playerOneToPlayerTwo);
         }
 
         protected override void UnloadContent()
@@ -189,6 +204,7 @@ namespace Beta
         protected override void Update(GameTime gameTime)
         {
             MouseState mouseState = Mouse.GetState();
+
             if (clickEnabled)
             {
                 if (mouseState.LeftButton == ButtonState.Pressed)
@@ -206,6 +222,12 @@ namespace Beta
                             break;
                         case (int)State.Credits:
                             credits.Click(ref gameState);
+                            break;
+                        case (int)State.AIGame:
+                            aiBoard.Click(mouseState);
+                            break;
+                        case (int)State.Othello:
+                            othello.Click(mouseState);
                             break;
                     }
                     clickEnabled = false;
@@ -233,6 +255,12 @@ namespace Beta
                     break;
                 case (int)State.Credits:
                     credits.Update(gameTime, ref gameState);
+                    break;
+                case (int)State.AIGame:
+                    aiBoard.Update(gameTime, ref gameState);
+                    break;
+                case (int)State.Othello:
+                    othello.Update(gameTime, ref gameState);
                     break;
             }
 
@@ -262,6 +290,12 @@ namespace Beta
                     break;
                 case (int)State.Credits:
                     credits.Draw();
+                    break;
+                case (int)State.AIGame:
+                    aiBoard.Draw();
+                    break;
+                case (int)State.Othello:
+                    othello.Draw();
                     break;
             }
 
