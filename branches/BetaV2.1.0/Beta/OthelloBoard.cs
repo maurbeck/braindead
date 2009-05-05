@@ -142,10 +142,10 @@ namespace Beta
             }
 
             // Set the initial corner pieces
-            pieces[0, 0].SetState(1);
-            pieces[6, 6].SetState(1);
-            pieces[0, 6].SetState(2);
-            pieces[6, 0].SetState(2);
+           // pieces[0, 0].SetState(1);
+            //pieces[6, 6].SetState(1);
+            //pieces[0, 6].SetState(2);
+            //pieces[6, 0].SetState(2);
 
             //Peices for quick end of game
             //pieces[0, 0].SetState(1);
@@ -154,11 +154,11 @@ namespace Beta
             //pieces[3, 0].SetState(1);
             //pieces[4, 0].SetState(1);
             //pieces[5, 0].SetState(1);
-            //pieces[6, 0].SetState(1);
+            pieces[6, 0].SetState(1);
             //pieces[0, 1].SetState(1);
             //pieces[1, 1].SetState(2);
             //pieces[2, 1].SetState(1);
-            //pieces[3, 1].SetState(1);
+            pieces[3, 1].SetState(1);
             //pieces[4, 1].SetState(1);
             //pieces[5, 1].SetState(2);
             //pieces[6, 1].SetState(1);
@@ -383,25 +383,27 @@ namespace Beta
                             if (mouseX >= 0 && mouseX < 7 && mouseY >= 0 && mouseY < 7)
                             {
                                 // Perform logic depending on what piece is in the space
-                                switch (pieces[mouseX, mouseY].Value())
-                                {
-                                    case 0:     // If blank space clicked
-                                        // Do nothing for now
-                                        // Will play error noise in the future
-                                        break;
-                                    case 1:     // If clicked on red piece
-                                        // Select the red piece
-                                        selectedPiece = new Vector2(mouseX, mouseY);
-                                        selectPiece.Play(1.0f, 0.0f, 0.0f, false);
-                                        break;
-                                    case 2:     // If clicked on green piece
-                                        // Do nothing for now
-                                        // Will play error noise in the future
-                                        break;
-                                    default:    // Error
-                                        // Error
-                                        break;
-                                }
+                                pieces[mouseX, mouseY].SetState(1);
+                                Mutate(mouseX, mouseY, 1);
+                                playerTurn = 2;
+                                //switch (pieces[mouseX, mouseY].Value())
+                                //{
+                                //    case 0:     // If blank space clicked
+                                //        // Do nothing for now
+                                //        break;
+                                //    //case 1:     // If clicked on red piece
+                                //    //    // Select the red piece
+                                //    //    selectedPiece = new Vector2(mouseX, mouseY);
+                                //    //    selectPiece.Play(1.0f, 0.0f, 0.0f, false);
+                                //    //    break;
+                                //    //case 2:     // If clicked on green piece
+                                //    //    // Do nothing for now
+                                //    //    // Will play error noise in the future
+                                //    //    break;
+                                //    default:    // Error
+                                //        // Error
+                                //        break;
+                                //}
                             }
                         }
                         #endregion
@@ -425,11 +427,11 @@ namespace Beta
                                                 playerTurn = 2;
                                                 seiAvaMove.Play();
                                             }
-                                            else if (!AnyPieces(2))
-                                            {
-                                                FillBoard(1);
-                                                drawBlueBanner = true;
-                                            }
+                                            //else if (!AnyPieces(2))
+                                            //{
+                                            //    FillBoard(1);
+                                            //    drawBlueBanner = true;
+                                            //}
                                             else
                                                 if (BoardFull())
                                                     boardFull = true;
@@ -471,25 +473,28 @@ namespace Beta
                             if (mouseX >= 0 && mouseX < 7 && mouseY >= 0 && mouseY < 7)
                             {
                                 // Perform logic depending on what piece is in the space
-                                switch (pieces[mouseX, mouseY].Value())
-                                {
-                                    case 0:     // If blank space clicked
-                                        // Do nothing for now
-                                        // Will play error noise in the future
-                                        break;
-                                    case 1:     // If clicked on red piece
-                                        // Do nothing for now
-                                        // Will play error noise in the future
-                                        break;
-                                    case 2:     // If clicked on green piece
-                                        // Select the green piece
-                                        selectedPiece = new Vector2(mouseX, mouseY);
-                                        selectPiece.Play(1.0f, 0.0f, 0.0f, false);
-                                        break;
-                                    default:    // Error
-                                        // Error
-                                        break;
-                                }
+                                pieces[mouseX, mouseY].SetState(2);
+                                Mutate(mouseX, mouseY, 2);
+                                playerTurn = 1;
+                                //switch (pieces[mouseX, mouseY].Value())
+                                //{
+                                //    case 0:     // If blank space clicked
+                                //        // Do nothing for now
+                                //        // Will play error noise in the future
+                                //        break;
+                                //    case 1:     // If clicked on red piece
+                                //        // Do nothing for now
+                                //        // Will play error noise in the future
+                                //        break;
+                                //    case 2:     // If clicked on green piece
+                                //        // Select the green piece
+                                //        selectedPiece = new Vector2(mouseX, mouseY);
+                                //        selectPiece.Play(1.0f, 0.0f, 0.0f, false);
+                                //        break;
+                                //    default:    // Error
+                                //        // Error
+                                //        break;
+                                //}
                             }
                         }
                         #endregion
@@ -513,11 +518,11 @@ namespace Beta
                                                 playerTurn = 1;
                                                 seiAvaMove.Play();
                                             }
-                                            else if (!AnyPieces(1))
-                                            {
-                                                FillBoard(2);
-                                                drawGreenBanner = true;
-                                            }
+                                            //else if (!AnyPieces(1))
+                                            //{
+                                            //    FillBoard(2);
+                                            //    drawGreenBanner = true;
+                                            //}
                                             else
                                                 if (BoardFull())
                                                     boardFull = true;
@@ -575,22 +580,22 @@ namespace Beta
                 }
             }
 
-            // Draw the selected peices if needed
-            if (selectedPiece.X != -1 || selectedPiece.Y != -1)
-            {
-                switch (playerTurn)
-                {
-                    case 1:
-                        redSelect.SetPosition(new Vector2(((100 * selectedPiece.X) / 2 + offset.X), ((100 * selectedPiece.Y) / 2 + offset.Y)));
-                        redSelect.Draw();
-                        break;
+            //// Draw the selected peices if needed
+            //if (selectedPiece.X != -1 || selectedPiece.Y != -1)
+            //{
+            //    switch (playerTurn)
+            //    {
+            //        case 1:
+            //            redSelect.SetPosition(new Vector2(((100 * selectedPiece.X) / 2 + offset.X), ((100 * selectedPiece.Y) / 2 + offset.Y)));
+            //            redSelect.Draw();
+            //            break;
 
-                    case 2:
-                        greenSelect.SetPosition(new Vector2(((100 * selectedPiece.X) / 2 + offset.X), ((100 * selectedPiece.Y) / 2 + offset.Y)));
-                        greenSelect.Draw();
-                        break;
-                }
-            }
+            //        case 2:
+            //            greenSelect.SetPosition(new Vector2(((100 * selectedPiece.X) / 2 + offset.X), ((100 * selectedPiece.Y) / 2 + offset.Y)));
+            //            greenSelect.Draw();
+            //            break;
+            //    }
+            //}
 
             // Draw the banners
             if (drawGreenBanner == true && animate.Count == 0 && time >= 1000)
@@ -619,7 +624,7 @@ namespace Beta
         private bool MovePiece(Vector2 selected, int targetX, int targetY, int player)
         {
             //if a valid move is found this will be set to true
-            bool validMove = false;
+            bool validMove = true;
             #region Handle Movement
             for (int moveNum = 1; moveNum < 3; moveNum++)
             {
@@ -904,6 +909,7 @@ namespace Beta
             pieces[sX, tempY - 1].Mutate(player);
             animate.Enqueue(new Vector2(sX, tempY - 1));
             tempY--;
+
             return tempY;
         }
 
@@ -988,20 +994,20 @@ namespace Beta
             return false;
         }
 
-        public void FillBoard(int player)
-        {
-            for (int y = 0; y < 7; y++)
-            {
-                for (int x = 0; x < 7; x++)
-                {
-                    if (pieces[x, y].Value() == 0)
-                    {
-                        pieces[x, y].SetState(player + 4);
-                        animate.Enqueue(new Vector2(x, y));
-                    }
-                }
-            }
-        }
+        //public void FillBoard(int player)
+        //{
+        //    for (int y = 0; y < 7; y++)
+        //    {
+        //        for (int x = 0; x < 7; x++)
+        //        {
+        //            if (pieces[x, y].Value() == 0)
+        //            {
+        //                pieces[x, y].SetState(player + 4);
+        //                animate.Enqueue(new Vector2(x, y));
+        //            }
+        //        }
+        //    }
+        //}
 
         public bool BoardFull()
         {
