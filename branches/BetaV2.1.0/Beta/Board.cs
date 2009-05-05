@@ -266,11 +266,13 @@ namespace Beta
           
             // Get the keyboard state
             KeyboardState keyState = Keyboard.GetState();
+            GamePadState gamePadState = GamePad.GetState(PlayerIndex.One);
 
             // If esc was pressed, set the state to the main menu
             // Then reset this board
             // Then return so nothing gets processed
-            if (keyState.IsKeyDown(Keys.Escape) == true)
+            if (keyState.IsKeyDown(Keys.Escape) == true  ||
+                gamePadState.Buttons.Back == ButtonState.Pressed)
             {
                 state = (int)State.Menu;
                 this.Initialize();
@@ -279,7 +281,8 @@ namespace Beta
 
             // If 'r' was pressed
             // Reset the board
-            if (keyState.IsKeyDown(Keys.R) == true)
+            if (keyState.IsKeyDown(Keys.R) == true ||
+                gamePadState.Buttons.LeftShoulder == ButtonState.Pressed)
             {
                 this.Initialize();
             }

@@ -10,6 +10,7 @@ namespace Beta
 {
     class Cursor : Image
     {
+
         // Derives all variables from Image
         // Cursor specific variables
         protected MouseState mouseState;
@@ -18,7 +19,7 @@ namespace Beta
         public void Update()
         {
             mouseState = Mouse.GetState();
-            this.position = new Vector2(mouseState.X, mouseState.Y);
+            this.position = new Vector2(Game.xbCursorX, Game.xbCursorY);
         }
     }
 }

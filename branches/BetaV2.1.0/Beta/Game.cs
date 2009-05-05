@@ -16,8 +16,12 @@ namespace Beta
     /// <summary>
     /// This is the main type for your game
     /// </summary>
+    /// 
+
     public class Game : Microsoft.Xna.Framework.Game
     {
+
+        
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
@@ -32,6 +36,8 @@ namespace Beta
         OthelloBoard othello = new OthelloBoard();
 
         Credits credits = new Credits();
+
+        
 
         // Cursor textures
         Texture2D greenCursor;
@@ -80,6 +86,10 @@ namespace Beta
         SoundEffect unavailableMove;
         SoundEffect availableMove;
 
+        //Manual Cursor locations for 360 input
+        public static int xbCursorX;
+        public static int xbCursorY;
+
         bool clickEnabled = true;
 
         enum State
@@ -97,6 +107,8 @@ namespace Beta
 
         public Game()
         {
+            //variables to store positions of cursor manually
+
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 
@@ -104,6 +116,8 @@ namespace Beta
             graphics.PreferredBackBufferWidth = 798/2;
             graphics.PreferredBackBufferHeight = 798/2;
             graphics.ApplyChanges();
+
+            //graphics.IsFullScreen = true;
 
             // Set mouse to visible
             //this.IsMouseVisible = true;
@@ -204,6 +218,25 @@ namespace Beta
         protected override void Update(GameTime gameTime)
         {
             MouseState mouseState = Mouse.GetState();
+
+            //Initialise gamePadState
+            GamePadState gamePadState = GamePad.GetState(PlayerIndex.One);
+            
+            //Update cursor for 360 controller input
+            if (gamePadState.ThumbSticks.Left.X > 0.0f)
+                xbCursorX += 5;
+
+            if (gamePadState.ThumbSticks.Left.X < 0.0f)
+                xbCursorX -= 5;
+           
+            if (gamePadState.ThumbSticks.Left.Y > 0.0f)
+                xbCursorY -= 5;
+
+            if (gamePadState.ThumbSticks.Left.Y < 0.0f)
+                xbCursorY += 5;
+
+            if (gamePadState.Buttons.Back == ButtonState.Pressed)
+
 
             if (clickEnabled)
             {
