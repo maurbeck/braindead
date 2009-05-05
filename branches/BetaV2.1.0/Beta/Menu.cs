@@ -81,6 +81,7 @@ namespace Beta
             //Get the 360 Controller State
             GamePadState gamePadState = GamePad.GetState(PlayerIndex.One);
 
+
 //Menu navigation beta code
 //Press a button to enter a state.
 #if XBOX
@@ -105,23 +106,108 @@ namespace Beta
                 return;
             }
 
+//'Mouse'over and click detection.
+       
             // Change game button on mouse over
-            if (mouseState.X > 279/2 && mouseState.X < 519/2 && mouseState.Y > 200/2 && mouseState.Y < 300/2)
+            if (mouseState.X > 279 / 2 && mouseState.X < 519 / 2 &&
+                mouseState.Y > 200 / 2 && mouseState.Y < 300 / 2)
                 gameButton.LastFrame();
             else
                 gameButton.Reset();
 
             // Change tutorial button on mouse over
-            if (mouseState.X > 279/2 && mouseState.X < 519/2  && mouseState.Y > 349/2 && mouseState.Y < 449/2)
+            if (mouseState.X > 279 / 2 && mouseState.X < 519 / 2 && 
+                mouseState.Y > 349 / 2 && mouseState.Y < 449 / 2)
                 tutorialButton.LastFrame();
             else
                 tutorialButton.Reset();
 
             // Change quit button on mouse over
-            if (mouseState.X > 279/2 && mouseState.X < 519/2 && mouseState.Y > 500/2 && mouseState.Y < 600/2)
+            if (mouseState.X > 279 / 2 && mouseState.X < 519 / 2 && 
+                mouseState.Y > 500 / 2 && mouseState.Y < 600 / 2)
                 quitButton.LastFrame();
             else
                 quitButton.Reset();
+
+            // Change game button on mouse over
+            if (mouseState.X > 279 / 2 && mouseState.X < 519 / 2 && 
+                mouseState.Y > 200 / 2 && mouseState.Y < 300 / 2)
+                gameButton.LastFrame();
+            else
+                gameButton.Reset();
+
+            // Change tutorial button on mouse over
+            if (mouseState.X > 279 / 2 && mouseState.X < 519 / 2 && 
+                mouseState.Y > 349 / 2 && mouseState.Y < 449 / 2)
+                tutorialButton.LastFrame();
+            else
+                tutorialButton.Reset();
+
+            // Change quit button on mouse over
+            if (mouseState.X > 279 / 2 && mouseState.X < 519 / 2 && 
+                mouseState.Y > 500 / 2 && mouseState.Y < 600 / 2)
+                quitButton.LastFrame();
+            else
+                quitButton.Reset();
+
+
+
+#if XBOX
+            //Mouseover Code
+            //
+            // Change game button on mouse over
+            if (Game.xbCursorX > 279 / 2 && Game.xbCursorX < 519 / 2 &&
+                Game.xbCursorY > 200 / 2 && Game.xbCursorY < 300 / 2)
+                gameButton.LastFrame();
+            else
+                gameButton.Reset();
+
+            // Change tutorial button on mouse over
+            if (Game.xbCursorX > 279 / 2 && Game.xbCursorX < 519 / 2 &&
+                Game.xbCursorY > 349 / 2 && Game.xbCursorY < 449 / 2)
+                tutorialButton.LastFrame();
+            else
+                tutorialButton.Reset();
+
+            // Change quit button on mouse over
+            if (Game.xbCursorX > 279 / 2 && Game.xbCursorX < 519 / 2 && 
+                Game.xbCursorY > 500 / 2 && Game.xbCursorY < 600 / 2)
+                quitButton.LastFrame();
+            else
+                quitButton.Reset();
+
+            
+            //Clicked Code
+            //
+            // Check if clicked on tutorial button
+            if (Game.xbCursorX > 279 / 2 && Game.xbCursorX < 519 / 2 &&
+                Game.xbCursorY > 349 / 2 && Game.xbCursorY < 449 / 2 &&
+                gamePadState.Buttons.A == ButtonState.Pressed)
+            {
+                // No tutorial state yet
+                state = (int)State.Instructions;
+                mouseClick.Play(1.0f, 0.0f, 0.0f, false);
+            }
+
+            // Check if clicked on game button
+            if (Game.xbCursorX > 279 / 2 && Game.xbCursorX < 519 / 2 && 
+                Game.xbCursorY > 200 / 2 && Game.xbCursorY < 300 / 2 &&
+                gamePadState.Buttons.A == ButtonState.Pressed)
+            {
+                // Set the state to the game state
+                state = (int)State.Game;
+                mouseClick.Play(1.0f, 0.0f, 0.0f, false);
+            }
+
+            // Check if clicked on quit button
+            if (Game.xbCursorX > 279 / 2 && Game.xbCursorX < 519 / 2 &&
+                Game.xbCursorY > 500 / 2 && Game.xbCursorY < 600 / 2 &&
+                gamePadState.Buttons.A == ButtonState.Pressed)
+            {
+                state = (int)State.Credits;
+            }
+
+#endif
 
             // Update Cursor position
             cursor.Update();
@@ -133,27 +219,27 @@ namespace Beta
 
         public void Click(MouseState mouseState, ref int state)
         {
-            // Check if clicked on tutorial button
-            if (mouseState.X > 279/2 && mouseState.X < 519/2 && mouseState.Y > 349/2 && mouseState.Y < 449/2)
-            {
-                // No tutorial state yet
-                state = (int)State.Instructions;
-                mouseClick.Play(1.0f, 0.0f, 0.0f, false);
-            }
+            //// Check if clicked on tutorial button
+            //if (mouseState.X > 279/2 && mouseState.X < 519/2 && mouseState.Y > 349/2 && mouseState.Y < 449/2)
+            //{
+            //    // No tutorial state yet
+            //    state = (int)State.Instructions;
+            //    mouseClick.Play(1.0f, 0.0f, 0.0f, false);
+            //}
 
-            // Check if clicked on game button
-            if (mouseState.X > 279/2 && mouseState.X < 519/2 && mouseState.Y > 200/2 && mouseState.Y < 300/2)
-            {
-                // Set the state to the game state
-                state = (int)State.Game;
-                mouseClick.Play(1.0f, 0.0f, 0.0f, false);
-            }
+            //// Check if clicked on game button
+            //if (mouseState.X > 279/2 && mouseState.X < 519/2 && mouseState.Y > 200/2 && mouseState.Y < 300/2)
+            //{
+            //    // Set the state to the game state
+            //    state = (int)State.Game;
+            //    mouseClick.Play(1.0f, 0.0f, 0.0f, false);
+            //}
 
-            // Check if clicked on quit button
-            if (mouseState.X > 279/2 && mouseState.X < 519/2 && mouseState.Y > 500/2 && mouseState.Y < 600/2)
-            {
-                state = (int)State.Credits;
-            }
+            //// Check if clicked on quit button
+            //if (mouseState.X > 279/2 && mouseState.X < 519/2 && mouseState.Y > 500/2 && mouseState.Y < 600/2)
+            //{
+            //    state = (int)State.Credits;
+            //}
         }
 
         public void Draw()
