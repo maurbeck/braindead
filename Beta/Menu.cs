@@ -78,6 +78,19 @@ namespace Beta
             MouseState mouseState = Mouse.GetState();
             // Get the keyboard state
             KeyboardState keyState = Keyboard.GetState();
+            //Get the 360 Controller State
+            GamePadState gamePadState = GamePad.GetState(PlayerIndex.One);
+
+//Menu navigation beta code
+//Press a button to enter a state.
+#if XBOX
+            if (gamePadState.IsConnected && gamePadState.Buttons.A == ButtonState.Pressed)
+            {
+                state = (int)State.Game;
+                return;
+            }
+#endif
+
 
             // Temporary keyboard shortcuts to get to the new state
             // Will be removed with the UI has these buttons
@@ -86,7 +99,7 @@ namespace Beta
                 state = (int)State.AIGame;
                 return;
             }
-            else if (keyState.IsKeyDown(Keys.NumPad2))
+            else if (keyState.IsKeyDown(Keys.O))
             {
                 state = (int)State.Othello;
                 return;
