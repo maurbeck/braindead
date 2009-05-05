@@ -163,9 +163,9 @@ namespace Beta
             //pieces[5, 1].SetState(2);
             //pieces[6, 1].SetState(1);
             //pieces[0, 2].SetState(1);
-            ////pieces[1, 2].SetState(2);
-            ////pieces[2, 2].SetState(1);
-            ////pieces[3, 2].SetState(1);
+            //pieces[1, 2].SetState(2);
+            //pieces[2, 2].SetState(1);
+            //pieces[3, 2].SetState(1);
             //pieces[4, 2].SetState(1);
             //pieces[5, 2].SetState(2);
             //pieces[6, 2].SetState(1);
@@ -702,7 +702,79 @@ namespace Beta
         private void Mutate(int targetX, int targetY, int player)
         {
 
-            if (targetY > 0 && targetX > 0)//1
+            int sX = targetX;
+            int sY = targetY;
+            int tempX;
+            int tempY;
+
+            //Draw pices from clicked all the way horozontally upwards
+            tempY = sY;
+            while (tempY != 0)
+            {
+                tempY = DrawHoroUp(player, sX, tempY);
+            }
+
+
+            //Draw pices from clicked horozontally downwards
+            tempY = sY;
+            while (tempY < 6)
+            {
+                tempY = DrawHoroDown(player, sX, tempY);
+            }
+
+
+            //Draw pieces from clicked vertically to the left
+            tempX = sX;
+            while (tempX != 0)
+            {
+                tempX = DrawVertLeft(player, sY, tempX);
+            }
+
+            //Draw pieces from clicked vertically to the right
+
+            tempX = sX;
+            while (tempX < 6)
+            {
+                tempX = DrawVertRight(player, sY, tempX);
+            }
+
+            //Draw pieces diagonally to top left
+            tempX = sX;
+            tempY = sY;
+            while (tempY > 0 && tempX > 0)
+            {
+                DrawDiagTopLeft(player, ref tempX, ref tempY);
+            }
+
+            //Draw pieces diagonally to bottom right
+            tempX = sX;
+            tempY = sY;
+            while (tempY < 6 && tempX < 6)
+            {
+                DrawDiagBottRight(player, ref tempX, ref tempY);
+            }
+
+
+            //Draw pieces diagonally to top right
+            tempX = sX;
+            tempY = sY;
+
+            while (tempY > 0 && tempX < 6)
+            {
+                DrawDiagTopRight(player, ref tempX, ref tempY);
+            }
+
+            //Draw pieces diagonally to bottom left
+            tempX = sX;
+            tempY = sY;
+
+            while (tempY < 6 && tempX > 0)
+            {
+                DrawDiagBottLeft(player, ref tempX, ref tempY);
+            }
+
+            #region Old Game rules
+            /*if (targetY > 0 && targetX > 0)//1
             {
                 // animation bug here, was checking if pieces[targetX - 1, targetX - 1].Value() != player
                 if (pieces[targetX - 1, targetY - 1].Value() > 0 && pieces[targetX - 1, targetY - 1].Value() != player)
@@ -767,7 +839,72 @@ namespace Beta
                     pieces[targetX - 1, targetY].Mutate(player);
                     animate.Enqueue(new Vector2(targetX - 1, targetY));
                 }
-            }
+            }*/
+            #endregion Old Game rules
+        }
+
+        private void DrawDiagBottLeft(int player, ref int tempX, ref int tempY)
+        {
+            pieces[tempX - 1, tempY + 1].Mutate(player);
+            animate.Enqueue(new Vector2(tempX - 1, tempY + 1));
+            tempX--;
+            tempY++;
+        }
+
+        private void DrawDiagTopRight(int player, ref int tempX, ref int tempY)
+        {
+            pieces[tempX + 1, tempY - 1].Mutate(player);
+            animate.Enqueue(new Vector2(tempX + 1, tempY - 1));
+            tempX++;
+            tempY--;
+        }
+
+        private void DrawDiagBottRight(int player, ref int tempX, ref int tempY)
+        {
+            pieces[tempX + 1, tempY + 1].Mutate(player);
+            animate.Enqueue(new Vector2(tempX + 1, tempY + 1));
+            tempX++;
+            tempY++;
+        }
+
+        private void DrawDiagTopLeft(int player, ref int tempX, ref int tempY)
+        {
+            pieces[tempX - 1, tempY - 1].Mutate(player);
+            animate.Enqueue(new Vector2(tempX - 1, tempY - 1));
+            tempX--;
+            tempY--;
+        }
+
+        private int DrawVertRight(int player, int sY, int tempX)
+        {
+            pieces[tempX + 1, sY].Mutate(player);
+            animate.Enqueue(new Vector2(tempX + 1, sY));
+            tempX++;
+            return tempX;
+        }
+
+        private int DrawVertLeft(int player, int sY, int tempX)
+        {
+            pieces[tempX - 1, sY].Mutate(player);
+            animate.Enqueue(new Vector2(tempX - 1, sY));
+            tempX--;
+            return tempX;
+        }
+
+        private int DrawHoroDown(int player, int sX, int tempY)
+        {
+            pieces[sX, tempY + 1].Mutate(player);
+            animate.Enqueue(new Vector2(sX, tempY + 1));
+            tempY++;
+            return tempY;
+        }
+
+        private int DrawHoroUp(int player, int sX, int tempY)
+        {
+            pieces[sX, tempY - 1].Mutate(player);
+            animate.Enqueue(new Vector2(sX, tempY - 1));
+            tempY--;
+            return tempY;
         }
 
         public bool AnyMoves(int player)
