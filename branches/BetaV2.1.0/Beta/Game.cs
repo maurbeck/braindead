@@ -284,7 +284,8 @@ namespace Beta
 #endif
 
 #if XBOX
-                if (Game.previousGamePadState.Buttons.A == ButtonState.Pressed)
+                if (Game.previousGamePadState.Buttons.A == ButtonState.Pressed && 
+                    Game.gamePadState.Buttons.A == ButtonState.Released)
                 {
                     switch (gameState)
                     {
