@@ -113,8 +113,9 @@ namespace Beta
                 return;
             }
 
-//'Mouse'over and click detection.
-       
+#if WINDOWS
+            //'Mouse'over and click detection.
+            //
             // Change game button on mouse over
             if (mouseState.X > 279 / 2 && mouseState.X < 519 / 2 &&
                 mouseState.Y > 200 / 2 && mouseState.Y < 300 / 2)
@@ -157,7 +158,7 @@ namespace Beta
             else
                 quitButton.Reset();
 
-
+#endif
 
 #if XBOX
             //Mouseover Code
