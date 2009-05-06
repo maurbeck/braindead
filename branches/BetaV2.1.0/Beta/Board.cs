@@ -112,29 +112,51 @@ namespace Beta
         {
             // Set the offset
             offset = new Vector2(49 / 2, 49 / 2);
+            
             // Clear the animation queue
             animate.Clear();
+            
             // Initialize the cursors
-            redCursor.Initialize(Vector2.Zero, new Rectangle(0, 0, 50, 50), Color.White, Vector2.Zero, new Vector2(0.5f), 0.0f);
-            greenCursor.Initialize(Vector2.Zero, new Rectangle(0, 0, 50, 50), Color.White, Vector2.Zero, new Vector2(0.5f), 0.0f);
+            redCursor.Initialize(   Vector2.Zero, new Rectangle(0, 0, 50, 50),
+                                    Color.White, Vector2.Zero,
+                                    new Vector2(0.5f), 0.0f);
+            
+            greenCursor.Initialize( Vector2.Zero, new Rectangle(0, 0, 50, 50), 
+                                    Color.White, Vector2.Zero,
+                                    new Vector2(0.5f), 0.0f);
 
             // Initialize the selected peices
-            redSelect.Initialize(Vector2.Zero, new Rectangle(0, 0, 100, 100), Color.White, Vector2.Zero, new Vector2(0.5f), 0f);
-            greenSelect.Initialize(Vector2.Zero, new Rectangle(0, 0, 100, 100), Color.White, Vector2.Zero, new Vector2(0.5f), 0f);
+            redSelect.Initialize(   Vector2.Zero, new Rectangle(0, 0, 100, 100), 
+                                    Color.White, Vector2.Zero,
+                                    new Vector2(0.5f), 0f);
+            
+            greenSelect.Initialize( Vector2.Zero, new Rectangle(0, 0, 100, 100),
+                                    Color.White, Vector2.Zero,
+                                    new Vector2(0.5f), 0f);
 
             // Initialize the banners
-            blueBanner.Initialize(new Vector2(0, 297 / 2), new Rectangle(0, 0, 798, 204), Color.White, Vector2.Zero, new Vector2(0.5f), 0f);
-            greenBanner.Initialize(new Vector2(0, 297 / 2), new Rectangle(0, 0, 798, 204), Color.White, Vector2.Zero, new Vector2(0.5f), 0f);
+            blueBanner.Initialize(new Vector2(0, 297 / 2), new Rectangle(0, 0, 798, 204),
+                                  Color.White, Vector2.Zero,
+                                  new Vector2(0.5f), 0f);
+
+            greenBanner.Initialize( new Vector2(0, 297 / 2), new Rectangle(0, 0, 798, 204),
+                                    Color.White, Vector2.Zero,
+                                    new Vector2(0.5f), 0f);
 
             // Initialize the board image
-            board.Initialize(Vector2.Zero, new Rectangle(0, 0, 798, 798), Color.White, Vector2.Zero, new Vector2(0.5f), 1f);
+            board.Initialize(   Vector2.Zero, new Rectangle(0, 0, 798, 798),
+                                Color.White, Vector2.Zero,
+                                new Vector2(0.5f), 1f);
 
             // Initialize Pieces to be all blank
             for (int x = 0; x < 7; x++)
             {
                 for (int y = 0; y < 7; y++)
                 {
-                    pieces[x, y].Initialize(new Vector2(((100 * x) / 2 + offset.X), ((100 * y) / 2 + offset.Y)), new Rectangle(0, 0, 100, 100), Vector2.Zero, new Vector2(0.5f), 0.5f);
+                    pieces[x, y].Initialize(new Vector2(((100 * x) / 2 + offset.X),
+                                            ((100 * y) / 2 + offset.Y)),
+                                            new Rectangle(0, 0, 100, 100), Vector2.Zero,
+                                            new Vector2(0.5f), 0.5f);
                     pieces[x, y].SetState(0);
                 }
             }
@@ -224,7 +246,13 @@ namespace Beta
 
         }
 
-        public void LoadContent(SpriteBatch spriteBatch, Texture2D board, Texture2D red, Texture2D green, Texture2D redSelection, Texture2D greenSelection, Texture2D redGreen, Texture2D greenRed, Texture2D tPlr1, Texture2D tPlr2, Texture2D redCur, Texture2D greenCur, Texture2D blueBanner, Texture2D greenBanner)
+        public void LoadContent(SpriteBatch spriteBatch, Texture2D board,
+                                Texture2D red, Texture2D green, 
+                                Texture2D redSelection, Texture2D greenSelection,
+                                Texture2D redGreen, Texture2D greenRed,
+                                Texture2D tPlr1, Texture2D tPlr2,
+                                Texture2D redCur, Texture2D greenCur,
+                                Texture2D blueBanner, Texture2D greenBanner)
         {
             // Load the content for the board image
             this.board.LoadContent(spriteBatch, ref board);
@@ -242,7 +270,9 @@ namespace Beta
             {
                 for (int y = 0; y < 7; y++)
                 {
-                    pieces[x, y].LoadContent(spriteBatch, red, green, redGreen, greenRed, tPlr1, tPlr2);
+                    pieces[x, y].LoadContent(   spriteBatch, red, green,
+                                                redGreen, greenRed, tPlr1,
+                                                tPlr2);
                 }
             }
 
@@ -250,7 +280,8 @@ namespace Beta
             greenCursor.LoadContent(spriteBatch, ref greenCur);
         }
 
-        public void LoadAudio(SoundEffect selectPiece, SoundEffect unMove, SoundEffect aMove, SoundEffect convert)
+        public void LoadAudio(  SoundEffect selectPiece, SoundEffect unMove,
+                                SoundEffect aMove, SoundEffect convert)
         {
             this.selectPiece = selectPiece;
             this.unMove = unMove;
@@ -406,7 +437,8 @@ namespace Beta
                     #region Red turn logic if mouse is clicked
                     case 1: // Red turn
                         #region No piece selected
-                        if (selectedPiece.X < 0 || selectedPiece.Y < 0) // If selectedPiece is negative a.k.a. no piece selected
+                        // If selectedPiece is negative a.k.a. no piece selected
+                        if (selectedPiece.X < 0 || selectedPiece.Y < 0)
                         {
                             // Only perform click method if the click was on the board
                             if (cursorX >= 0 && cursorX < 7 && cursorY >= 0 && cursorY < 7)
@@ -435,7 +467,10 @@ namespace Beta
                         }
                         #endregion
                         #region Piece on board selected
-                        else if (selectedPiece.X >= 0 && selectedPiece.X < 7 && selectedPiece.Y >= 0 && selectedPiece.Y < 7) // If piece on the board is selected
+                        else
+                            // If piece on the board is selected
+                            if (selectedPiece.X >= 0 && selectedPiece.X < 7 && 
+                                 selectedPiece.Y >= 0 && selectedPiece.Y < 7)
                         {
                             // Only perform click method if the click was on the board
                             if (cursorX >= 0 && cursorX < 7 && cursorY >= 0 && cursorY < 7)
@@ -494,7 +529,8 @@ namespace Beta
                     #region Green turn logic if mouse is clicked
                     case 2: // Green turn
                         #region No piece selected
-                        if (selectedPiece.X < 0 || selectedPiece.Y < 0) // If selectedPiece is negative a.k.a. no piece selected
+                        // If selectedPiece is negative a.k.a. no piece selected
+                        if (selectedPiece.X < 0 || selectedPiece.Y < 0) 
                         {
                             // Only perform click method if the click was on the board
                             if (cursorX >= 0 && cursorX < 7 && cursorY >= 0 && cursorY < 7)
@@ -523,7 +559,11 @@ namespace Beta
                         }
                         #endregion
                         #region Piece on board selected
-                        else if (selectedPiece.X >= 0 && selectedPiece.X < 7 && selectedPiece.Y >= 0 && selectedPiece.Y < 7) // If piece on the board is selected
+                        else 
+                            // If piece on the board is selected
+                            if (selectedPiece.X >= 0 && selectedPiece.X < 7 && 
+                                 selectedPiece.Y >= 0 && selectedPiece.Y < 7)
+                            
                         {
                             // Only perform click method if the click was on the board
                             if (cursorX >= 0 && cursorX < 7 && cursorY >= 0 && cursorY < 7)
@@ -603,7 +643,8 @@ namespace Beta
                     #region Red turn logic if mouse is clicked
                     case 1: // Red turn
                         #region No piece selected
-                        if (selectedPiece.X < 0 || selectedPiece.Y < 0) // If selectedPiece is negative a.k.a. no piece selected
+                        // If selectedPiece is negative a.k.a. no piece selected
+                        if (selectedPiece.X < 0 || selectedPiece.Y < 0)
                         {
                             // Only perform click method if the click was on the board
                             if (mouseX >= 0 && mouseX < 7 && mouseY >= 0 && mouseY < 7)
@@ -632,7 +673,10 @@ namespace Beta
                         }
                         #endregion
                         #region Piece on board selected
-                        else if (selectedPiece.X >= 0 && selectedPiece.X < 7 && selectedPiece.Y >= 0 && selectedPiece.Y < 7) // If piece on the board is selected
+
+                        // If piece on the board is selected
+                        else if (selectedPiece.X >= 0 && selectedPiece.X < 7 && 
+                                 selectedPiece.Y >= 0 && selectedPiece.Y < 7)
                         {
                             // Only perform click method if the click was on the board
                             if (mouseX >= 0 && mouseX < 7 && mouseY >= 0 && mouseY < 7)
@@ -691,7 +735,9 @@ namespace Beta
                     #region Green turn logic if mouse is clicked
                     case 2: // Green turn
                         #region No piece selected
-                        if (selectedPiece.X < 0 || selectedPiece.Y < 0) // If selectedPiece is negative a.k.a. no piece selected
+
+                        // If selectedPiece is negative a.k.a. no piece selected
+                        if (selectedPiece.X < 0 || selectedPiece.Y < 0)
                         {
                             // Only perform click method if the click was on the board
                             if (mouseX >= 0 && mouseX < 7 && mouseY >= 0 && mouseY < 7)
@@ -720,7 +766,11 @@ namespace Beta
                         }
                         #endregion
                         #region Piece on board selected
-                        else if (selectedPiece.X >= 0 && selectedPiece.X < 7 && selectedPiece.Y >= 0 && selectedPiece.Y < 7) // If piece on the board is selected
+
+                        else
+                            // If piece on the board is selected
+                            if (   selectedPiece.X >= 0 && selectedPiece.X < 7 && 
+                                    selectedPiece.Y >= 0 && selectedPiece.Y < 7)
                         {
                             // Only perform click method if the click was on the board
                             if (mouseX >= 0 && mouseX < 7 && mouseY >= 0 && mouseY < 7)
@@ -807,12 +857,16 @@ namespace Beta
                 switch (playerTurn)
                 {
                     case 1:
-                        redSelect.SetPosition(new Vector2(((100 * selectedPiece.X) / 2 + offset.X), ((100 * selectedPiece.Y) / 2 + offset.Y)));
+                        redSelect.SetPosition(  new Vector2(((100 * selectedPiece.X) / 
+                                                2 + offset.X), ((100 * selectedPiece.Y) /
+                                                2 + offset.Y)));
                         redSelect.Draw();
                         break;
 
                     case 2:
-                        greenSelect.SetPosition(new Vector2(((100 * selectedPiece.X) / 2 + offset.X), ((100 * selectedPiece.Y) / 2 + offset.Y)));
+                        greenSelect.SetPosition(new Vector2(((100 * selectedPiece.X) / 
+                                                2 + offset.X), ((100 * selectedPiece.Y) / 
+                                                2 + offset.Y)));
                         greenSelect.Draw();
                         break;
                 }
@@ -931,7 +985,8 @@ namespace Beta
             if (targetY > 0 && targetX > 0)//1
             {
                 // animation bug here, was checking if pieces[targetX - 1, targetX - 1].Value() != player
-                if (pieces[targetX - 1, targetY - 1].Value() > 0 && pieces[targetX - 1, targetY - 1].Value() != player)
+                if (pieces[targetX - 1, targetY - 1].Value() > 0 && 
+                    pieces[targetX - 1, targetY - 1].Value() != player)
                 {
                     pieces[targetX - 1, targetY - 1].Mutate(player);
                     animate.Enqueue(new Vector2(targetX - 1, targetY - 1));
@@ -939,7 +994,8 @@ namespace Beta
             }
             if (targetY > 0)//2
             {
-                if (pieces[targetX, targetY - 1].Value() > 0 && pieces[targetX, targetY - 1].Value() != player)
+                if (pieces[targetX, targetY - 1].Value() > 0 &&
+                    pieces[targetX, targetY - 1].Value() != player)
                 {
                     pieces[targetX, targetY - 1].Mutate(player);
                     animate.Enqueue(new Vector2(targetX, targetY - 1));
@@ -947,7 +1003,8 @@ namespace Beta
             }
             if (targetY > 0 && targetX < 6)//3
             {
-                if (pieces[targetX + 1, targetY - 1].Value() > 0 && pieces[targetX + 1, targetY - 1].Value() != player)
+                if (pieces[targetX + 1, targetY - 1].Value() > 0 &&
+                    pieces[targetX + 1, targetY - 1].Value() != player)
                 {
                     pieces[targetX + 1, targetY - 1].Mutate(player);
                     animate.Enqueue(new Vector2(targetX + 1, targetY - 1));
@@ -955,7 +1012,8 @@ namespace Beta
             }
             if (targetX < 6)//5
             {
-                if (pieces[targetX + 1, targetY].Value() > 0 && pieces[targetX + 1, targetY].Value() != player)
+                if (pieces[targetX + 1, targetY].Value() > 0 &&
+                    pieces[targetX + 1, targetY].Value() != player)
                 {
                     pieces[targetX + 1, targetY].Mutate(player);
                     animate.Enqueue(new Vector2(targetX + 1, targetY));
@@ -963,7 +1021,8 @@ namespace Beta
             }
             if (targetY < 6 && targetX < 6)//8
             {
-                if (pieces[targetX + 1, targetY + 1].Value() > 0 && pieces[targetX + 1, targetY + 1].Value() != player)
+                if (pieces[targetX + 1, targetY + 1].Value() > 0 && 
+                    pieces[targetX + 1, targetY + 1].Value() != player)
                 {
                     pieces[targetX + 1, targetY + 1].Mutate(player);
                     animate.Enqueue(new Vector2(targetX + 1, targetY + 1));
@@ -971,7 +1030,8 @@ namespace Beta
             }
             if (targetY < 6)//7
             {
-                if (pieces[targetX, targetY + 1].Value() > 0 && pieces[targetX, targetY + 1].Value() != player)
+                if (pieces[targetX, targetY + 1].Value() > 0 && 
+                    pieces[targetX, targetY + 1].Value() != player)
                 {
                     pieces[targetX, targetY + 1].Mutate(player);
                     animate.Enqueue(new Vector2(targetX, targetY + 1));
@@ -979,7 +1039,8 @@ namespace Beta
             }
             if (targetY < 6 && targetX > 0)//6
             {
-                if (pieces[targetX - 1, targetY + 1].Value() > 0 && pieces[targetX - 1, targetY + 1].Value() != player)
+                if (pieces[targetX - 1, targetY + 1].Value() > 0 && 
+                    pieces[targetX - 1, targetY + 1].Value() != player)
                 {
                     pieces[targetX - 1, targetY + 1].Mutate(player);
                     animate.Enqueue(new Vector2(targetX - 1, targetY + 1));
@@ -988,7 +1049,8 @@ namespace Beta
             }
             if (targetX > 0)//4
             {
-                if (pieces[targetX - 1, targetY].Value() > 0 && pieces[targetX - 1, targetY].Value() != player)
+                if (pieces[targetX - 1, targetY].Value() > 0 &&
+                    pieces[targetX - 1, targetY].Value() != player)
                 {
                     pieces[targetX - 1, targetY].Mutate(player);
                     animate.Enqueue(new Vector2(targetX - 1, targetY));
@@ -1019,7 +1081,7 @@ namespace Beta
                                     return true;
                             }
                             // Northeast
-                            // crashing bug was here, was checking if y < (7 - (moveNum - 1)) and x > (0 + (moveNum - 1))
+        // crashing bug was here, was checking if y < (7 - (moveNum - 1)) and x > (0 + (moveNum - 1))
                             if (y > (0 + (moveNum - 1)) && x < (6 - (moveNum - 1)))
                             {
                                 if (pieces[(x + moveNum), (y - moveNum)].Value() == 0)

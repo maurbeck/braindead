@@ -34,8 +34,12 @@ namespace Beta
 
         public void Initialize()
         {
-            background.Initialize(Vector2.Zero, new Rectangle(0, 0, 798, 798), Color.White, Vector2.Zero, new Vector2(0.5f), 0f);
-            cursor.Initialize(Vector2.Zero, new Rectangle(0, 0, 50, 50), Color.White, Vector2.Zero, new Vector2(0.5f), 0f);
+            background.Initialize(  Vector2.Zero, new Rectangle(0, 0, 798, 798),
+                                    Color.White, Vector2.Zero,
+                                    new Vector2(0.5f), 0f);
+            cursor.Initialize(  Vector2.Zero, new Rectangle(0, 0, 50, 50),
+                                Color.White, Vector2.Zero,
+                                new Vector2(0.5f), 0f);
         }
 
         public void Click(ref int state)
@@ -48,7 +52,8 @@ namespace Beta
             cursor.Update();
         }
 
-        public void LoadContent(SpriteBatch spriteBatch, Texture2D bgTex, Texture2D curTex)
+        public void LoadContent(SpriteBatch spriteBatch, Texture2D bgTex,
+                                Texture2D curTex)
         {
             this.background.LoadContent(spriteBatch, ref bgTex);
             this.cursor.LoadContent(spriteBatch, ref curTex);
