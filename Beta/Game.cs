@@ -253,7 +253,7 @@ namespace Beta
 
             if (clickEnabled)
             {
-#if PC
+
                 if (mouseState.LeftButton == ButtonState.Pressed)
                 {
                     switch (gameState)
@@ -279,7 +279,7 @@ namespace Beta
                     }
                     clickEnabled = false;
                 }
-#endif
+
 
 #if XBOX
                 if (Game.previousGamePadState.Buttons.A == ButtonState.Pressed)
@@ -311,12 +311,12 @@ namespace Beta
             }
             else
             {
-#if PC
+
                 if (mouseState.LeftButton == ButtonState.Released)
                 {
                     clickEnabled = true;
                 }
-#endif
+
 
 #if XBOX
                 if (Game.previousGamePadState.Buttons.A == ButtonState.Released)
