@@ -97,7 +97,9 @@ namespace Beta
         public static GamePadState previousGamePadState2 = GamePad.GetState(PlayerIndex.Two);
         public static GamePadState gamePadState2 = GamePad.GetState(PlayerIndex.Two);
 
+
         bool clickEnabled = true;
+
 
         enum State
         {
@@ -224,12 +226,36 @@ namespace Beta
 
         protected override void Update(GameTime gameTime)
         {
-
-#if WINDOWS
-
             MouseState mouseState = Mouse.GetState();
+
+            //Initialise gamePadState
+            gamePadState = GamePad.GetState(PlayerIndex.One);
+            gamePadState2 = GamePad.GetState(PlayerIndex.Two);
+
+            //Update cursor for 360 controller input
+
+
+            if (gamePadState.ThumbSticks.Left.X > 0.0f)
+                xbCursorX += 5;
+
+            if (gamePadState.ThumbSticks.Left.X < 0.0f)
+                xbCursorX -= 5;
+
+            if (gamePadState.ThumbSticks.Left.Y > 0.0f)
+                xbCursorY -= 5;
+
+            if (gamePadState.ThumbSticks.Left.Y < 0.0f)
+                xbCursorY += 5;
+
+            if (gamePadState.Buttons.Back == ButtonState.Pressed)
+            {
+                //omg nothing
+            }
+
+
             if (clickEnabled)
             {
+#if PC
                 if (mouseState.LeftButton == ButtonState.Pressed)
                 {
                     switch (gameState)
@@ -246,48 +272,24 @@ namespace Beta
                         case (int)State.Credits:
                             credits.Click(ref gameState);
                             break;
+                        case (int)State.AIGame:
+                            aiBoard.Click(mouseState);
+                            break;
+                        case (int)State.Othello:
+                            othello.Click(mouseState);
+                            break;
                     }
                     clickEnabled = false;
                 }
-            }
-            else
-            {
-                if (mouseState.LeftButton == ButtonState.Released)
-                {
-                    clickEnabled = true;
-                }
-            }
 #endif
 
-#if XBOX 
-            //Initialise gamePadState
-            gamePadState = GamePad.GetState(PlayerIndex.One);
-            gamePadState2 = GamePad.GetState(PlayerIndex.Two);
-
-            //Update cursor for 360 controller input
-            if (gamePadState.ThumbSticks.Left.X > 0.3f)
-                xbCursorX += 5;
-
-            if (gamePadState.ThumbSticks.Left.X < 0.3f)
-                xbCursorX -= 5;
-           
-            if (gamePadState.ThumbSticks.Left.Y > 0.3f)
-                xbCursorY -= 5;
-
-            if (gamePadState.ThumbSticks.Left.Y < 0.3f)
-                xbCursorY += 5;
-
-            if (gamePadState.Buttons.Back == ButtonState.Pressed)
-            {
-                //omg nothing
-            }
-
-            if (Game.previousGamePadState.Buttons.A == ButtonState.Pressed)
+#if XBOX
+                if (Game.previousGamePadState.Buttons.A == ButtonState.Pressed)
                 {
                     switch (gameState)
                     {
                         case (int)State.Menu:
-                            menu.Click(mouseState, ref gameState);
+                            menu.aButtClick(ref gameState);
                             break;
                         case (int)State.Instructions:
                             instructions.aButtClick(ref gameState);
@@ -307,17 +309,25 @@ namespace Beta
                     }
                     clickEnabled = false;
                 }
-            
+#endif
+            }
             else
             {
+#if PC
+                if (mouseState.LeftButton == ButtonState.Released)
+                {
+                    clickEnabled = true;
+                }
+#endif
 
+#if XBOX
                 if (Game.previousGamePadState.Buttons.A == ButtonState.Released)
                 {
                     clickEnabled = true;
                 }
-
-            }
 #endif
+            }
+
             // Find which update logic to perform
             switch (gameState)
             {
@@ -341,9 +351,12 @@ namespace Beta
                 this.Exit();
             }
 
+
             previousGamePadState = gamePadState;
             base.Update(gameTime);
+        
         }
+
 
         protected override void Draw(GameTime gameTime)
         {
