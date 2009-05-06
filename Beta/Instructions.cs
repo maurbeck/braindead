@@ -139,8 +139,14 @@ namespace Beta
 
         public void Click(MouseState mouseState, ref int state)
         {
-
-
+            /* if (mouseState.X > 10/2 && mouseState.X < 190/2 && mouseState.Y > 680/2 && mouseState.Y < 900/2)
+             {
+                 mouseClick.Play(1.0f, 0.0f, 0.0f, false);
+                 screen = 1;
+                 state = (int)State.Menu;
+                 Initialize();
+             }
+            */
             switch (screen)
             {
                 case 1:
@@ -195,7 +201,9 @@ namespace Beta
                     break;
             }
 
+
         }
+
 
 
         public void aButtClick(ref int state)
