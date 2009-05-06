@@ -284,6 +284,14 @@ namespace Beta
 #endif
 
 #if XBOX
+            /*
+             * XBOX port code
+             * 
+             * 
+             * 
+             * Modified/Created by: Miles Aurbeck
+             * May 06 2009
+            */
                 if (Game.previousGamePadState.Buttons.A == ButtonState.Pressed && 
                     Game.gamePadState.Buttons.A == ButtonState.Released)
                 {
@@ -322,6 +330,15 @@ namespace Beta
 #endif
 
 #if XBOX
+
+             /*
+             * XBOX port code
+             * 
+             * 
+             * 
+             * Modified/Created by: Miles Aurbeck
+             * May 06 2009
+            */
                 if (Game.previousGamePadState.Buttons.A == ButtonState.Released)
                 {
                     clickEnabled = true;
