@@ -83,22 +83,13 @@ namespace Beta
 
         public void Update(GameTime gameTime, ref int state)
         {
+
+
+#if WINDOWS
             // Get the mouse state
             MouseState mouseState = Mouse.GetState();
             // Get the keyboard state
             KeyboardState keyState = Keyboard.GetState();
-
-
-//Menu navigation beta code
-//Press a button to enter a state.
-//#if XBOX
-//            if (Game.gamePadState.IsConnected && Game.gamePadState.Buttons.A == ButtonState.Pressed)
-//            {
-//                state = (int)State.Game;
-//                return;
-//            }
-//#endif
-
 
             // Temporary keyboard shortcuts to get to the new state
             // Will be removed with the UI has these buttons
@@ -112,9 +103,7 @@ namespace Beta
                 state = (int)State.Othello;
                 return;
             }
-
-#if WINDOWS
-            //'Mouse'over and click detection.
+            //'Mouse'over
             //
             // Change game button on mouse over
             if (mouseState.X > 279 / 2 && mouseState.X < 519 / 2 &&
@@ -161,6 +150,8 @@ namespace Beta
 #endif
 
 #if XBOX
+            
+
             //Mouseover Code
             //           
             // Change game button on mouse over
@@ -184,10 +175,23 @@ namespace Beta
             else
                 quitButton.Reset();
 
+#endif
+
+            // Update Cursor position
+            cursor.Update();
+
+            // Update the buttons
+            gameButton.Update(gameTime);
+            tutorialButton.Update(gameTime);
+            quitButton.Update(gameTime);
             
-            //Clicked Code
-            //
-            // Check if clicked on tutorial button
+        }
+
+
+        public void aButtClick(ref int state)
+        {
+
+        // Check if clicked on tutorial button
             if (Game.xbCursorX > 279 / 2 && Game.xbCursorX < 519 / 2 &&
                 Game.xbCursorY > 349 / 2 && Game.xbCursorY < 449 / 2 &&
                 Game.previousGamePadState.Buttons.A == ButtonState.Pressed &&
@@ -218,17 +222,7 @@ namespace Beta
                 state = (int)State.Credits;
             }
 
-#endif
-
-            // Update Cursor position
-            cursor.Update();
-
-            // Update the buttons
-            gameButton.Update(gameTime);
-            tutorialButton.Update(gameTime);
-            quitButton.Update(gameTime);
-            
-        }
+}
 
         public void Click(MouseState mouseState, ref int state)
         {
