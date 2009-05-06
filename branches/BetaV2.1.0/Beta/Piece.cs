@@ -39,7 +39,9 @@ namespace Beta
         }
 
         // Initialize all required variables
-        public void Initialize(Vector2 pos, Rectangle src, Vector2 origin, Vector2 scale, Single depth)
+        public void Initialize( Vector2 pos, Rectangle src, 
+                                Vector2 origin, Vector2 scale,
+                                Single depth)
         {
             // Initialize user defined variables
             this.position = pos;
@@ -65,7 +67,10 @@ namespace Beta
         }
 
         // Load all required graphics content
-        public void LoadContent(SpriteBatch spriteBatch, Texture2D red, Texture2D green, Texture2D redGreen, Texture2D greenRed, Texture2D tPlr1, Texture2D tPlr2)
+        public void LoadContent(SpriteBatch spriteBatch, Texture2D red,
+                                Texture2D green, Texture2D redGreen,
+                                Texture2D greenRed, Texture2D tPlr1,
+                                Texture2D tPlr2)
         {
             this.spriteBatch = spriteBatch;
             this.redTex = red;
@@ -160,32 +165,44 @@ namespace Beta
                     break;
                 case 1:
                     spriteBatch.Begin();
-                    spriteBatch.Draw(this.redTex, this.position, this.source, this.color, this.rotation, this.origin, this.scale, this.effects, this.depth);
+                    spriteBatch.Draw(   this.redTex, this.position, this.source,
+                                        this.color, this.rotation, this.origin,
+                                        this.scale, this.effects, this.depth);
                     spriteBatch.End();
                     break;
                 case 2:
                     spriteBatch.Begin();
-                    spriteBatch.Draw(this.greenTex, this.position, this.source, this.color, this.rotation, this.origin, this.scale, this.effects, this.depth);
+                    spriteBatch.Draw(this.greenTex, this.position, this.source,
+                                     this.color, this.rotation, this.origin,
+                                     this.scale, this.effects, this.depth);
                     spriteBatch.End();
                     break;
                 case 3:
                     spriteBatch.Begin();
-                    spriteBatch.Draw(this.redToGreen, this.position, this.source, this.color, this.rotation, this.origin, this.scale, this.effects, this.depth);
+                    spriteBatch.Draw(   this.redToGreen, this.position, this.source,
+                                        this.color, this.rotation, this.origin,
+                                        this.scale, this.effects, this.depth);
                     spriteBatch.End();
                     break;
                 case 4:
                     spriteBatch.Begin();
-                    spriteBatch.Draw(this.greenToRed, this.position, this.source, this.color, this.rotation, this.origin, this.scale, this.effects, this.depth);
+                    spriteBatch.Draw(this.greenToRed, this.position, this.source,
+                                     this.color, this.rotation, this.origin,
+                                     this.scale, this.effects, this.depth);
                     spriteBatch.End();
                     break;
                 case 5:
                     spriteBatch.Begin();
-                    spriteBatch.Draw(this.transToPlr1, this.position, this.source, this.color, this.rotation, this.origin, this.scale, this.effects, this.depth);
+                    spriteBatch.Draw(this.transToPlr1, this.position, this.source,
+                                     this.color, this.rotation, this.origin, 
+                                     this.scale, this.effects, this.depth);
                     spriteBatch.End();
                     break;
                 case 6:
                     spriteBatch.Begin();
-                    spriteBatch.Draw(this.transToPlr2, this.position, this.source, this.color, this.rotation, this.origin, this.scale, this.effects, this.depth);
+                    spriteBatch.Draw(this.transToPlr2, this.position, this.source, 
+                                     this.color, this.rotation, this.origin,
+                                     this.scale, this.effects, this.depth);
                     spriteBatch.End();
                     break;
             }

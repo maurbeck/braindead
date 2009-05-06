@@ -58,27 +58,60 @@ namespace Beta
             screen = 1;
 
             // Initialize background images
-            background1.Initialize(Vector2.Zero, new Rectangle(0, 0, 798, 798), Color.White, Vector2.Zero, new Vector2(0.5f), 1.0f);
-            background2.Initialize(Vector2.Zero, new Rectangle(0, 0, 798, 798), Color.White, Vector2.Zero, new Vector2(0.5f), 1.0f);
-            background3.Initialize(Vector2.Zero, new Rectangle(0, 0, 798, 798), Color.White, Vector2.Zero, new Vector2(0.5f), 1.0f);
+            background1.Initialize( Vector2.Zero, new Rectangle(0, 0, 798, 798), 
+                                    Color.White, Vector2.Zero,
+                                    new Vector2(0.5f), 1.0f);
+            background2.Initialize( Vector2.Zero, new Rectangle(0, 0, 798, 798),
+                                    Color.White, Vector2.Zero,
+                                    new Vector2(0.5f), 1.0f);
+            background3.Initialize( Vector2.Zero, new Rectangle(0, 0, 798, 798),
+                                    Color.White, Vector2.Zero,
+                                    new Vector2(0.5f), 1.0f);
 
             // initialize the cursor
-            cursor.Initialize(Vector2.Zero, new Rectangle(0, 0, 50, 50), Color.White, Vector2.Zero, new Vector2(0.5f), 0.0f);
+            cursor.Initialize(  Vector2.Zero, new Rectangle(0, 0, 50, 50),
+                                Color.White, Vector2.Zero,
+                                new Vector2(0.5f), 0.0f);
 
             // instruction animations
-            moveAnim.Initialize(new Vector2(249 / 2, 249 / 2), new Rectangle(0, 0, 300, 394), Vector2.Zero, new Vector2(0.5f), 0f, 1, 2, true);
-            attAnim.Initialize(new Vector2(249 / 2, 249 / 2), new Rectangle(0, 0, 300, 300), Vector2.Zero, new Vector2(0.5f), 0f, 1, 6, true);
-            tipsAnim.Initialize(new Vector2(249 / 2, 249 / 2), new Rectangle(0, 0, 300, 394), Vector2.Zero, new Vector2(0.5f), 0f, 0.41f, 6, true);
-            tipsAnimLeft.Initialize(new Vector2(34 / 2, 262 / 2), new Rectangle(0, 0, 190, 270), Vector2.Zero, new Vector2(0.5f), 0f, 0.41f, 6, true);
-            tipsAnimRight.Initialize(new Vector2(572 / 2, 262 / 2), new Rectangle(0, 0, 190, 270), Vector2.Zero, new Vector2(0.5f), 0f, 0.41f, 6, true);
+            moveAnim.Initialize(new Vector2(249 / 2, 249 / 2), new Rectangle(0, 0, 300, 394),
+                                Vector2.Zero, new Vector2(0.5f),
+                                0f, 1, 2, true);
+            
+            attAnim.Initialize( new Vector2(249 / 2, 249 / 2), new Rectangle(0, 0, 300, 300),
+                                Vector2.Zero, new Vector2(0.5f),
+                                0f, 1, 6, true);
+
+            tipsAnim.Initialize(new Vector2(249 / 2, 249 / 2), new Rectangle(0, 0, 300, 394),
+                                Vector2.Zero, new Vector2(0.5f),
+                                0f, 0.41f, 6, true);
+
+            tipsAnimLeft.Initialize(new Vector2(34 / 2, 262 / 2), new Rectangle(0, 0, 190, 270),
+                                    Vector2.Zero, new Vector2(0.5f),
+                                    0f, 0.41f, 6, true);
+            tipsAnimRight.Initialize(   new Vector2(572 / 2, 262 / 2), new Rectangle(0, 0, 190, 270),
+                                        Vector2.Zero, new Vector2(0.5f),
+                                        0f, 0.41f, 6, true);
 
             // Initialize the buttons
-            mainButton.Initialize(new Vector2(580 / 2, 660 / 2), new Rectangle(0, 0, 180, 110), Color.White, Vector2.Zero, new Vector2(0.5f), 0.5f);
-            backButton.Initialize(new Vector2(30 / 2, 660 / 2), new Rectangle(0, 0, 180, 110), Color.White, Vector2.Zero, new Vector2(0.5f), 0.5f);
-            nextButton.Initialize(new Vector2(580 / 2, 660 / 2), new Rectangle(0, 0, 180, 110), Color.White, Vector2.Zero, new Vector2(0.5f), 0.5f);
+            mainButton.Initialize(  new Vector2(580 / 2, 660 / 2), new Rectangle(0, 0, 180, 110),
+                                    Color.White, Vector2.Zero,
+                                    new Vector2(0.5f), 0.5f);
+            backButton.Initialize(  new Vector2(30 / 2, 660 / 2), new Rectangle(0, 0, 180, 110),
+                                    Color.White, Vector2.Zero, 
+                                    new Vector2(0.5f), 0.5f);
+            nextButton.Initialize(  new Vector2(580 / 2, 660 / 2), new Rectangle(0, 0, 180, 110),
+                                    Color.White, Vector2.Zero,
+                                    new Vector2(0.5f), 0.5f);
         }
 
-        public void LoadContent(SpriteBatch spriteBatch, Texture2D bg1Tex, Texture2D bg2Tex, Texture2D bg3Tex, Texture2D moveAnim, Texture2D attAnim, Texture2D tipsAnim, Texture2D tipsAnimLeft, Texture2D tipsAnimRight, Texture2D cursor, Texture2D mainBtnTex, Texture2D backBtnTex, Texture2D nextBtnTex)
+        public void LoadContent(SpriteBatch spriteBatch, Texture2D bg1Tex, 
+                                Texture2D bg2Tex, Texture2D bg3Tex, 
+                                Texture2D moveAnim, Texture2D attAnim,
+                                Texture2D tipsAnim, Texture2D tipsAnimLeft,
+                                Texture2D tipsAnimRight, Texture2D cursor,
+                                Texture2D mainBtnTex, Texture2D backBtnTex, 
+                                Texture2D nextBtnTex)
         {
             background1.LoadContent(spriteBatch, ref bg1Tex);
             background2.LoadContent(spriteBatch, ref bg2Tex);
@@ -161,14 +194,16 @@ namespace Beta
             {
                 case 1:
                     // Next button
-                    if (mouseState.X > 580 / 2 && mouseState.X < 760 / 2 && mouseState.Y > 660 / 2 && mouseState.Y < 880 / 2)
+                    if (mouseState.X > 580 / 2 && mouseState.X < 760 / 2 && 
+                        mouseState.Y > 660 / 2 && mouseState.Y < 880 / 2)
                     {
                         mouseClick.Play(1.0f, 0.0f, 0.0f, false);
                         moveAnim.Reset();
                         moveAnim.Start();
                         screen = 2;
                     }
-                    if (mouseState.X > 30 / 2 && mouseState.X < 210 / 2 && mouseState.Y > 660 / 2 && mouseState.Y < 880 / 2)
+                    if (mouseState.X > 30 / 2 && mouseState.X < 210 / 2 &&
+                        mouseState.Y > 660 / 2 && mouseState.Y < 880 / 2)
                     {
                         mouseClick.Play(1.0f, 0.0f, 0.0f, false);
                         screen = 1;
@@ -178,7 +213,8 @@ namespace Beta
                     break;
                 case 2:
                     // Next button
-                    if (mouseState.X > 580 / 2 && mouseState.X < 760 / 2 && mouseState.Y > 660 / 2 && mouseState.Y < 880 / 2)
+                    if (mouseState.X > 580 / 2 && mouseState.X < 760 / 2 &&
+                        mouseState.Y > 660 / 2 && mouseState.Y < 880 / 2)
                     {
                         mouseClick.Play(1.0f, 0.0f, 0.0f, false);
                         attAnim.Reset();
@@ -186,7 +222,8 @@ namespace Beta
                         screen = 3;
                     }
                     // Back button
-                    if (mouseState.X > 30 / 2 && mouseState.X < 210 / 2 && mouseState.Y > 660 / 2 && mouseState.Y < 880 / 2)
+                    if (mouseState.X > 30 / 2 && mouseState.X < 210 / 2 &&
+                        mouseState.Y > 660 / 2 && mouseState.Y < 880 / 2)
                     {
                         mouseClick.Play(1.0f, 0.0f, 0.0f, false);
                         attAnim.Reset();
@@ -196,12 +233,14 @@ namespace Beta
                     break;
                 case 3:
                     // Back button
-                    if (mouseState.X > 30 / 2 && mouseState.X < 210 / 2 && mouseState.Y > 660 / 2 && mouseState.Y < 880 / 2)
+                    if (mouseState.X > 30 / 2 && mouseState.X < 210 / 2 &&
+                        mouseState.Y > 660 / 2 && mouseState.Y < 880 / 2)
                     {
                         mouseClick.Play(1.0f, 0.0f, 0.0f, false);
                         screen = 2;
                     }
-                    if (mouseState.X > 580 / 2 && mouseState.X < 760 / 2 && mouseState.Y > 660 / 2 && mouseState.Y < 880 / 2)
+                    if (mouseState.X > 580 / 2 && mouseState.X < 760 / 2 &&
+                        mouseState.Y > 660 / 2 && mouseState.Y < 880 / 2)
                     {
                         mouseClick.Play(1.0f, 0.0f, 0.0f, false);
                         screen = 1;
@@ -210,11 +249,7 @@ namespace Beta
                     }
                     break;
             }
-
-
         }
-
-
 
         public void aButtClick(ref int state)
         {
