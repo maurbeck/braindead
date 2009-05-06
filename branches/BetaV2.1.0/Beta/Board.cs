@@ -123,8 +123,8 @@ namespace Beta
             greenSelect.Initialize(Vector2.Zero, new Rectangle(0, 0, 100, 100), Color.White, Vector2.Zero, new Vector2(0.5f), 0f);
 
             // Initialize the banners
-            blueBanner.Initialize(new Vector2(0, 297/2), new Rectangle(0, 0, 798, 204), Color.White, Vector2.Zero, new Vector2(0.5f), 0f);
-            greenBanner.Initialize(new Vector2(0, 297/2), new Rectangle(0, 0, 798, 204), Color.White, Vector2.Zero, new Vector2(0.5f), 0f);
+            blueBanner.Initialize(new Vector2(0, 297 / 2), new Rectangle(0, 0, 798, 204), Color.White, Vector2.Zero, new Vector2(0.5f), 0f);
+            greenBanner.Initialize(new Vector2(0, 297 / 2), new Rectangle(0, 0, 798, 204), Color.White, Vector2.Zero, new Vector2(0.5f), 0f);
 
             // Initialize the board image
             board.Initialize(Vector2.Zero, new Rectangle(0, 0, 798, 798), Color.White, Vector2.Zero, new Vector2(0.5f), 1f);
@@ -221,7 +221,7 @@ namespace Beta
             //y1 = 0;
             //x2 = 6;
             //y2 = 6;
-            
+
         }
 
         public void LoadContent(SpriteBatch spriteBatch, Texture2D board, Texture2D red, Texture2D green, Texture2D redSelection, Texture2D greenSelection, Texture2D redGreen, Texture2D greenRed, Texture2D tPlr1, Texture2D tPlr2, Texture2D redCur, Texture2D greenCur, Texture2D blueBanner, Texture2D greenBanner)
@@ -242,7 +242,7 @@ namespace Beta
             {
                 for (int y = 0; y < 7; y++)
                 {
-                    pieces[x, y].LoadContent(spriteBatch, red, green, redGreen, greenRed,tPlr1,tPlr2);
+                    pieces[x, y].LoadContent(spriteBatch, red, green, redGreen, greenRed, tPlr1, tPlr2);
                 }
             }
 
@@ -263,10 +263,9 @@ namespace Beta
 
         public void Update(GameTime gameTime, ref int state)
         {
-
+#if WINDOWS
             // Get the keyboard state
             KeyboardState keyState = Keyboard.GetState();
-            GamePadState gamePadState = GamePad.GetState(PlayerIndex.One);
 
             // If esc was pressed, set the state to the main menu
             // Then reset this board
@@ -278,7 +277,17 @@ namespace Beta
                 return;
             }
 
+            // If 'r' was pressed
+            // Reset the board
+            if (keyState.IsKeyDown(Keys.R) == true)
+            {
+                this.Initialize();
+            }
+#endif
 #if XBOX
+            //Get gamepad state
+            GamePadState gamePadState = GamePad.GetState(PlayerIndex.One);
+
             // If left trigger was depressed, set the state to the main menu
             // Then reset this board
             // Then return so nothing gets processed
@@ -289,15 +298,14 @@ namespace Beta
                 this.Initialize();
                 return;
             }
-#endif
 
             // If 'r' was pressed
             // Reset the board
-            if (keyState.IsKeyDown(Keys.R) == true ||
-                gamePadState.Buttons.LeftShoulder == ButtonState.Pressed)
+            if (gamePadState.Buttons.LeftShoulder == ButtonState.Pressed)
             {
                 this.Initialize();
             }
+#endif
 
             // Update both cursors
             redCursor.Update();
@@ -377,10 +385,10 @@ namespace Beta
             #endregion
         }
 
-public void aButtClick()
-{
-    int cursorX = (int)Math.Floor((double)(Game.xbCursorX - offset.X) / 50);
-    int cursorY = (int)Math.Floor((double)(Game.xbCursorY - offset.Y) / 50);
+        public void aButtClick()
+        {
+            int cursorX = (int)Math.Floor((double)(Game.xbCursorX - offset.X) / 50);
+            int cursorY = (int)Math.Floor((double)(Game.xbCursorY - offset.Y) / 50);
 
             if (animate.Count == 0 && time >= 500 && !drawBlueBanner && !drawGreenBanner)
             {
@@ -571,7 +579,7 @@ public void aButtClick()
                     #endregion
                 }
             }
-}
+        }
 
         public void Click(MouseState mouseState)
         {
@@ -1119,7 +1127,6 @@ public void aButtClick()
             return;
         }
 
-
         /*OLD PlOP END PIECES/
         public void PlopEndPieces()
         {
@@ -1215,43 +1222,10 @@ public void aButtClick()
             //    //        }
             //    //    }
             //    //}
-            //    //#endregion
-        }*/
-
-        public void PlopEndPieces()
-        {
-            //count1 = plr1score;
-            //count2 = plr2score;
-            //bool status1 = true;
-            //bool status2 = true;
-
-            if (plr1score > plr2score)
-                drawBlueBanner = true;
-            else
-                drawGreenBanner = true;
-
-
-            for (int y = 0; y < 7; y++)
-            {
-                for(int x = 0; x < 7; x++)
-                {
-                    if (plr1score > 0)
-                    {
-                        pieces[x,y].SetState(5);
-                        animate.Enqueue(new Vector2(x,y));
-                        plr1score--;
-                    }
-                    if (plr2score > 0)
-                    {
-                        pieces[6-x,6-y].SetState(6);
-                        animate.Enqueue(new Vector2(6-x,6-y));
-                        plr2score--;
-                    }
-                }
-            }
-            boardFull = false;
-
-            /*
+            //    //
+         * 
+         * OR....
+         *             
             while ((status1 || status2) == true)
             {
                 status1 = DispPlr1();
@@ -1261,7 +1235,7 @@ public void aButtClick()
 
             status1 = true;
             status2 = true;
-             * */
+           
 
 
             return;
@@ -1300,6 +1274,42 @@ public void aButtClick()
             }
             return true;
         }
-        */
+       
+        }*/
+
+
+        public void PlopEndPieces()
+        {
+            //count1 = plr1score;
+            //count2 = plr2score;
+            //bool status1 = true;
+            //bool status2 = true;
+
+            if (plr1score > plr2score)
+                drawBlueBanner = true;
+            else
+                drawGreenBanner = true;
+
+
+            for (int y = 0; y < 7; y++)
+            {
+                for (int x = 0; x < 7; x++)
+                {
+                    if (plr1score > 0)
+                    {
+                        pieces[x, y].SetState(5);
+                        animate.Enqueue(new Vector2(x, y));
+                        plr1score--;
+                    }
+                    if (plr2score > 0)
+                    {
+                        pieces[6 - x, 6 - y].SetState(6);
+                        animate.Enqueue(new Vector2(6 - x, 6 - y));
+                        plr2score--;
+                    }
+                }
+            }
+            boardFull = false;
+        }
     }
 }
