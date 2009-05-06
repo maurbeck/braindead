@@ -47,24 +47,31 @@ namespace Beta
         {
             // Initialize background
             background.Initialize(  Vector2.Zero, new Rectangle(0, 0, 798, 798),
-                                    Color.White, Vector2.Zero, new Vector2(0.5f), 1.0f);
+                                    Color.White, Vector2.Zero, 
+                                    new Vector2(0.5f), 1.0f);
             // Initialize cursor
             cursor.Initialize(  Vector2.Zero, new Rectangle(0, 0, 50, 50),
-                                Color.White, Vector2.Zero, new Vector2(0.5f), 0.0f);
+                                Color.White, Vector2.Zero, 
+                                new Vector2(0.5f), 0.0f);
 
             // Initialize buttons
             gameButton.Initialize(  new Vector2(279/2, 200/2), new Rectangle(0, 0, 240, 100),
-                                    Vector2.Zero, new Vector2(0.5f), 0.5f, 10, 2, false);
+                                    Vector2.Zero, new Vector2(0.5f),
+                                    0.5f, 10, 2, false);
 
             tutorialButton.Initialize(  new Vector2(279/2, 349/2), new Rectangle(0, 0, 240, 100),
-                                        Vector2.Zero, new Vector2(0.5f), 0.5f, 10, 2, false);
+                                        Vector2.Zero, new Vector2(0.5f),
+                                        0.5f, 10, 2, false);
 
             quitButton.Initialize(  new Vector2(279/2, 500/2), new Rectangle(0, 0, 240, 100),
-                                    Vector2.Zero, new Vector2(0.5f), 0.5f, 10, 2, false);
+                                    Vector2.Zero, new Vector2(0.5f),
+                                    0.5f, 10, 2, false);
             //End Initialize Buttons
         }
 
-        public void LoadContent(SpriteBatch spriteBatch, Texture2D menuBackground, Texture2D cursorTex, Texture2D gameBtnTex, Texture2D tutorialBtnTex, Texture2D quitBtnTex)
+        public void LoadContent(SpriteBatch spriteBatch, Texture2D menuBackground,
+                                Texture2D cursorTex, Texture2D gameBtnTex,
+                                Texture2D tutorialBtnTex, Texture2D quitBtnTex)
         {
             // Pass content to the background image
             background.LoadContent(spriteBatch, ref menuBackground);
@@ -234,7 +241,8 @@ namespace Beta
         public void Click(MouseState mouseState, ref int state)
         {
             // Check if clicked on tutorial button
-            if (mouseState.X > 279 / 2 && mouseState.X < 519 / 2 && mouseState.Y > 349 / 2 && mouseState.Y < 449 / 2)
+            if (mouseState.X > 279 / 2 && mouseState.X < 519 / 2 &&
+                mouseState.Y > 349 / 2 && mouseState.Y < 449 / 2)
             {
                 // No tutorial state yet
                 state = (int)State.Instructions;
@@ -242,7 +250,8 @@ namespace Beta
             }
 
             // Check if clicked on game button
-            if (mouseState.X > 279 / 2 && mouseState.X < 519 / 2 && mouseState.Y > 200 / 2 && mouseState.Y < 300 / 2)
+            if (mouseState.X > 279 / 2 && mouseState.X < 519 / 2 && 
+                mouseState.Y > 200 / 2 && mouseState.Y < 300 / 2)
             {
                 // Set the state to the game state
                 state = (int)State.Game;
@@ -250,7 +259,8 @@ namespace Beta
             }
 
             // Check if clicked on quit button
-            if (mouseState.X > 279 / 2 && mouseState.X < 519 / 2 && mouseState.Y > 500 / 2 && mouseState.Y < 600 / 2)
+            if (mouseState.X > 279 / 2 && mouseState.X < 519 / 2 &&
+                mouseState.Y > 500 / 2 && mouseState.Y < 600 / 2)
             {
                 state = (int)State.Credits;
             }

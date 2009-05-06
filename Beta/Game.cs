@@ -91,11 +91,15 @@ namespace Beta
         public static int xbCursorY;
 
         //Initialize previous gamepadstate
-        public static GamePadState previousGamePadState = GamePad.GetState(PlayerIndex.One);
-        public static GamePadState gamePadState = GamePad.GetState(PlayerIndex.One);
+        public static GamePadState previousGamePadState = 
+            GamePad.GetState(PlayerIndex.One);
+        public static GamePadState gamePadState = 
+            GamePad.GetState(PlayerIndex.One);
 
-        public static GamePadState previousGamePadState2 = GamePad.GetState(PlayerIndex.Two);
-        public static GamePadState gamePadState2 = GamePad.GetState(PlayerIndex.Two);
+        public static GamePadState previousGamePadState2 = 
+            GamePad.GetState(PlayerIndex.Two);
+        public static GamePadState gamePadState2 = 
+            GamePad.GetState(PlayerIndex.Two);
 
 
         bool clickEnabled = true;
@@ -156,9 +160,11 @@ namespace Beta
             gameBtnTex = Content.Load<Texture2D>("StartBut");
             tutorialBtnTex = Content.Load<Texture2D>("RulesBut");
             quitBtnTex = Content.Load<Texture2D>("EndBut");
-            redCursor = Content.Load<Texture2D>("RedCursor"); // This is used as the normal cursor, will also be used in other states
+            // This is used as the normal cursor, will also be used in other states
+            redCursor = Content.Load<Texture2D>("RedCursor"); 
 
-            menu.LoadContent(spriteBatch, menuBgTex, redCursor, gameBtnTex, tutorialBtnTex, quitBtnTex);
+            menu.LoadContent(   spriteBatch, menuBgTex, redCursor, 
+                                gameBtnTex, tutorialBtnTex, quitBtnTex);
 
             // Load the content for the instructions state
             instruction1BgTex = Content.Load<Texture2D>("NewInstructions");
@@ -173,7 +179,13 @@ namespace Beta
             tipsAnimLeft = Content.Load<Texture2D>("TipsAnimLeft");
             tipsAnimRight = Content.Load<Texture2D>("TipsAnimRight");
 
-            instructions.LoadContent(spriteBatch, instruction1BgTex, instruction2BgTex, instruction3BgTex, moveAnim, attAnim, tipsAnim, tipsAnimLeft, tipsAnimRight, redCursor, mainBtnTex, backBtnTex, nextBtnTex);
+            instructions.LoadContent(   spriteBatch, instruction1BgTex, 
+                                        instruction2BgTex, instruction3BgTex,
+                                        moveAnim, attAnim, 
+                                        tipsAnim, tipsAnimLeft,
+                                        tipsAnimRight, redCursor,
+                                        mainBtnTex, backBtnTex,
+                                        nextBtnTex);
 
             // Load the content for the game state
             boardTex = Content.Load<Texture2D>("BoardTest");
@@ -197,26 +209,47 @@ namespace Beta
             credits.LoadContent(spriteBatch, creditBgTex, greenCursor);
 
             //Load the sounds
-            mtInstructionScreen1 = Content.Load<SoundEffect>("MouseToneInstructionScreen_8Bit(hi)");
-            mtInstructionScreen2 = Content.Load<SoundEffect>("MouseToneInstructionScreen_8Bit(low)");
-            playerOneToPlayerTwo = Content.Load<SoundEffect>("Transform_8Bit");
-            selectPiece = Content.Load<SoundEffect>("PieceSelectTone_8Bit");
-            unavailableMove = Content.Load<SoundEffect>("UnavailableMove_8Bit");
-            availableMove = Content.Load<SoundEffect>("AvailableMove_8Bit");
+            mtInstructionScreen1 = Content.Load<SoundEffect>
+                ("MouseToneInstructionScreen_8Bit(hi)");
+            mtInstructionScreen2 = Content.Load<SoundEffect>
+                ("MouseToneInstructionScreen_8Bit(low)");
+            playerOneToPlayerTwo = Content.Load<SoundEffect>
+                ("Transform_8Bit");
+            selectPiece = Content.Load<SoundEffect>
+                ("PieceSelectTone_8Bit");
+            unavailableMove = Content.Load<SoundEffect>
+                ("UnavailableMove_8Bit");
+            availableMove = Content.Load<SoundEffect>
+                ("AvailableMove_8Bit");
 
 
           //  selectPiece.Play(1.0f, 0.0f, 0.0f, false);
             
-            board.LoadContent(spriteBatch, boardTex, redTex, greenTex, greenSelectTex, redSelectTex, redToGreen, greenToRed, transToPlr1, transToPlr2, redCursor, greenCursor, blueBanner, greenBanner);
-            board.LoadAudio(selectPiece, unavailableMove, availableMove, playerOneToPlayerTwo);
+            board.LoadContent(  spriteBatch, boardTex, redTex,
+                                greenTex, greenSelectTex, redSelectTex,
+                                redToGreen, greenToRed, transToPlr1,
+                                transToPlr2, redCursor, greenCursor,
+                                blueBanner, greenBanner);
+            board.LoadAudio(selectPiece, unavailableMove, availableMove,
+                            playerOneToPlayerTwo);
             menu.LoadAudio(mtInstructionScreen1);
             instructions.LoadAudio(mtInstructionScreen2);
 
-            aiBoard.LoadContent(spriteBatch, boardTex, redTex, greenTex, greenSelectTex, redSelectTex, redToGreen, greenToRed, transToPlr1, transToPlr2, redCursor, greenCursor, blueBanner, greenBanner);
-            aiBoard.LoadAudio(selectPiece, unavailableMove, availableMove, playerOneToPlayerTwo);
+            aiBoard.LoadContent(spriteBatch, boardTex, redTex,
+                                greenTex, greenSelectTex, redSelectTex,
+                                redToGreen, greenToRed, transToPlr1,
+                                transToPlr2, redCursor, greenCursor,
+                                blueBanner, greenBanner);
+            aiBoard.LoadAudio(  selectPiece, unavailableMove, availableMove,
+                                playerOneToPlayerTwo);
 
-            othello.LoadContent(spriteBatch, boardTex, redTex, greenTex, greenSelectTex, redSelectTex, redToGreen, greenToRed, transToPlr1, transToPlr2, redCursor, greenCursor, blueBanner, greenBanner);
-            othello.LoadAudio(selectPiece, unavailableMove, availableMove, playerOneToPlayerTwo);
+            othello.LoadContent(spriteBatch, boardTex, redTex,
+                                greenTex, greenSelectTex, redSelectTex, 
+                                redToGreen, greenToRed, transToPlr1,
+                                transToPlr2, redCursor, greenCursor,
+                                blueBanner, greenBanner);
+            othello.LoadAudio(  selectPiece, unavailableMove, availableMove,
+                                playerOneToPlayerTwo);
         }
 
         protected override void UnloadContent()
@@ -255,7 +288,7 @@ namespace Beta
 
             if (clickEnabled)
             {
-#if PC
+#if WINDOWS
                 if (mouseState.LeftButton == ButtonState.Pressed)
                 {
                     switch (gameState)
@@ -322,7 +355,7 @@ namespace Beta
             }
             else
             {
-#if PC
+#if WINDOWS
                 if (mouseState.LeftButton == ButtonState.Released)
                 {
                     clickEnabled = true;
