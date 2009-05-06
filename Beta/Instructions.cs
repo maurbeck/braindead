@@ -106,6 +106,16 @@ namespace Beta
         {
 
 #if XBOX
+
+            /*
+             * XBOX port code
+             * 
+             * 
+             * 
+             * Modified/Created by: Miles Aurbeck
+             * May 06 2009
+            */
+
             // If left trigger was depressed, set the state to the main menu
             // Then reset this board
             // Then return so nothing gets processed

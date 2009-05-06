@@ -285,6 +285,15 @@ namespace Beta
             }
 #endif
 #if XBOX
+            /*
+             * XBOX port code
+             * 
+             * 
+             * 
+             * Modified/Created by: Miles Aurbeck
+             * May 06 2009
+            */
+
             //Get gamepad state
             GamePadState gamePadState = GamePad.GetState(PlayerIndex.One);
 
