@@ -11,20 +11,21 @@ namespace Beta
     class Cursor : Image
     {
 
-        // Derives all variables from Image
-        // Cursor specific variables
-        protected MouseState mouseState;
+
 
         // Update the mouse position
         public void Update()
         {
 #if WINDOWS
+        // Derives all variables from Image
+        // Cursor specific variables
+        protected MouseState mouseState;
             mouseState = Mouse.GetState();
             this.position = new Vector2(mouseState.X, mouseState.Y);        
 #endif
 
 #if XBOX
-           this.position = new Vector2(Game.xbCursorX, Game.xbCursorY);        
+            this.position = new Vector2(Game.xbCursorX, Game.xbCursorY);        
 #endif
 
         }
