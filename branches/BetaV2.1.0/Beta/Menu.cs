@@ -112,7 +112,7 @@ namespace Beta
                 state = (int)State.Othello;
                 return;
             }
-#if PC
+
 //'Mouse'over and click detection.
        
             // Change game button on mouse over
@@ -156,7 +156,7 @@ namespace Beta
                 quitButton.LastFrame();
             else
                 quitButton.Reset();
-#endif
+
 
 
 #if XBOX
@@ -231,27 +231,27 @@ namespace Beta
 
         public void Click(MouseState mouseState, ref int state)
         {
-            //// Check if clicked on tutorial button
-            //if (mouseState.X > 279/2 && mouseState.X < 519/2 && mouseState.Y > 349/2 && mouseState.Y < 449/2)
-            //{
-            //    // No tutorial state yet
-            //    state = (int)State.Instructions;
-            //    mouseClick.Play(1.0f, 0.0f, 0.0f, false);
-            //}
+            // Check if clicked on tutorial button
+            if (mouseState.X > 279 / 2 && mouseState.X < 519 / 2 && mouseState.Y > 349 / 2 && mouseState.Y < 449 / 2)
+            {
+                // No tutorial state yet
+                state = (int)State.Instructions;
+                mouseClick.Play(1.0f, 0.0f, 0.0f, false);
+            }
 
-            //// Check if clicked on game button
-            //if (mouseState.X > 279/2 && mouseState.X < 519/2 && mouseState.Y > 200/2 && mouseState.Y < 300/2)
-            //{
-            //    // Set the state to the game state
-            //    state = (int)State.Game;
-            //    mouseClick.Play(1.0f, 0.0f, 0.0f, false);
-            //}
+            // Check if clicked on game button
+            if (mouseState.X > 279 / 2 && mouseState.X < 519 / 2 && mouseState.Y > 200 / 2 && mouseState.Y < 300 / 2)
+            {
+                // Set the state to the game state
+                state = (int)State.Game;
+                mouseClick.Play(1.0f, 0.0f, 0.0f, false);
+            }
 
-            //// Check if clicked on quit button
-            //if (mouseState.X > 279/2 && mouseState.X < 519/2 && mouseState.Y > 500/2 && mouseState.Y < 600/2)
-            //{
-            //    state = (int)State.Credits;
-            //}
+            // Check if clicked on quit button
+            if (mouseState.X > 279 / 2 && mouseState.X < 519 / 2 && mouseState.Y > 500 / 2 && mouseState.Y < 600 / 2)
+            {
+                state = (int)State.Credits;
+            }
         }
 
         public void Draw()

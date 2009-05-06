@@ -18,8 +18,16 @@ namespace Beta
         // Update the mouse position
         public void Update()
         {
+
+      
             mouseState = Mouse.GetState();
-            this.position = new Vector2(Game.xbCursorX, Game.xbCursorY);
+            this.position = new Vector2(mouseState.X, mouseState.Y);        
+
+
+#if XBOX
+           this.position = new Vector2(Game.xbCursorX, Game.xbCursorY);        
+#endif
+
         }
     }
 }
