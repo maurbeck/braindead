@@ -46,13 +46,22 @@ namespace Beta
         public void Initialize()
         {
             // Initialize background
-            background.Initialize(Vector2.Zero, new Rectangle(0, 0, 798, 798), Color.White, Vector2.Zero, new Vector2(0.5f), 1.0f);
+            background.Initialize(  Vector2.Zero, new Rectangle(0, 0, 798, 798),
+                                    Color.White, Vector2.Zero, new Vector2(0.5f), 1.0f);
             // Initialize cursor
-            cursor.Initialize(Vector2.Zero, new Rectangle(0, 0, 50, 50), Color.White, Vector2.Zero, new Vector2(0.5f), 0.0f);
+            cursor.Initialize(  Vector2.Zero, new Rectangle(0, 0, 50, 50),
+                                Color.White, Vector2.Zero, new Vector2(0.5f), 0.0f);
+
             // Initialize buttons
-            gameButton.Initialize(new Vector2(279/2, 200/2), new Rectangle(0, 0, 240, 100), Vector2.Zero, new Vector2(0.5f), 0.5f, 10, 2, false);
-            tutorialButton.Initialize(new Vector2(279/2, 349/2), new Rectangle(0, 0, 240, 100), Vector2.Zero, new Vector2(0.5f), 0.5f, 10, 2, false);
-            quitButton.Initialize(new Vector2(279/2, 500/2), new Rectangle(0, 0, 240, 100), Vector2.Zero, new Vector2(0.5f), 0.5f, 10, 2, false);
+            gameButton.Initialize(  new Vector2(279/2, 200/2), new Rectangle(0, 0, 240, 100),
+                                    Vector2.Zero, new Vector2(0.5f), 0.5f, 10, 2, false);
+
+            tutorialButton.Initialize(  new Vector2(279/2, 349/2), new Rectangle(0, 0, 240, 100),
+                                        Vector2.Zero, new Vector2(0.5f), 0.5f, 10, 2, false);
+
+            quitButton.Initialize(  new Vector2(279/2, 500/2), new Rectangle(0, 0, 240, 100),
+                                    Vector2.Zero, new Vector2(0.5f), 0.5f, 10, 2, false);
+            //End Initialize Buttons
         }
 
         public void LoadContent(SpriteBatch spriteBatch, Texture2D menuBackground, Texture2D cursorTex, Texture2D gameBtnTex, Texture2D tutorialBtnTex, Texture2D quitBtnTex)
@@ -78,19 +87,17 @@ namespace Beta
             MouseState mouseState = Mouse.GetState();
             // Get the keyboard state
             KeyboardState keyState = Keyboard.GetState();
-            //Get the 360 Controller State
-            GamePadState gamePadState = GamePad.GetState(PlayerIndex.One);
 
 
 //Menu navigation beta code
 //Press a button to enter a state.
-#if XBOX
-            if (gamePadState.IsConnected && gamePadState.Buttons.A == ButtonState.Pressed)
-            {
-                state = (int)State.Game;
-                return;
-            }
-#endif
+//#if XBOX
+//            if (Game.gamePadState.IsConnected && Game.gamePadState.Buttons.A == ButtonState.Pressed)
+//            {
+//                state = (int)State.Game;
+//                return;
+//            }
+//#endif
 
 
             // Temporary keyboard shortcuts to get to the new state
@@ -105,7 +112,7 @@ namespace Beta
                 state = (int)State.Othello;
                 return;
             }
-
+#if PC
 //'Mouse'over and click detection.
        
             // Change game button on mouse over
@@ -149,12 +156,12 @@ namespace Beta
                 quitButton.LastFrame();
             else
                 quitButton.Reset();
-
+#endif
 
 
 #if XBOX
             //Mouseover Code
-            //
+            //           
             // Change game button on mouse over
             if (Game.xbCursorX > 279 / 2 && Game.xbCursorX < 519 / 2 &&
                 Game.xbCursorY > 200 / 2 && Game.xbCursorY < 300 / 2)
@@ -182,7 +189,8 @@ namespace Beta
             // Check if clicked on tutorial button
             if (Game.xbCursorX > 279 / 2 && Game.xbCursorX < 519 / 2 &&
                 Game.xbCursorY > 349 / 2 && Game.xbCursorY < 449 / 2 &&
-                gamePadState.Buttons.A == ButtonState.Pressed)
+                Game.previousGamePadState.Buttons.A == ButtonState.Pressed &&
+                Game.gamePadState.Buttons.A == ButtonState.Released )
             {
                 // No tutorial state yet
                 state = (int)State.Instructions;
@@ -192,7 +200,8 @@ namespace Beta
             // Check if clicked on game button
             if (Game.xbCursorX > 279 / 2 && Game.xbCursorX < 519 / 2 && 
                 Game.xbCursorY > 200 / 2 && Game.xbCursorY < 300 / 2 &&
-                gamePadState.Buttons.A == ButtonState.Pressed)
+                Game.previousGamePadState.Buttons.A == ButtonState.Pressed &&
+                Game.gamePadState.Buttons.A == ButtonState.Released )
             {
                 // Set the state to the game state
                 state = (int)State.Game;
@@ -202,7 +211,8 @@ namespace Beta
             // Check if clicked on quit button
             if (Game.xbCursorX > 279 / 2 && Game.xbCursorX < 519 / 2 &&
                 Game.xbCursorY > 500 / 2 && Game.xbCursorY < 600 / 2 &&
-                gamePadState.Buttons.A == ButtonState.Pressed)
+                Game.previousGamePadState.Buttons.A == ButtonState.Pressed &&
+                Game.gamePadState.Buttons.A == ButtonState.Released )
             {
                 state = (int)State.Credits;
             }
@@ -211,10 +221,12 @@ namespace Beta
 
             // Update Cursor position
             cursor.Update();
+
             // Update the buttons
             gameButton.Update(gameTime);
             tutorialButton.Update(gameTime);
             quitButton.Update(gameTime);
+            
         }
 
         public void Click(MouseState mouseState, ref int state)

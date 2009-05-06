@@ -90,6 +90,13 @@ namespace Beta
         public static int xbCursorX;
         public static int xbCursorY;
 
+        //Initialize previous gamepadstate
+        public static GamePadState previousGamePadState = GamePad.GetState(PlayerIndex.One);
+        public static GamePadState gamePadState = GamePad.GetState(PlayerIndex.One);
+
+        public static GamePadState previousGamePadState2 = GamePad.GetState(PlayerIndex.Two);
+        public static GamePadState gamePadState2 = GamePad.GetState(PlayerIndex.Two);
+
         bool clickEnabled = true;
 
         enum State
@@ -220,9 +227,12 @@ namespace Beta
             MouseState mouseState = Mouse.GetState();
 
             //Initialise gamePadState
-            GamePadState gamePadState = GamePad.GetState(PlayerIndex.One);
-            
+            gamePadState = GamePad.GetState(PlayerIndex.One);
+            gamePadState2 = GamePad.GetState(PlayerIndex.Two);
+
             //Update cursor for 360 controller input
+            
+            
             if (gamePadState.ThumbSticks.Left.X > 0.0f)
                 xbCursorX += 5;
 
@@ -236,10 +246,14 @@ namespace Beta
                 xbCursorY += 5;
 
             if (gamePadState.Buttons.Back == ButtonState.Pressed)
+            {
+                //omg nothing
+            }
 
 
             if (clickEnabled)
             {
+#if PC
                 if (mouseState.LeftButton == ButtonState.Pressed)
                 {
                     switch (gameState)
@@ -265,13 +279,51 @@ namespace Beta
                     }
                     clickEnabled = false;
                 }
+#endif
+
+#if XBOX
+                if (Game.previousGamePadState.Buttons.A == ButtonState.Pressed)
+                {
+                    switch (gameState)
+                    {
+                        case (int)State.Menu:
+                            menu.Click(mouseState, ref gameState);
+                            break;
+                        case (int)State.Instructions:
+                            instructions.aButtClick(ref gameState);
+                            break;
+                        case (int)State.Game:
+                            board.aButtClick();
+                            break;
+                        case (int)State.Credits:
+                            credits.Click(ref gameState);
+                            break;
+                        case (int)State.AIGame:
+                            aiBoard.Click(mouseState);
+                            break;
+                        case (int)State.Othello:
+                            othello.Click(mouseState);
+                            break;
+                    }
+                    clickEnabled = false;
+                }
+#endif
             }
             else
             {
+#if PC
                 if (mouseState.LeftButton == ButtonState.Released)
                 {
                     clickEnabled = true;
                 }
+#endif
+
+#if XBOX
+                if (Game.previousGamePadState.Buttons.A == ButtonState.Released)
+                {
+                    clickEnabled = true;
+                }
+#endif
             }
 
             // Find which update logic to perform
@@ -298,11 +350,13 @@ namespace Beta
             }
 
             // Quit the game if told to do so
-            if (gameState == (int)State.Quit)
+            if (gameState == (int)State.Quit || gamePadState.Buttons.Back == ButtonState.Pressed)
             {
                 this.Exit();
             }
 
+
+            previousGamePadState = gamePadState;
             base.Update(gameTime);
         }
 

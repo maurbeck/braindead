@@ -263,7 +263,7 @@ namespace Beta
 
         public void Update(GameTime gameTime, ref int state)
         {
-          
+
             // Get the keyboard state
             KeyboardState keyState = Keyboard.GetState();
             GamePadState gamePadState = GamePad.GetState(PlayerIndex.One);
@@ -271,13 +271,25 @@ namespace Beta
             // If esc was pressed, set the state to the main menu
             // Then reset this board
             // Then return so nothing gets processed
-            if (keyState.IsKeyDown(Keys.Escape) == true  ||
-                gamePadState.Buttons.Back == ButtonState.Pressed)
+            if (keyState.IsKeyDown(Keys.Escape) == true)
             {
                 state = (int)State.Menu;
                 this.Initialize();
                 return;
             }
+
+#if XBOX
+            // If left trigger was depressed, set the state to the main menu
+            // Then reset this board
+            // Then return so nothing gets processed
+            if (Game.previousGamePadState.Buttons.B == ButtonState.Pressed &&
+                Game.gamePadState.Buttons.B == ButtonState.Released)
+            {
+                state = (int)State.Menu;
+                this.Initialize();
+                return;
+            }
+#endif
 
             // If 'r' was pressed
             // Reset the board
@@ -364,6 +376,202 @@ namespace Beta
             }
             #endregion
         }
+
+public void aButtClick()
+{
+    int cursorX = (int)Math.Floor((double)(Game.xbCursorX - offset.X) / 50);
+    int cursorY = (int)Math.Floor((double)(Game.xbCursorY - offset.Y) / 50);
+
+            if (animate.Count == 0 && time >= 500 && !drawBlueBanner && !drawGreenBanner)
+            {
+                switch (playerTurn)
+                {
+                    #region Red turn logic if mouse is clicked
+                    case 1: // Red turn
+                        #region No piece selected
+                        if (selectedPiece.X < 0 || selectedPiece.Y < 0) // If selectedPiece is negative a.k.a. no piece selected
+                        {
+                            // Only perform click method if the click was on the board
+                            if (cursorX >= 0 && cursorX < 7 && cursorY >= 0 && cursorY < 7)
+                            {
+                                // Perform logic depending on what piece is in the space
+                                switch (pieces[cursorX, cursorY].Value())
+                                {
+                                    case 0:     // If blank space clicked
+                                        // Do nothing for now
+                                        // Will play error noise in the future
+                                        break;
+                                    case 1:     // If clicked on red piece
+                                        // Select the red piece
+                                        selectedPiece = new Vector2(cursorX, cursorY);
+                                        selectPiece.Play(1.0f, 0.0f, 0.0f, false);
+                                        break;
+                                    case 2:     // If clicked on green piece
+                                        // Do nothing for now
+                                        // Will play error noise in the future
+                                        break;
+                                    default:    // Error
+                                        // Error
+                                        break;
+                                }
+                            }
+                        }
+                        #endregion
+                        #region Piece on board selected
+                        else if (selectedPiece.X >= 0 && selectedPiece.X < 7 && selectedPiece.Y >= 0 && selectedPiece.Y < 7) // If piece on the board is selected
+                        {
+                            // Only perform click method if the click was on the board
+                            if (cursorX >= 0 && cursorX < 7 && cursorY >= 0 && cursorY < 7)
+                            {
+                                // Perform logic depending on what piece is in the space
+                                switch (pieces[cursorX, cursorY].Value())
+                                {
+                                    case 0:     // If blank space clicked
+                                        // If PerformMove is true
+                                        if (MovePiece(selectedPiece, cursorX, cursorY, playerTurn))
+                                        {
+                                            // Prepare for next player
+                                            if (AnyMoves(2))
+                                            {
+                                                seiAvaMove.Stop();
+                                                playerTurn = 2;
+                                                seiAvaMove.Play();
+                                            }
+                                            else if (!AnyPieces(2))
+                                            {
+                                                FillBoard(1);
+                                                drawBlueBanner = true;
+                                            }
+                                            else
+                                                if (BoardFull())
+                                                    boardFull = true;
+
+                                            selectedPiece = new Vector2(-1, -1);
+                                        }
+                                        else
+                                        {
+                                            // Deselect piece
+                                            selectedPiece = new Vector2(-1, -1);
+                                            unMove.Play(1.0f, 0.0f, 0.0f, false);
+                                        }
+                                        break;
+                                    case 1:     // If clicked on red piece
+                                        // Select piece
+                                        selectedPiece = new Vector2(cursorX, cursorY);
+                                        selectPiece.Play(1.0f, 0.0f, 0.0f, false);
+                                        break;
+                                    case 2:     // If clicked on green piece
+                                        // Deselect piece
+                                        selectedPiece = new Vector2(-1, -1);
+                                        unMove.Play(1.0f, 0.0f, 0.0f, false);
+                                        break;
+                                    default:    // Error
+                                        // Error
+                                        break;
+                                }
+                            }
+                        }
+                        #endregion
+                        break;
+                    #endregion
+                    #region Green turn logic if mouse is clicked
+                    case 2: // Green turn
+                        #region No piece selected
+                        if (selectedPiece.X < 0 || selectedPiece.Y < 0) // If selectedPiece is negative a.k.a. no piece selected
+                        {
+                            // Only perform click method if the click was on the board
+                            if (cursorX >= 0 && cursorX < 7 && cursorY >= 0 && cursorY < 7)
+                            {
+                                // Perform logic depending on what piece is in the space
+                                switch (pieces[cursorX, cursorY].Value())
+                                {
+                                    case 0:     // If blank space clicked
+                                        // Do nothing for now
+                                        // Will play error noise in the future
+                                        break;
+                                    case 1:     // If clicked on red piece
+                                        // Do nothing for now
+                                        // Will play error noise in the future
+                                        break;
+                                    case 2:     // If clicked on green piece
+                                        // Select the green piece
+                                        selectedPiece = new Vector2(cursorX, cursorY);
+                                        selectPiece.Play(1.0f, 0.0f, 0.0f, false);
+                                        break;
+                                    default:    // Error
+                                        // Error
+                                        break;
+                                }
+                            }
+                        }
+                        #endregion
+                        #region Piece on board selected
+                        else if (selectedPiece.X >= 0 && selectedPiece.X < 7 && selectedPiece.Y >= 0 && selectedPiece.Y < 7) // If piece on the board is selected
+                        {
+                            // Only perform click method if the click was on the board
+                            if (cursorX >= 0 && cursorX < 7 && cursorY >= 0 && cursorY < 7)
+                            {
+                                // Perform logic depending on what piece is in the space
+                                switch (pieces[cursorX, cursorY].Value())
+                                {
+                                    case 0:     // If blank space clicked
+                                        // If PerformMove is false (invalid move)
+                                        if (MovePiece(selectedPiece, cursorX, cursorY, playerTurn))
+                                        {
+                                            // Prepare for next player
+                                            if (AnyMoves(1))
+                                            {
+                                                seiAvaMove.Stop();
+                                                playerTurn = 1;
+                                                seiAvaMove.Play();
+                                            }
+                                            else if (!AnyPieces(1))
+                                            {
+                                                FillBoard(2);
+                                                drawGreenBanner = true;
+                                            }
+                                            else
+                                                if (BoardFull())
+                                                    boardFull = true;
+
+                                            selectedPiece = new Vector2(-1, -1);
+                                        }
+                                        else
+                                        {
+                                            // Deselect piece
+                                            selectedPiece = new Vector2(-1, -1);
+                                            unMove.Play(1.0f, 0.0f, 0.0f, false);
+                                        }
+                                        break;
+                                    case 1:     // If clicked on red piece
+                                        // Deselect piece
+                                        selectedPiece = new Vector2(-1, -1);
+                                        unMove.Play(1.0f, 0.0f, 0.0f, false);
+                                        break;
+                                    case 2:     // If clicked on green piece
+                                        // Deselect piece
+                                        selectedPiece = new Vector2(cursorX, cursorY);
+                                        selectPiece.Play(1.0f, 0.0f, 0.0f, false);
+                                        break;
+                                    default:    // Error
+                                        // Error
+                                        break;
+                                }
+                            }
+                        }
+                        break;
+                        #endregion
+                    #endregion
+                    #region If playerTurn is not set to a valid player
+                    default: // Error
+                        // If playerTurn is not 0 or 1
+                        // this would be due to a logical
+                        // error somewhere else in code
+                        break;
+                    #endregion
+                }
+            }
+}
 
         public void Click(MouseState mouseState)
         {
