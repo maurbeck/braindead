@@ -42,7 +42,7 @@ namespace Beta
         public Menu()
         {
         }
-
+        
         public void Initialize()
         {
             // Initialize background
