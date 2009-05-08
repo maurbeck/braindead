@@ -125,9 +125,11 @@ namespace Beta
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 
+
+            
             // Set windows size
-            graphics.PreferredBackBufferWidth = 798/2;
-            graphics.PreferredBackBufferHeight = 798/2;
+            graphics.PreferredBackBufferWidth = Window.ClientBounds.Width;
+            graphics.PreferredBackBufferHeight = Window.ClientBounds.Height;
             graphics.ApplyChanges();
 
             //graphics.IsFullScreen = true;
