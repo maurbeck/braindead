@@ -279,7 +279,9 @@ namespace Beta
             this.convert = convert;
 
             seiConvert = convert.Play(1.0f, 0.0f, 0.0f, false);
+            seiConvert.Stop();
             seiAvaMove = aMove.Play(1.0f, 0.0f, 0.0f, false);
+            seiConvert.Stop();
         }
 
         public void Update(GameTime gameTime, ref int state)
@@ -340,7 +342,7 @@ namespace Beta
             #endregion
 
             #region Do the AI Logic
-            if(playerTurn == (int)PlayerTurn.Green)
+            if(playerTurn == (int)PlayerTurn.Green && !drawBlueBanner && !drawGreenBanner)
             {
                 if(time > 1000)
                 {
@@ -359,6 +361,7 @@ namespace Beta
                             break;
                         case (int)AIState.Select:
                             selectedPiece = aiPieceToSelect;
+                            selectPiece.Play(1.0f, 0.0f, 0.0f, false);
                             aiState = (int)AIState.Move;
                             time = 0;
                             break;

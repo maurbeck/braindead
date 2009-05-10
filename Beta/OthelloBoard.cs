@@ -260,7 +260,9 @@ namespace Beta
             this.convert = convert;
 
             seiConvert = convert.Play(1.0f, 0.0f, 0.0f, false);
+            seiConvert.Stop();
             seiAvaMove = aMove.Play(1.0f, 0.0f, 0.0f, false);
+            seiAvaMove.Stop();
         }
 
         public void Update(GameTime gameTime, ref int state)
