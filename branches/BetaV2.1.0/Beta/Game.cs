@@ -224,8 +224,6 @@ namespace Beta
             availableMove = Content.Load<SoundEffect>
                 ("AvailableMove_8Bit");
 
-
-          //  selectPiece.Play(1.0f, 0.0f, 0.0f, false);
             
             board.LoadContent(  spriteBatch, boardTex, redTex,
                                 greenTex, greenSelectTex, redSelectTex,
