@@ -128,8 +128,8 @@ namespace Beta
 
             
             // Set windows size
-            graphics.PreferredBackBufferWidth = Window.ClientBounds.Width;
-            graphics.PreferredBackBufferHeight = Window.ClientBounds.Height;
+            graphics.PreferredBackBufferWidth = 798 / 2;
+            graphics.PreferredBackBufferHeight = 798 / 2;
             graphics.ApplyChanges();
 
             //graphics.IsFullScreen = true;
@@ -395,6 +395,12 @@ namespace Beta
                     break;
                 case (int)State.Credits:
                     credits.Update(gameTime, ref gameState);
+                    break;
+                case (int)State.Othello:
+                    othello.Update(gameTime, ref gameState);
+                    break;
+                case (int)State.AIGame:
+                    aiBoard.Update(gameTime, ref gameState);
                     break;
             }
 
