@@ -100,7 +100,7 @@ namespace Beta
 
             // Temporary keyboard shortcuts to get to the new state
             // Will be removed with the UI has these buttons
-            if (keyState.IsKeyDown(Keys.NumPad1))
+            if (keyState.IsKeyDown(Keys.A))
             {
                 state = (int)State.AIGame;
                 return;
