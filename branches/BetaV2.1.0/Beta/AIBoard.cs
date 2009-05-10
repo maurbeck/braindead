@@ -1007,8 +1007,17 @@ namespace Beta
                 }
             }
 
-            int moveNum = AIRandom.Next(0, moveList.Count);
-            Vector2 move = moveList[moveNum];
+            Vector2 move = new Vector2();
+
+            if (moveList.Count == 0)
+            {
+                move = FindBestMove(!jump);
+            }
+            else
+            {
+                int moveNum = AIRandom.Next(0, moveList.Count);
+                move = moveList[moveNum];
+            }
             return move; 
         }
 
@@ -1095,14 +1104,14 @@ namespace Beta
             }
 
             Vector2 piece = new Vector2();
-            if (pieceList.Count > 0)
+            if (pieceList.Count == 0)
             {
-                int pieceNum = AIRandom.Next(0, pieceList.Count - 1);
-                piece = pieceList[pieceNum];
+                piece = PieceToSelect(moveTo, !jump);
             }
             else
             {
-                piece = pieceList[0];
+                int pieceNum = AIRandom.Next(0, pieceList.Count - 1);
+                piece = pieceList[pieceNum];
             }
             return piece; 
         }
