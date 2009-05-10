@@ -31,6 +31,14 @@ namespace Beta
             Othello = 7
         }
 
+        // Enumeration for the AI states
+        enum AIState
+        {
+            Calculations = 1,
+            Select = 2,
+            Move = 3
+        }
+
         // Image of the board
         Image board = new Image();
 
@@ -59,6 +67,15 @@ namespace Beta
 
         // Player turn
         int playerTurn;
+
+        // AI State
+        int aiState;
+        // Square for the AI to move into
+        Vector2 aiMoveTo;
+        // Piece to select
+        Vector2 aiPieceToSelect;
+        // To jump or not
+        bool aiJump;
 
         // Board offset
         Vector2 offset;
@@ -98,6 +115,9 @@ namespace Beta
         SoundEffect convert;
         SoundEffectInstance seiConvert;
         SoundEffectInstance seiAvaMove;
+
+        //AI
+        Random AIRandom = new Random(); 
 
         public AIBoard()
         {
@@ -206,6 +226,11 @@ namespace Beta
 
             // Set playerTurn
             playerTurn = (int)PlayerTurn.Red;
+            // Set aiState
+            aiState = (int)AIState.Calculations;
+            aiMoveTo = new Vector2();
+            aiPieceToSelect = new Vector2();
+            aiJump = false;
             // Set selected piece
             selectedPiece = new Vector2(-1, -1);
             // Set time
@@ -217,13 +242,7 @@ namespace Beta
             //greenCount = 0;
 
             drawBlueBanner = false;
-            drawGreenBanner = false;
-
-            //x1 = 0;
-            //y1 = 0;
-            //x2 = 6;
-            //y2 = 6;
-            
+            drawGreenBanner = false;            
         }
 
         public void LoadContent(SpriteBatch spriteBatch, Texture2D board, Texture2D red, Texture2D green, Texture2D redSelection, Texture2D greenSelection, Texture2D redGreen, Texture2D greenRed, Texture2D tPlr1, Texture2D tPlr2, Texture2D redCur, Texture2D greenCur, Texture2D blueBanner, Texture2D greenBanner)
@@ -291,17 +310,6 @@ namespace Beta
             greenCursor.Update();
 
             #region Handle animations one at a time
-            /* Old version: allowed for movement before the last piece was animated
-            if (animate.Count > 0 || time < 500)
-            {
-                time += Math.Max(1, gameTime.ElapsedRealTime.Milliseconds);
-                if (time > 500)
-                {
-                    pieces[(int)animate.Peek().X, (int)animate.Peek().Y].Animate();
-                    animate.Dequeue();
-                    time = 0;
-                }
-            }*/
 
             if (time < 1050)
             {
@@ -331,29 +339,52 @@ namespace Beta
             }
             #endregion
 
-            #region Keep running total of pieces on board
-            // Update count of pieces if all animations are finished
-            // and the total of the last count is less than 49
-            /*
-            if (animate.Count == 0 && ((redCount + greenCount) < 49))
+            #region Do the AI Logic
+            if(playerTurn == (int)PlayerTurn.Green)
             {
-                for (int x = 0; x < 7; x++)
+                if(time > 1000)
                 {
-                    for (int y = 0; y < 7; y++)
+                    switch (aiState)
                     {
-                        switch (pieces[x, y].Value())
-                        {
-                            case 1:
-                                redCount++;
-                                break;
-                            case 2:
-                                greenCount++;
-                                break;
-                        }
+                        case (int)AIState.Calculations:
+                            if (animate.Count == 0)
+                            {
+                                int random = AIRandom.Next(0, 25);
+                                aiJump = (random == 1);
+                                aiMoveTo = FindBestMove(aiJump);
+                                aiPieceToSelect = PieceToSelect(aiMoveTo, aiJump);
+                                aiState = (int)AIState.Select;
+                                time = 0;
+                            }
+                            break;
+                        case (int)AIState.Select:
+                            selectedPiece = aiPieceToSelect;
+                            aiState = (int)AIState.Move;
+                            time = 0;
+                            break;
+                        case (int)AIState.Move:
+                                MovePiece(selectedPiece, (int)aiMoveTo.X, (int)aiMoveTo.Y, (int)PlayerTurn.Green);
+                                selectedPiece = new Vector2(-1, -1);
+                                if (AnyMoves((int)PlayerTurn.Red))
+                                {
+                                    seiAvaMove.Stop();
+                                    playerTurn = (int)PlayerTurn.Red;
+                                    seiAvaMove.Play();
+                                }
+                                else if (!AnyPieces((int)PlayerTurn.Red))
+                                {
+                                }
+                                else
+                                {
+                                    if (BoardFull())
+                                        boardFull = true;
+                                }
+                                aiState = (int)AIState.Calculations;
+                            break;
                     }
                 }
             }
-            */
+            #endregion
 
 
             if (boardFull == true && animate.Count == 0 && time > 1000)
@@ -361,7 +392,6 @@ namespace Beta
                 ClearBoard();
                 PlopEndPieces();
             }
-            #endregion
         }
 
         public void Click(MouseState mouseState)
@@ -463,92 +493,92 @@ namespace Beta
                         break;
                     #endregion
                     #region Green turn logic if mouse is clicked
-                    case 2: // Green turn
-                        #region No piece selected
-                        if (selectedPiece.X < 0 || selectedPiece.Y < 0) // If selectedPiece is negative a.k.a. no piece selected
-                        {
-                            // Only perform click method if the click was on the board
-                            if (mouseX >= 0 && mouseX < 7 && mouseY >= 0 && mouseY < 7)
-                            {
-                                // Perform logic depending on what piece is in the space
-                                switch (pieces[mouseX, mouseY].Value())
-                                {
-                                    case 0:     // If blank space clicked
-                                        // Do nothing for now
-                                        // Will play error noise in the future
-                                        break;
-                                    case 1:     // If clicked on red piece
-                                        // Do nothing for now
-                                        // Will play error noise in the future
-                                        break;
-                                    case 2:     // If clicked on green piece
-                                        // Select the green piece
-                                        selectedPiece = new Vector2(mouseX, mouseY);
-                                        selectPiece.Play(1.0f, 0.0f, 0.0f, false);
-                                        break;
-                                    default:    // Error
-                                        // Error
-                                        break;
-                                }
-                            }
-                        }
-                        #endregion
-                        #region Piece on board selected
-                        else if (selectedPiece.X >= 0 && selectedPiece.X < 7 && selectedPiece.Y >= 0 && selectedPiece.Y < 7) // If piece on the board is selected
-                        {
-                            // Only perform click method if the click was on the board
-                            if (mouseX >= 0 && mouseX < 7 && mouseY >= 0 && mouseY < 7)
-                            {
-                                // Perform logic depending on what piece is in the space
-                                switch (pieces[mouseX, mouseY].Value())
-                                {
-                                    case 0:     // If blank space clicked
-                                        // If PerformMove is false (invalid move)
-                                        if (MovePiece(selectedPiece, mouseX, mouseY, playerTurn))
-                                        {
-                                            // Prepare for next player
-                                            if (AnyMoves(1))
-                                            {
-                                                seiAvaMove.Stop();
-                                                playerTurn = 1;
-                                                seiAvaMove.Play();
-                                            }
-                                            else if (!AnyPieces(1))
-                                            {
-                                                FillBoard(2);
-                                                drawGreenBanner = true;
-                                            }
-                                            else
-                                                if (BoardFull())
-                                                    boardFull = true;
+                    //case 2: // Green turn
+                    //    #region No piece selected
+                    //    if (selectedPiece.X < 0 || selectedPiece.Y < 0) // If selectedPiece is negative a.k.a. no piece selected
+                    //    {
+                    //        // Only perform click method if the click was on the board
+                    //        if (mouseX >= 0 && mouseX < 7 && mouseY >= 0 && mouseY < 7)
+                    //        {
+                    //            // Perform logic depending on what piece is in the space
+                    //            switch (pieces[mouseX, mouseY].Value())
+                    //            {
+                    //                case 0:     // If blank space clicked
+                    //                    // Do nothing for now
+                    //                    // Will play error noise in the future
+                    //                    break;
+                    //                case 1:     // If clicked on red piece
+                    //                    // Do nothing for now
+                    //                    // Will play error noise in the future
+                    //                    break;
+                    //                case 2:     // If clicked on green piece
+                    //                    // Select the green piece
+                    //                    selectedPiece = new Vector2(mouseX, mouseY);
+                    //                    selectPiece.Play(1.0f, 0.0f, 0.0f, false);
+                    //                    break;
+                    //                default:    // Error
+                    //                    // Error
+                    //                    break;
+                    //            }
+                    //        }
+                    //    }
+                    //    #endregion
+                    //    #region Piece on board selected
+                    //    else if (selectedPiece.X >= 0 && selectedPiece.X < 7 && selectedPiece.Y >= 0 && selectedPiece.Y < 7) // If piece on the board is selected
+                    //    {
+                    //        // Only perform click method if the click was on the board
+                    //        if (mouseX >= 0 && mouseX < 7 && mouseY >= 0 && mouseY < 7)
+                    //        {
+                    //            // Perform logic depending on what piece is in the space
+                    //            switch (pieces[mouseX, mouseY].Value())
+                    //            {
+                    //                case 0:     // If blank space clicked
+                    //                    // If PerformMove is false (invalid move)
+                    //                    if (MovePiece(selectedPiece, mouseX, mouseY, playerTurn))
+                    //                    {
+                    //                        // Prepare for next player
+                    //                        if (AnyMoves(1))
+                    //                        {
+                    //                            seiAvaMove.Stop();
+                    //                            playerTurn = 1;
+                    //                            seiAvaMove.Play();
+                    //                        }
+                    //                        else if (!AnyPieces(1))
+                    //                        {
+                    //                            FillBoard(2);
+                    //                            drawGreenBanner = true;
+                    //                        }
+                    //                        else
+                    //                            if (BoardFull())
+                    //                                boardFull = true;
 
-                                            selectedPiece = new Vector2(-1, -1);
-                                        }
-                                        else
-                                        {
-                                            // Deselect piece
-                                            selectedPiece = new Vector2(-1, -1);
-                                            unMove.Play(1.0f, 0.0f, 0.0f, false);
-                                        }
-                                        break;
-                                    case 1:     // If clicked on red piece
-                                        // Deselect piece
-                                        selectedPiece = new Vector2(-1, -1);
-                                        unMove.Play(1.0f, 0.0f, 0.0f, false);
-                                        break;
-                                    case 2:     // If clicked on green piece
-                                        // Deselect piece
-                                        selectedPiece = new Vector2(mouseX, mouseY);
-                                        selectPiece.Play(1.0f, 0.0f, 0.0f, false);
-                                        break;
-                                    default:    // Error
-                                        // Error
-                                        break;
-                                }
-                            }
-                        }
-                        break;
-                        #endregion
+                    //                        selectedPiece = new Vector2(-1, -1);
+                    //                    }
+                    //                    else
+                    //                    {
+                    //                        // Deselect piece
+                    //                        selectedPiece = new Vector2(-1, -1);
+                    //                        unMove.Play(1.0f, 0.0f, 0.0f, false);
+                    //                    }
+                    //                    break;
+                    //                case 1:     // If clicked on red piece
+                    //                    // Deselect piece
+                    //                    selectedPiece = new Vector2(-1, -1);
+                    //                    unMove.Play(1.0f, 0.0f, 0.0f, false);
+                    //                    break;
+                    //                case 2:     // If clicked on green piece
+                    //                    // Deselect piece
+                    //                    selectedPiece = new Vector2(mouseX, mouseY);
+                    //                    selectPiece.Play(1.0f, 0.0f, 0.0f, false);
+                    //                    break;
+                    //                default:    // Error
+                    //                    // Error
+                    //                    break;
+                    //            }
+                    //        }
+                    //    }
+                    //    break;
+                    //    #endregion
                     #endregion
                     #region If playerTurn is not set to a valid player
                     default: // Error
@@ -910,112 +940,8 @@ namespace Beta
             return;
         }
 
-
-        /*OLD PlOP END PIECES/
         public void PlopEndPieces()
         {
-
-            for (int y = 0; y < 7 && plr1score > 0; y++)
-            {
-                for (int x = 0; x < 7 && plr1score > 0; x++)
-                {
-                    pieces[x, y].SetState(1);
-                    plr1score--;
-                }
-            }
-
-
-            for (int y = 6; y > -1 && plr2score > 0; y--)
-            {
-                for (int x = 6; x > -1 && plr2score > 0; x--)
-                {
-                    pieces[x, y].SetState(2);
-                    plr2score--;
-                }
-            }
-
-            //    //bool plr1working = true;
-
-            //    //#region
-
-            //    //while (plr1working == true)
-            //    //{
-
-            //    //    int y1 = 0;
-
-            //    //    for (int x1 = 0; x1 <= 7; x1++)
-            //    //    {
-            //    //        if (plr1score > 0)
-            //    //        {
-            //    //            if (x1 == 7)
-            //    //            {
-            //    //                x1 = 0;
-            //    //                y1++;
-
-            //    //            }
-            //    //            if (y1 == 7)
-            //    //            {
-            //    //                break;
-            //    //            }
-
-            //    //            else
-            //    //            {
-            //    //                pieces[x1, y1].SetState(1);
-            //    //            }
-            //    //            plr1score--;
-            //    //        }
-            //    //        else
-            //    //        {
-            //    //            plr1working = false;
-            //    //            break;
-            //    //        }
-            //    //    }
-            //    //}
-
-            //    //while (plr1working == false)
-            //    //{
-            //    //    int yIterations = 0;
-            //    //    int y2 = 6;
-
-            //    //    for (int x2 = 6; x2 >= -1; x2--)
-            //    //    {
-            //    //        if (plr2score > 0)
-            //    //        {
-            //    //            if (x2 == -1)
-            //    //            {
-            //    //                x2 = 6;
-            //    //                y2--;
-
-            //    //            }
-            //    //            if (y2 == -1)
-            //    //            {
-            //    //                y2 = 6;
-            //    //                yIterations++;
-            //    //            }
-
-            //    //            else
-            //    //            {
-            //    //                pieces[x2, y2].SetState(2);
-            //    //                //plr1working = false;
-            //    //            }
-            //    //            plr2score--;
-            //    //        }
-            //    //        else
-            //    //        {
-            //    //            return;
-            //    //        }
-            //    //    }
-            //    //}
-            //    //#endregion
-        }*/
-
-        public void PlopEndPieces()
-        {
-            //count1 = plr1score;
-            //count2 = plr2score;
-            //bool status1 = true;
-            //bool status2 = true;
-
             if (plr1score > plr2score)
                 drawBlueBanner = true;
             else
@@ -1042,55 +968,281 @@ namespace Beta
             }
             boardFull = false;
 
-            /*
-            while ((status1 || status2) == true)
-            {
-                status1 = DispPlr1();
-                status2 = DispPlr2();
-            }
-            boardFull = false;
-
-            status1 = true;
-            status2 = true;
-             * */
-
-
             return;
         }
-        /*
-        public bool DispPlr1()
-        {
 
-            if (count1 == 0)
-                return false;
-            pieces[x1, y1].SetState(5);
-            animate.Enqueue(new Vector2(x1, y1));
-            count1--;
-            y1++;
-            if (y1 == Y)
+        
+ /*******************************************************************
+ * A.I.
+ * ****************************************************************/ 
+        private Vector2 FindBestMove(bool jump)
+        {
+            
+            int maxGain = 0;
+            List<Vector2> moveList = new List<Vector2>();
+
+            for (int y = 0; y < 7; y++)
             {
-                y1 = 0;
-                x1++;
+                for (int x = 0; x < 7; x++)
+                {
+                    if (pieces[x, y].Value() == 0 && IsValidMove(x, y, jump))
+                    {
+                        int gain = FindGain(x, y, jump);
+                        if (gain > maxGain)
+                        {
+
+                            maxGain = gain;
+
+                            moveList.Clear();
+                            moveList.Add(new Vector2(x, y));
+                        }
+                        else if (gain == maxGain)
+                        {
+                            moveList.Add(new Vector2(x, y));
+                        }
+                    }
+                }
             }
-            return true;
+
+            int moveNum = AIRandom.Next(0, moveList.Count);
+            Vector2 move = moveList[moveNum];
+            return move; 
         }
 
-        public bool DispPlr2()
+        private Vector2 PieceToSelect(Vector2 moveTo, bool jump)
         {
+            List<Vector2> pieceList = new List<Vector2>();
+            float x = moveTo.X;
+            float y = moveTo.Y;
 
-            if (count2 == 0)
-                return false;
-            pieces[x2, y2].SetState(6);
-            animate.Enqueue(new Vector2(x2, y2));
-            count2--;
-            y2--;
-            if (y2 == -1)
+            float moveNum;
+
+            if (!jump)
             {
-                y2 = 6;
-                x2--;
+                moveNum = 1;
             }
-            return true;
+            else
+            {
+                moveNum = 2;
+            }
+
+            // Northwest
+            if (y > (0 + (moveNum - 1)) && x > (0 + (moveNum - 1)))
+            {
+                if (pieces[(int)(x - moveNum), (int)(y - moveNum)].Value() == (int)PlayerTurn.Green)
+                {
+                    pieceList.Add(new Vector2(x - moveNum, y - moveNum));
+                }
+            }
+            // North
+            if (y > (0 + (moveNum - 1)))
+            {
+                if (pieces[(int)(x), (int)(y - moveNum)].Value() == (int)PlayerTurn.Green)
+                {
+                    pieceList.Add(new Vector2(x, y - moveNum));
+                }
+            }
+            // Northeast
+            if (y > (0 + (moveNum - 1)) && x < (6 - (moveNum - 1)))
+            {
+                if (pieces[(int)(x + moveNum), (int)(y - moveNum)].Value() == (int)PlayerTurn.Green)
+                {
+                    pieceList.Add(new Vector2(x + moveNum, y - moveNum));
+                }
+            }
+            // East
+            if (x < (6 - (moveNum - 1)))
+            {
+                if (pieces[(int)(x + moveNum), (int)(y)].Value() == (int)PlayerTurn.Green)
+                {
+                    pieceList.Add(new Vector2(x + moveNum, y));
+                }
+            }
+            // Southeast
+            if (y < (6 - (moveNum - 1)) && x < (6 - (moveNum - 1)))
+            {
+                if (pieces[(int)(x + moveNum), (int)(y + moveNum)].Value() == (int)PlayerTurn.Green)
+                {
+                    pieceList.Add(new Vector2(x + moveNum, y + moveNum));
+                }
+            }
+            // South
+            if (y < (6 - (moveNum - 1)))
+            {
+                if (pieces[(int)(x), (int)(y + moveNum)].Value() == (int)PlayerTurn.Green)
+                {
+                    pieceList.Add(new Vector2(x, y + moveNum));
+                }
+            }
+            // Southwest
+            if (y < (6 - (moveNum - 1)) && x > (0 + (moveNum - 1)))
+            {
+                if (pieces[(int)(x - moveNum), (int)(y + moveNum)].Value() == (int)PlayerTurn.Green)
+                {
+                    pieceList.Add(new Vector2(x - moveNum, y + moveNum));
+                }
+            }
+            // West
+            if (x > (0 + (moveNum - 1)))
+            {
+                if (pieces[(int)(x - moveNum), (int)(y)].Value() == (int)PlayerTurn.Green)
+                {
+                    pieceList.Add(new Vector2(x - moveNum, y));
+                }
+            }
+
+            Vector2 piece = new Vector2();
+            if (pieceList.Count > 0)
+            {
+                int pieceNum = AIRandom.Next(0, pieceList.Count - 1);
+                piece = pieceList[pieceNum];
+            }
+            else
+            {
+                piece = pieceList[0];
+            }
+            return piece; 
         }
-        */
+
+        private int FindGain(int targetX, int targetY, bool jump)
+       {
+           int count = 0;
+
+           if (targetX < 6)
+           {
+               if (pieces[targetX + 1, targetY].Value() == (int)PlayerTurn.Red)
+               {
+                   count++;
+               }
+           }
+           if (targetX > 0)
+           {
+               if (pieces[targetX - 1, targetY].Value() == (int)PlayerTurn.Red)
+               {
+                   count++;
+               }
+           }
+           if (targetY < 6)
+           {
+               if (pieces[targetX, targetY + 1].Value() == (int)PlayerTurn.Red)
+               {
+                   count++;
+               }
+           }
+           if (targetY > 0)
+           {
+               if (pieces[targetX, targetY - 1].Value() == (int)PlayerTurn.Red)
+               {
+                   count++;
+               }
+           }
+           if (targetX < 6 && targetY < 6)
+           {
+               if (pieces[targetX + 1, targetY + 1].Value() == (int)PlayerTurn.Red)
+               {
+                   count++;
+               }
+           }
+           if (targetX > 0 && targetY < 6)
+           {
+               if (pieces[targetX - 1, targetY + 1].Value() == (int)PlayerTurn.Red)
+               {
+                   count++;
+               }
+           }
+           if (targetX > 0 && targetY > 0)
+           {
+               if (pieces[targetX - 1, targetY - 1].Value() == (int)PlayerTurn.Red)
+               {
+                   count++;
+               }
+           }
+           if (targetX < 6 && targetY > 0)
+           {
+               if (pieces[targetX + 1, targetY - 1].Value() == (int)PlayerTurn.Red)
+               {
+                   count++;
+               }
+           }
+           if (!jump)
+           {
+               count++;
+           }
+          
+           return count;
+       }
+
+        private bool IsValidMove(int targetX, int targetY, bool jump)
+        {
+            int moveNum;
+
+            if (!jump)
+            {
+                moveNum = 1;
+            }
+            else
+            {
+                moveNum = 2;
+            }
+
+            if (targetX < ( 6 - (moveNum - 1)))
+            {
+                if (pieces[targetX + moveNum, targetY].Value() == (int)PlayerTurn.Green)
+                {
+                    return true;
+                }
+            }
+            if (targetX > ( 0 + (moveNum - 1)))
+            {
+                if (pieces[targetX - moveNum, targetY].Value() == (int)PlayerTurn.Green)
+                {
+                    return true;
+                }
+            }
+            if (targetY < ( 6 - (moveNum - 1)))
+            {
+                if (pieces[targetX, targetY + moveNum].Value() == (int)PlayerTurn.Green)
+                {
+                    return true;
+                }
+            }
+            if (targetY > ( 0 + (moveNum - 1)))
+            {
+                if (pieces[targetX, targetY - moveNum].Value() == (int)PlayerTurn.Green)
+                {
+                    return true;
+                }
+            }
+            if (targetX < ( 6 - (moveNum - 1)) && targetY < ( 6 - (moveNum - 1)))
+            {
+                if (pieces[targetX + moveNum, targetY + moveNum].Value() == (int)PlayerTurn.Green)
+                {
+                    return true;
+                }
+            }
+            if (targetX > ( 0 + (moveNum - 1)) && targetY < ( 6 - (moveNum - 1)))
+            {
+                if (pieces[targetX - moveNum, targetY + moveNum].Value() == (int)PlayerTurn.Green)
+                {
+                    return true;
+                }
+            }
+            if (targetX > ( 0 + (moveNum - 1)) && targetY > ( 0 + (moveNum - 1)))
+            {
+                if (pieces[targetX - moveNum, targetY - moveNum].Value() == (int)PlayerTurn.Green)
+                {
+                    return true;
+                }
+            }
+            if (targetX < ( 6 - (moveNum - 1)) && targetY > ( 0 + (moveNum - 1)))
+            {
+                if (pieces[targetX + moveNum, targetY - moveNum].Value() == (int)PlayerTurn.Green)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
+
 }
