@@ -154,32 +154,32 @@ namespace Beta
             //pieces[3, 0].SetState(1);
             //pieces[4, 0].SetState(1);
             //pieces[5, 0].SetState(1);
-            pieces[6, 0].SetState(1);
+            //pieces[6, 0].SetState(1);
             //pieces[0, 1].SetState(1);
             //pieces[1, 1].SetState(2);
             //pieces[2, 1].SetState(1);
-            pieces[3, 1].SetState(1);
+            //pieces[3, 1].SetState(1);
             //pieces[4, 1].SetState(1);
             //pieces[5, 1].SetState(2);
             //pieces[6, 1].SetState(1);
             //pieces[0, 2].SetState(1);
             //pieces[1, 2].SetState(2);
             //pieces[2, 2].SetState(1);
-            //pieces[3, 2].SetState(1);
+            //pieces[3, 2].SetState(2);
             //pieces[4, 2].SetState(1);
             //pieces[5, 2].SetState(2);
             //pieces[6, 2].SetState(1);
             //pieces[0, 3].SetState(1);
             //pieces[1, 3].SetState(1);
-            //pieces[2, 3].SetState(2);
-            //pieces[3, 3].SetState(2);
+            pieces[2, 3].SetState(2);
+            pieces[3, 3].SetState(1);
             //pieces[4, 3].SetState(2);
             //pieces[5, 3].SetState(2);
             //pieces[6, 3].SetState(1);
             //pieces[0, 4].SetState(2);
             //pieces[1, 4].SetState(2);
-            //pieces[2, 4].SetState(2);
-            //pieces[3, 4].SetState(2);
+            pieces[2, 4].SetState(1);
+            pieces[3, 4].SetState(2);
             //pieces[4, 4].SetState(1);
             //pieces[5, 4].SetState(1);
             //pieces[6, 4].SetState(2);
@@ -385,9 +385,12 @@ namespace Beta
                             if (mouseX >= 0 && mouseX < 7 && mouseY >= 0 && mouseY < 7)
                             {
                                 // Perform logic depending on what piece is in the space
-                                pieces[mouseX, mouseY].SetState(1);
-                                Mutate(mouseX, mouseY, 1);
-                                playerTurn = 2;
+                                if (pieces[mouseX, mouseY].Value() == 0)
+                                {
+                                    pieces[mouseX, mouseY].SetState(1);
+                                    Mutate(mouseX, mouseY, 1);
+                                    playerTurn = 2;
+                                }
                                 //switch (pieces[mouseX, mouseY].Value())
                                 //{
                                 //    case 0:     // If blank space clicked
@@ -475,9 +478,12 @@ namespace Beta
                             if (mouseX >= 0 && mouseX < 7 && mouseY >= 0 && mouseY < 7)
                             {
                                 // Perform logic depending on what piece is in the space
-                                pieces[mouseX, mouseY].SetState(2);
-                                Mutate(mouseX, mouseY, 2);
-                                playerTurn = 1;
+                                if (pieces[mouseX, mouseY].Value() == 0)
+                                {
+                                        pieces[mouseX, mouseY].SetState(2);
+                                        Mutate(mouseX, mouseY, 2);
+                                        playerTurn = 1;
+                                }
                                 //switch (pieces[mouseX, mouseY].Value())
                                 //{
                                 //    case 0:     // If blank space clicked
@@ -581,23 +587,6 @@ namespace Beta
                     pieces[x, y].Draw();
                 }
             }
-
-            //// Draw the selected peices if needed
-            //if (selectedPiece.X != -1 || selectedPiece.Y != -1)
-            //{
-            //    switch (playerTurn)
-            //    {
-            //        case 1:
-            //            redSelect.SetPosition(new Vector2(((100 * selectedPiece.X) / 2 + offset.X), ((100 * selectedPiece.Y) / 2 + offset.Y)));
-            //            redSelect.Draw();
-            //            break;
-
-            //        case 2:
-            //            greenSelect.SetPosition(new Vector2(((100 * selectedPiece.X) / 2 + offset.X), ((100 * selectedPiece.Y) / 2 + offset.Y)));
-            //            greenSelect.Draw();
-            //            break;
-            //    }
-            //}
 
             // Draw the banners
             if (drawGreenBanner == true && animate.Count == 0 && time >= 1000)
@@ -713,145 +702,278 @@ namespace Beta
             int sY = targetY;
             int tempX;
             int tempY;
+            bool validMove = false;
 
             //Draw pices from clicked all the way horozontally upwards
+            #region Up
             tempY = sY;
-            while (tempY != 0)
+            while (tempY > 0)
             {
-                tempY = DrawHoroUp(player, sX, tempY);
+                {
+                    if (pieces[sX, tempY - 1].Value() == player)
+                    {
+                        validMove = true;
+                    }
+                }
+                tempY--;
             }
 
+            if (validMove == true)
+            {
+                tempY = sY;
+
+                while (tempY > 0)
+                {
+                    if (pieces[sX, tempY - 1].Value() == player || pieces[sX, tempY - 1].Value() == 0)
+                    {
+                        break;
+                    }
+                    tempY = DrawHoroUp(player, sX, tempY);
+                    tempY--;
+                }
+            }
+            validMove = false;
+            #endregion
 
             //Draw pices from clicked horozontally downwards
+            #region Down
+
             tempY = sY;
+
             while (tempY < 6)
             {
-                tempY = DrawHoroDown(player, sX, tempY);
+                {
+                    if (pieces[sX, tempY + 1].Value() == player)
+                    {
+                        validMove = true;
+                    }
+                }
+                tempY++;
             }
 
+            if (validMove == true)
+            {
+                tempY = sY;
+
+                while (tempY < 6)
+                {
+                    if (pieces[sX, tempY + 1].Value() == player || pieces[sX, tempY + 1].Value() == 0)
+                    {
+                        break;
+                    }
+                    tempY = DrawHoroDown(player, sX, tempY);
+                }
+
+                validMove = false;
+            }
+            #endregion
 
             //Draw pieces from clicked vertically to the left
+            #region Left
+
             tempX = sX;
-            while (tempX != 0)
+
+            while (tempX > 0)
             {
-                tempX = DrawVertLeft(player, sY, tempX);
+                {
+                    if (pieces[tempX - 1, sY].Value() == player)
+                    {
+                        validMove = true;
+                    }
+                }
+                tempX--;
             }
+
+            if (validMove == true)
+            {
+                tempX = sX;
+
+                while (tempX > 0)
+                {
+                    if (pieces[tempX - 1, sY].Value() == player || pieces[tempX - 1, sY].Value() == 0)
+                    {
+                        break;
+                    }
+                    tempX = DrawVertLeft(player, sY, tempX);
+                }
+                validMove = false;
+            }
+            #endregion
 
             //Draw pieces from clicked vertically to the right
+            #region Right
 
             tempX = sX;
+
             while (tempX < 6)
             {
-                tempX = DrawVertRight(player, sY, tempX);
+                {
+                    if (pieces[tempX + 1, sY].Value() == player)
+                    {
+                        validMove = true;
+                    }
+                }
+                tempX++;
             }
+
+            if (validMove == true)
+            {
+                tempX = sX;
+                while (tempX < 6)
+                {
+                    if (pieces[tempX + 1, sY].Value() == player || pieces[tempX + 1, sY].Value() == 0)
+                    {
+                        break;
+                    }
+                    tempX = DrawVertRight(player, sY, tempX);
+                }
+                validMove = false;
+            }
+            #endregion
 
             //Draw pieces diagonally to top left
+            #region Top Left
+
             tempX = sX;
             tempY = sY;
+
             while (tempY > 0 && tempX > 0)
             {
-                DrawDiagTopLeft(player, ref tempX, ref tempY);
+                {
+                    if (pieces[tempX - 1, tempY - 1].Value() == player)
+                    {
+                        validMove = true;
+                    }
+                }
+                tempX--;
+                tempY--;
             }
+
+            if (validMove == true)
+            {
+                tempX = sX;
+                tempY = sY;
+                
+                while (tempY > 0 && tempX > 0)
+                {
+                    if (pieces[tempX - 1, tempY - 1].Value() == player || pieces[tempX - 1, tempY - 1].Value() == 0)
+                    {
+                        break;
+                    }
+                    DrawDiagTopLeft(player, ref tempX, ref tempY);
+                }
+                validMove = false;
+            }
+            #endregion
 
             //Draw pieces diagonally to bottom right
+            #region Bottom Right
             tempX = sX;
             tempY = sY;
+
             while (tempY < 6 && tempX < 6)
             {
-                DrawDiagBottRight(player, ref tempX, ref tempY);
+                {
+                    if (pieces[tempX + 1, tempY + 1].Value() == player)
+                    {
+                        validMove = true;
+                    }
+                }
+                tempX++;
+                tempY++;
             }
 
+            if (validMove == true)
+            {
+                tempX = sX;
+                tempY = sY;
+                
+                while (tempY < 6 && tempX < 6)
+                {
+                    if (pieces[tempX + 1, tempY + 1].Value() == player || pieces[tempX + 1, tempY + 1].Value() == 0)
+                    {
+                        break;
+                    }
+                    DrawDiagBottRight(player, ref tempX, ref tempY);
+                }
+                validMove = false;
+            }
+            #endregion
 
             //Draw pieces diagonally to top right
+            #region Top Right
+
             tempX = sX;
             tempY = sY;
 
             while (tempY > 0 && tempX < 6)
             {
-                DrawDiagTopRight(player, ref tempX, ref tempY);
+                {
+                    if (pieces[tempX + 1, tempY - 1].Value() == player)
+                    {
+                        validMove = true;
+                    }
+                }
+                tempX++;
+                tempY--;
             }
 
+            if (validMove == true)
+            {
+                tempX = sX;
+                tempY = sY;
+
+                while (tempY > 0 && tempX < 6)
+                {
+                    if (pieces[tempX + 1, tempY - 1].Value() == player || pieces[tempX + 1, tempY - 1].Value() == 0)
+                    {
+                        break;
+                    }
+                    DrawDiagTopRight(player, ref tempX, ref tempY);
+                }
+                validMove = false;
+            }
+            #endregion
+
             //Draw pieces diagonally to bottom left
+            #region Bottom Left
+
             tempX = sX;
             tempY = sY;
 
             while (tempY < 6 && tempX > 0)
             {
-                DrawDiagBottLeft(player, ref tempX, ref tempY);
+                {
+                    if (pieces[tempX - 1, tempY + 1].Value() == player)
+                    {
+                        validMove = true;
+                    }
+                }
+                tempX--;
+                tempY++;
             }
 
-            #region Old Game rules
-            /*if (targetY > 0 && targetX > 0)//1
+            if (validMove == true)
             {
-                // animation bug here, was checking if pieces[targetX - 1, targetX - 1].Value() != player
-                if (pieces[targetX - 1, targetY - 1].Value() > 0 && pieces[targetX - 1, targetY - 1].Value() != player)
+                tempX = sX;
+                tempY = sY;
+                
+                while (tempY < 6 && tempX > 0)
                 {
-                    pieces[targetX - 1, targetY - 1].Mutate(player);
-                    animate.Enqueue(new Vector2(targetX - 1, targetY - 1));
+                    if (pieces[tempX - 1, tempY + 1].Value() == player || pieces[tempX - 1, tempY + 1].Value() == 0)
+                    {
+                        break;
+                    }
+                    DrawDiagBottLeft(player, ref tempX, ref tempY);
                 }
+                validMove = false;
             }
-            if (targetY > 0)//2
-            {
-                if (pieces[targetX, targetY - 1].Value() > 0 && pieces[targetX, targetY - 1].Value() != player)
-                {
-                    pieces[targetX, targetY - 1].Mutate(player);
-                    animate.Enqueue(new Vector2(targetX, targetY - 1));
-                }
-            }
-            if (targetY > 0 && targetX < 6)//3
-            {
-                if (pieces[targetX + 1, targetY - 1].Value() > 0 && pieces[targetX + 1, targetY - 1].Value() != player)
-                {
-                    pieces[targetX + 1, targetY - 1].Mutate(player);
-                    animate.Enqueue(new Vector2(targetX + 1, targetY - 1));
-                }
-            }
-            if (targetX < 6)//5
-            {
-                if (pieces[targetX + 1, targetY].Value() > 0 && pieces[targetX + 1, targetY].Value() != player)
-                {
-                    pieces[targetX + 1, targetY].Mutate(player);
-                    animate.Enqueue(new Vector2(targetX + 1, targetY));
-                }
-            }
-            if (targetY < 6 && targetX < 6)//8
-            {
-                if (pieces[targetX + 1, targetY + 1].Value() > 0 && pieces[targetX + 1, targetY + 1].Value() != player)
-                {
-                    pieces[targetX + 1, targetY + 1].Mutate(player);
-                    animate.Enqueue(new Vector2(targetX + 1, targetY + 1));
-                }
-            }
-            if (targetY < 6)//7
-            {
-                if (pieces[targetX, targetY + 1].Value() > 0 && pieces[targetX, targetY + 1].Value() != player)
-                {
-                    pieces[targetX, targetY + 1].Mutate(player);
-                    animate.Enqueue(new Vector2(targetX, targetY + 1));
-                }
-            }
-            if (targetY < 6 && targetX > 0)//6
-            {
-                if (pieces[targetX - 1, targetY + 1].Value() > 0 && pieces[targetX - 1, targetY + 1].Value() != player)
-                {
-                    pieces[targetX - 1, targetY + 1].Mutate(player);
-                    animate.Enqueue(new Vector2(targetX - 1, targetY + 1));
-                }
-
-            }
-            if (targetX > 0)//4
-            {
-                if (pieces[targetX - 1, targetY].Value() > 0 && pieces[targetX - 1, targetY].Value() != player)
-                {
-                    pieces[targetX - 1, targetY].Mutate(player);
-                    animate.Enqueue(new Vector2(targetX - 1, targetY));
-                }
-            }*/
-            #endregion Old Game rules
+            #endregion
         }
 
         private void DrawDiagBottLeft(int player, ref int tempX, ref int tempY)
         {
+           // if (pieces[tempX - 1, tempY + 1].Value() != player)
             pieces[tempX - 1, tempY + 1].Mutate(player);
             animate.Enqueue(new Vector2(tempX - 1, tempY + 1));
             tempX--;
@@ -910,7 +1032,6 @@ namespace Beta
         {
             pieces[sX, tempY - 1].Mutate(player);
             animate.Enqueue(new Vector2(sX, tempY - 1));
-            tempY--;
 
             return tempY;
         }
@@ -996,20 +1117,6 @@ namespace Beta
             return false;
         }
 
-        //public void FillBoard(int player)
-        //{
-        //    for (int y = 0; y < 7; y++)
-        //    {
-        //        for (int x = 0; x < 7; x++)
-        //        {
-        //            if (pieces[x, y].Value() == 0)
-        //            {
-        //                pieces[x, y].SetState(player + 4);
-        //                animate.Enqueue(new Vector2(x, y));
-        //            }
-        //        }
-        //    }
-        //}
 
         public bool BoardFull()
         {
@@ -1056,111 +1163,8 @@ namespace Beta
         }
 
 
-        /*OLD PlOP END PIECES/
         public void PlopEndPieces()
         {
-
-            for (int y = 0; y < 7 && plr1score > 0; y++)
-            {
-                for (int x = 0; x < 7 && plr1score > 0; x++)
-                {
-                    pieces[x, y].SetState(1);
-                    plr1score--;
-                }
-            }
-
-
-            for (int y = 6; y > -1 && plr2score > 0; y--)
-            {
-                for (int x = 6; x > -1 && plr2score > 0; x--)
-                {
-                    pieces[x, y].SetState(2);
-                    plr2score--;
-                }
-            }
-
-            //    //bool plr1working = true;
-
-            //    //#region
-
-            //    //while (plr1working == true)
-            //    //{
-
-            //    //    int y1 = 0;
-
-            //    //    for (int x1 = 0; x1 <= 7; x1++)
-            //    //    {
-            //    //        if (plr1score > 0)
-            //    //        {
-            //    //            if (x1 == 7)
-            //    //            {
-            //    //                x1 = 0;
-            //    //                y1++;
-
-            //    //            }
-            //    //            if (y1 == 7)
-            //    //            {
-            //    //                break;
-            //    //            }
-
-            //    //            else
-            //    //            {
-            //    //                pieces[x1, y1].SetState(1);
-            //    //            }
-            //    //            plr1score--;
-            //    //        }
-            //    //        else
-            //    //        {
-            //    //            plr1working = false;
-            //    //            break;
-            //    //        }
-            //    //    }
-            //    //}
-
-            //    //while (plr1working == false)
-            //    //{
-            //    //    int yIterations = 0;
-            //    //    int y2 = 6;
-
-            //    //    for (int x2 = 6; x2 >= -1; x2--)
-            //    //    {
-            //    //        if (plr2score > 0)
-            //    //        {
-            //    //            if (x2 == -1)
-            //    //            {
-            //    //                x2 = 6;
-            //    //                y2--;
-
-            //    //            }
-            //    //            if (y2 == -1)
-            //    //            {
-            //    //                y2 = 6;
-            //    //                yIterations++;
-            //    //            }
-
-            //    //            else
-            //    //            {
-            //    //                pieces[x2, y2].SetState(2);
-            //    //                //plr1working = false;
-            //    //            }
-            //    //            plr2score--;
-            //    //        }
-            //    //        else
-            //    //        {
-            //    //            return;
-            //    //        }
-            //    //    }
-            //    //}
-            //    //#endregion
-        }*/
-
-        public void PlopEndPieces()
-        {
-            //count1 = plr1score;
-            //count2 = plr2score;
-            //bool status1 = true;
-            //bool status2 = true;
-
             if (plr1score > plr2score)
                 drawBlueBanner = true;
             else
@@ -1187,55 +1191,8 @@ namespace Beta
             }
             boardFull = false;
 
-            /*
-            while ((status1 || status2) == true)
-            {
-                status1 = DispPlr1();
-                status2 = DispPlr2();
-            }
-            boardFull = false;
-
-            status1 = true;
-            status2 = true;
-             * */
-
-
             return;
         }
-        /*
-        public bool DispPlr1()
-        {
 
-            if (count1 == 0)
-                return false;
-            pieces[x1, y1].SetState(5);
-            animate.Enqueue(new Vector2(x1, y1));
-            count1--;
-            y1++;
-            if (y1 == Y)
-            {
-                y1 = 0;
-                x1++;
-            }
-            return true;
-        }
-
-        public bool DispPlr2()
-        {
-
-            if (count2 == 0)
-                return false;
-            pieces[x2, y2].SetState(6);
-            animate.Enqueue(new Vector2(x2, y2));
-            count2--;
-            y2--;
-            if (y2 == -1)
-            {
-                y2 = 6;
-                x2--;
-            }
-            return true;
-        }
-        */
     }
 }
