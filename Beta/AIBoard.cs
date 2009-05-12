@@ -342,7 +342,7 @@ namespace Beta
             #endregion
 
             #region Do the AI Logic
-            if(playerTurn == (int)PlayerTurn.Green && !drawBlueBanner && !drawGreenBanner)
+            if(playerTurn == (int)PlayerTurn.Green && !drawBlueBanner && !drawGreenBanner && !boardFull)
             {
                 if(time > 1000)
                 {
