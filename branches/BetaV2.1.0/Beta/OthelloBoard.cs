@@ -99,6 +99,11 @@ namespace Beta
         SoundEffectInstance seiConvert;
         SoundEffectInstance seiAvaMove;
 
+        //Define the min and max board positions
+        const int MIN = 0;
+        const int MAX = 6;
+
+
         public OthelloBoard()
         {
             for (int x = 0; x < 7; x++)
@@ -374,205 +379,714 @@ namespace Beta
 
             if (animate.Count == 0 && time >= 500 && !drawBlueBanner && !drawGreenBanner)
             {
-                switch (playerTurn)
+
+                
+                if (selectedPiece.X < 0 || selectedPiece.Y < 0) // If selectedPiece is negative a.k.a. no piece selected
                 {
-                    #region Red turn logic if mouse is clicked
-                    case 1: // Red turn
-                        #region No piece selected
-                        if (selectedPiece.X < 0 || selectedPiece.Y < 0) // If selectedPiece is negative a.k.a. no piece selected
+                    // Only perform click method if the click was on the board
+                    if (mouseX >= 0 && mouseX < 7 && mouseY >= 0 && mouseY < 7)
+                    {
+                        // Perform logic depending on what piece is in the space
+                        if (pieces[mouseX, mouseY].Value() == 0)
                         {
-                            // Only perform click method if the click was on the board
-                            if (mouseX >= 0 && mouseX < 7 && mouseY >= 0 && mouseY < 7)
-                            {
-                                // Perform logic depending on what piece is in the space
-                                if (pieces[mouseX, mouseY].Value() == 0)
-                                {
-                                    pieces[mouseX, mouseY].SetState(1);
-                                    Mutate(mouseX, mouseY, 1);
-                                    playerTurn = 2;
-                                }
-                                //switch (pieces[mouseX, mouseY].Value())
-                                //{
-                                //    case 0:     // If blank space clicked
-                                //        // Do nothing for now
-                                //        break;
-                                //    //case 1:     // If clicked on red piece
-                                //    //    // Select the red piece
-                                //    //    selectedPiece = new Vector2(mouseX, mouseY);
-                                //    //    selectPiece.Play(1.0f, 0.0f, 0.0f, false);
-                                //    //    break;
-                                //    //case 2:     // If clicked on green piece
-                                //    //    // Do nothing for now
-                                //    //    // Will play error noise in the future
-                                //    //    break;
-                                //    default:    // Error
-                                //        // Error
-                                //        break;
-                                //}
-                            }
-                        }
-                        #endregion
-                        #region Piece on board selected
-                        else if (selectedPiece.X >= 0 && selectedPiece.X < 7 && selectedPiece.Y >= 0 && selectedPiece.Y < 7) // If piece on the board is selected
-                        {
-                            // Only perform click method if the click was on the board
-                            if (mouseX >= 0 && mouseX < 7 && mouseY >= 0 && mouseY < 7)
-                            {
-                                // Perform logic depending on what piece is in the space
-                                switch (pieces[mouseX, mouseY].Value())
-                                {
-                                    case 0:     // If blank space clicked
-                                        // If PerformMove is true
-                                        if (MovePiece(selectedPiece, mouseX, mouseY, playerTurn))
-                                        {
-                                            // Prepare for next player
-                                            if (AnyMoves(2))
-                                            {
-                                                seiAvaMove.Stop();
-                                                playerTurn = 2;
-                                                seiAvaMove.Play();
-                                            }
-                                            //else if (!AnyPieces(2))
-                                            //{
-                                            //    FillBoard(1);
-                                            //    drawBlueBanner = true;
-                                            //}
-                                            else
-                                                if (BoardFull())
-                                                    boardFull = true;
+                            //Save out the mouce positions
+                            int sX = mouseX;
+                            int sY = mouseY;
 
-                                            selectedPiece = new Vector2(-1, -1);
-                                        }
-                                        else
-                                        {
-                                            // Deselect piece
-                                            selectedPiece = new Vector2(-1, -1);
-                                            unMove.Play(1.0f, 0.0f, 0.0f, false);
-                                        }
-                                        break;
-                                    case 1:     // If clicked on red piece
-                                        // Select piece
-                                        selectedPiece = new Vector2(mouseX, mouseY);
-                                        selectPiece.Play(1.0f, 0.0f, 0.0f, false);
-                                        break;
-                                    case 2:     // If clicked on green piece
-                                        // Deselect piece
-                                        selectedPiece = new Vector2(-1, -1);
-                                        unMove.Play(1.0f, 0.0f, 0.0f, false);
-                                        break;
-                                    default:    // Error
-                                        // Error
-                                        break;
-                                }
-                            }
-                        }
-                        #endregion
-                        break;
-                    #endregion
-                    #region Green turn logic if mouse is clicked
-                    case 2: // Green turn
-                        #region No piece selected
-                        if (selectedPiece.X < 0 || selectedPiece.Y < 0) // If selectedPiece is negative a.k.a. no piece selected
-                        {
-                            // Only perform click method if the click was on the board
-                            if (mouseX >= 0 && mouseX < 7 && mouseY >= 0 && mouseY < 7)
-                            {
-                                // Perform logic depending on what piece is in the space
-                                if (pieces[mouseX, mouseY].Value() == 0)
-                                {
-                                        pieces[mouseX, mouseY].SetState(2);
-                                        Mutate(mouseX, mouseY, 2);
-                                        playerTurn = 1;
-                                }
-                                //switch (pieces[mouseX, mouseY].Value())
-                                //{
-                                //    case 0:     // If blank space clicked
-                                //        // Do nothing for now
-                                //        // Will play error noise in the future
-                                //        break;
-                                //    case 1:     // If clicked on red piece
-                                //        // Do nothing for now
-                                //        // Will play error noise in the future
-                                //        break;
-                                //    case 2:     // If clicked on green piece
-                                //        // Select the green piece
-                                //        selectedPiece = new Vector2(mouseX, mouseY);
-                                //        selectPiece.Play(1.0f, 0.0f, 0.0f, false);
-                                //        break;
-                                //    default:    // Error
-                                //        // Error
-                                //        break;
-                                //}
-                            }
-                        }
-                        #endregion
-                        #region Piece on board selected
-                        else if (selectedPiece.X >= 0 && selectedPiece.X < 7 && selectedPiece.Y >= 0 && selectedPiece.Y < 7) // If piece on the board is selected
-                        {
-                            // Only perform click method if the click was on the board
-                            if (mouseX >= 0 && mouseX < 7 && mouseY >= 0 && mouseY < 7)
-                            {
-                                // Perform logic depending on what piece is in the space
-                                switch (pieces[mouseX, mouseY].Value())
-                                {
-                                    case 0:     // If blank space clicked
-                                        // If PerformMove is false (invalid move)
-                                        if (MovePiece(selectedPiece, mouseX, mouseY, playerTurn))
-                                        {
-                                            // Prepare for next player
-                                            if (AnyMoves(1))
-                                            {
-                                                seiAvaMove.Stop();
-                                                playerTurn = 1;
-                                                seiAvaMove.Play();
-                                            }
-                                            //else if (!AnyPieces(1))
-                                            //{
-                                            //    FillBoard(2);
-                                            //    drawGreenBanner = true;
-                                            //}
-                                            else
-                                                if (BoardFull())
-                                                    boardFull = true;
+                            //Create temporary mouse positions
+                            int tempX;
+                            int tempY;
 
-                                            selectedPiece = new Vector2(-1, -1);
-                                        }
-                                        else
-                                        {
-                                            // Deselect piece
-                                            selectedPiece = new Vector2(-1, -1);
-                                            unMove.Play(1.0f, 0.0f, 0.0f, false);
-                                        }
-                                        break;
-                                    case 1:     // If clicked on red piece
-                                        // Deselect piece
-                                        selectedPiece = new Vector2(-1, -1);
-                                        unMove.Play(1.0f, 0.0f, 0.0f, false);
-                                        break;
-                                    case 2:     // If clicked on green piece
-                                        // Deselect piece
-                                        selectedPiece = new Vector2(mouseX, mouseY);
-                                        selectPiece.Play(1.0f, 0.0f, 0.0f, false);
-                                        break;
-                                    default:    // Error
-                                        // Error
-                                        break;
-                                }
+                            //Flags for finding if you have a piece capping off a line
+                            bool oppositePlayerObstruction = false;
+                            bool samePlayerEndOfLine = false;
+                            
+                            //Is true if you have an opponents piece with a friendly piece after it
+                            bool validMove = false;
+
+                            //Set up a variable to hold who's turn it is
+                            //Used so I don't ahve to copy and paste a hugh chunk of code and
+                            //change 1's to 2's and vise versa.
+                            int player = playerTurn;
+
+                            //Ready to store the value of the opposite player's number
+                            //Must initialize to 0
+                            int oppositePlayer = 0;
+
+
+                            //Sets up the opposite player's number
+                            if (player == 1)
+                                oppositePlayer = 2;
+                            if (player == 2)
+                                oppositePlayer = 1;
+
+                            //Vert Up
+                                                        
+                            //Save out mouse positions
+                            tempX = sX;
+                            tempY = sY;
+
+                            CheckUp(sX, ref tempY, ref oppositePlayerObstruction, ref samePlayerEndOfLine, ref validMove, player, oppositePlayer);
+
+                            //Vert Down
+                            
+                            //Save out mouse positions
+                            tempX = sX;
+                            tempY = sY;
+
+                            CheckDown(sX, ref tempY, ref oppositePlayerObstruction, ref samePlayerEndOfLine, ref validMove, player, oppositePlayer);
+
+                            //Horo Left
+
+                            //Save out mouse positions
+                            tempX = sX;
+                            tempY = sY;
+
+                            CheckLeft(sY, ref tempX, ref oppositePlayerObstruction, ref samePlayerEndOfLine, ref validMove, player, oppositePlayer);
+
+                            //Horo Right
+
+                            //Save out mouse positions
+                            tempX = sX;
+                            tempY = sY;
+
+                            CheckRight(sY, ref tempX, ref oppositePlayerObstruction, ref samePlayerEndOfLine, ref validMove, player, oppositePlayer);
+
+                            // Diag Top Left
+
+                            //Save out mouse positions
+                            tempX = sX;
+                            tempY = sY;
+
+                            CheckTopLeft(ref tempX, ref tempY, ref oppositePlayerObstruction, ref samePlayerEndOfLine, ref validMove, player, oppositePlayer);
+
+                            // Diag Bottom Right
+
+                            //Save out mouse positions
+                            tempX = sX;
+                            tempY = sY;
+
+                            CheckBottRight(ref tempX, ref tempY, ref oppositePlayerObstruction, ref samePlayerEndOfLine, ref validMove, player, oppositePlayer);
+
+                            // Diag Top Right
+
+                            //Save out mouse positions
+                            tempX = sX;
+                            tempY = sY;
+
+                            CheckTopRight(ref tempX, ref tempY, ref oppositePlayerObstruction, ref samePlayerEndOfLine, ref validMove, player, oppositePlayer);
+
+                            // Diag Bottom Left
+
+                            //Save out mouse positions
+                            tempX = sX;
+                            tempY = sY;
+
+                            CheckBottLeft(ref tempX, ref tempY, ref oppositePlayerObstruction, ref samePlayerEndOfLine, ref validMove, player, oppositePlayer);
+
+
+                            //if any of the above Checks pass, at least one mutation needs to occur
+                            if (validMove == true)
+                            {
+                                pieces[mouseX, mouseY].SetState(player);
+                                Mutate(mouseX, mouseY, player);
+                                playerTurn = oppositePlayer;
                             }
+
+                            //switch (pieces[mouseX, mouseY].Value())
+                            //{
+                            //    case 0:     // If blank space clicked
+                            //        // Do nothing for now
+                            //        break;
+                            //    //case 1:     // If clicked on red piece
+                            //    //    // Select the red piece
+                            //    //    selectedPiece = new Vector2(mouseX, mouseY);
+                            //    //    selectPiece.Play(1.0f, 0.0f, 0.0f, false);
+                            //    //    break;
+                            //    //case 2:     // If clicked on green piece
+                            //    //    // Do nothing for now
+                            //    //    // Will play error noise in the future
+                            //    //    break;
+                            //    default:    // Error
+                            //        // Error
+                            //        break;
+                            //}
                         }
-                        break;
-                        #endregion
-                    #endregion
-                    #region If playerTurn is not set to a valid player
-                    default: // Error
-                        // If playerTurn is not 0 or 1
-                        // this would be due to a logical
-                        // error somewhere else in code
-                        break;
-                    #endregion
+                    }
                 }
             }
         }
+
+        private void CheckBottLeft(ref int tempX, ref int tempY, ref bool oppositePlayerObstruction, ref bool samePlayerEndOfLine, ref bool validMove, int player, int oppositePlayer)
+        {
+            oppositePlayerObstruction = false;
+            samePlayerEndOfLine = false;
+
+            if (validMove == false)
+            {
+
+                //Check for at least one opponent's piece
+                if (tempY < MAX && tempX > MIN)
+                {
+                    if (pieces[tempX - 1, tempY + 1].Value() == oppositePlayer)
+                    {
+                        oppositePlayerObstruction = true;
+                    }
+                }
+
+                if (oppositePlayerObstruction == true)
+                {
+                    while (tempY < MAX - 1 && tempX > MIN + 1 && samePlayerEndOfLine != true)
+                    {
+                        {
+                            ////Make sure there are no blank spaces in between
+                            //if (pieces[tempX - 2, tempY + 2].Value() != player)
+                            //{
+                            //    break;
+                            //}
+                            //Check to see if you have a piece capping a line off 
+                            if (pieces[tempX - 2, tempY + 2].Value() == player)
+                            {
+                                samePlayerEndOfLine = true;
+                            }
+                        }
+                        tempX--;
+                        tempY++;
+                    }
+                }
+
+                if (oppositePlayerObstruction == true && samePlayerEndOfLine == true)
+                {
+                    validMove = true;
+                    oppositePlayerObstruction = false;
+                    samePlayerEndOfLine = false;
+                }
+                //
+                //
+                //end Diag Bottom Left
+
+            }
+        }
+
+        private void CheckTopRight(ref int tempX, ref int tempY, ref bool oppositePlayerObstruction, ref bool samePlayerEndOfLine, ref bool validMove, int player, int oppositePlayer)
+        {
+            oppositePlayerObstruction = false;
+            samePlayerEndOfLine = false;
+
+            if (validMove == false)
+            {
+
+                //Check for at least one opponent's piece
+                if (tempY > MIN && tempX < MAX)
+                {
+                    if (pieces[tempX + 1, tempY - 1].Value() == oppositePlayer)
+                    {
+                        oppositePlayerObstruction = true;
+                    }
+                }
+
+                if (oppositePlayerObstruction == true)
+                {
+                    while (tempY > MIN + 1 && tempX < MAX - 1 && samePlayerEndOfLine != true)
+                    {
+                        {
+                            ////Make sure there are no blank spaces in between
+                            //if (pieces[tempX + 2, tempY - 2].Value() != player)
+                            //{
+                            //    break;
+                            //}
+                            //Check to see if you have a piece capping a line off 
+                            if (pieces[tempX + 2, tempY - 2].Value() == player)
+                            {
+                                samePlayerEndOfLine = true;
+                            }
+                        }
+                        tempX++;
+                        tempY--;
+                    }
+                }
+
+                if (oppositePlayerObstruction == true && samePlayerEndOfLine == true)
+                {
+                    validMove = true;
+                    oppositePlayerObstruction = false;
+                    samePlayerEndOfLine = false;
+                }
+                //
+                //
+                //end Diag Top Right
+
+            }
+        }
+
+        private void CheckBottRight(ref int tempX, ref int tempY, ref bool oppositePlayerObstruction, ref bool samePlayerEndOfLine, ref bool validMove, int player, int oppositePlayer)
+        {
+            oppositePlayerObstruction = false;
+            samePlayerEndOfLine = false;
+
+            if (validMove == false)
+            {
+
+                //Check for at least one opponent's piece
+                if (tempY < MAX && tempX < MAX)
+                {
+                    if (pieces[tempX + 1, tempY + 1].Value() == oppositePlayer)
+                    {
+                        oppositePlayerObstruction = true;
+                    }
+                }
+
+                if (oppositePlayerObstruction == true)
+                {
+                    while (tempY < MAX - 1 && tempX < MAX - 1 && samePlayerEndOfLine != true)
+                    {
+                        {
+                            ////Make sure there are no blank spaces in between
+                            //if (pieces[tempX + 2, tempY + 2].Value() != player)
+                            //{
+                            //    break;
+                            //}
+                            //Check to see if you have a piece capping a line off 
+                            if (pieces[tempX + 2, tempY + 2].Value() == player)
+                            {
+                                samePlayerEndOfLine = true;
+                            }
+                        }
+                        tempX++;
+                        tempY++;
+                    }
+                }
+
+                if (oppositePlayerObstruction == true && samePlayerEndOfLine == true)
+                {
+                    validMove = true;
+                    oppositePlayerObstruction = false;
+                    samePlayerEndOfLine = false;
+                }
+                //
+                //
+                //end Diag Bottom Right
+
+            }
+        }
+
+        private void CheckTopLeft(ref int tempX, ref int tempY, ref bool oppositePlayerObstruction, ref bool samePlayerEndOfLine, ref bool validMove, int player, int oppositePlayer)
+        {
+            oppositePlayerObstruction = false;
+            samePlayerEndOfLine = false;
+
+            if (validMove == false)
+            {
+
+                //Check for at least one opponent's piece
+                if (tempY > MIN && tempX > MIN)
+                {
+                    if (pieces[tempX - 1, tempY - 1].Value() == oppositePlayer)
+                    {
+                        oppositePlayerObstruction = true;
+                    }
+                }
+
+                if (oppositePlayerObstruction == true)
+                {
+                    while (tempY > MIN + 1 && tempX > MIN + 1 && samePlayerEndOfLine != true)
+                    {
+                        {
+                            ////Make sure there are no blank spaces in between
+                            //if (pieces[tempX - 2, tempY - 2].Value() != player)
+                            //{
+                            //    break;
+                            //}
+                            //Check to see if you have a piece capping a line off 
+                            if (pieces[tempX - 2, tempY - 2].Value() == player)
+                            {
+                                samePlayerEndOfLine = true;
+                            }
+                        }
+                        tempX--;
+                        tempY--;
+                    }
+                }
+
+                if (oppositePlayerObstruction == true && samePlayerEndOfLine == true)
+                {
+                    validMove = true;
+                    oppositePlayerObstruction = false;
+                    samePlayerEndOfLine = false;
+                }
+                //
+                //
+                //end Diag Top Left
+            }
+        }
+
+        private void CheckRight(int sY, ref int tempX, ref bool oppositePlayerObstruction, ref bool samePlayerEndOfLine, ref bool validMove, int player, int oppositePlayer)
+        {
+            oppositePlayerObstruction = false;
+            samePlayerEndOfLine = false;
+
+            if (validMove == false)
+            {
+
+                //Check for at least one opponent's piece
+                if (tempX < MAX)
+                {
+                    if (pieces[tempX + 1, sY].Value() == oppositePlayer)
+                    {
+                        oppositePlayerObstruction = true;
+                    }
+                }
+
+                if (oppositePlayerObstruction == true)
+                {
+                    while (tempX < MAX - 1 && samePlayerEndOfLine != true)
+                    {
+                        {
+                            ////Make sure there are no blank spaces in between
+                            //if (pieces[tempX + 2, sY].Value() != player)
+                            //{
+                            //    break;
+                            //}
+                            //Check to see if you have a piece capping a line off 
+                            if (pieces[tempX + 2, sY].Value() == player)
+                            {
+                                samePlayerEndOfLine = true;
+                            }
+                        }
+                        tempX++;
+                    }
+                }
+
+                if (oppositePlayerObstruction == true && samePlayerEndOfLine == true)
+                {
+                    validMove = true;
+                    oppositePlayerObstruction = false;
+                    samePlayerEndOfLine = false;
+                }
+                //
+                //
+                //end Horo Right
+
+            }
+        }
+
+        private void CheckLeft(int sY, ref int tempX, ref bool oppositePlayerObstruction, ref bool samePlayerEndOfLine, ref bool validMove, int player, int oppositePlayer)
+        {
+            oppositePlayerObstruction = false;
+            samePlayerEndOfLine = false;
+
+            if (validMove == false)
+            {
+
+                //Check for at least one opponent's piece
+                if (tempX > MIN)
+                {
+                    if (pieces[tempX - 1, sY].Value() == oppositePlayer)
+                    {
+                        oppositePlayerObstruction = true;
+                    }
+                }
+
+                if (oppositePlayerObstruction == true)
+                {
+                    while (tempX > MIN + 1 && samePlayerEndOfLine != true)
+                    {
+                        {
+                            ////Make sure there are no blank spaces in between
+                            //if (pieces[tempX - 2, sY].Value() != player)
+                            //{
+                            //    break;
+                            //}
+
+                            //Check to see if you have a piece capping a line off 
+                            if (pieces[tempX - 2, sY].Value() == player)
+                            {
+                                samePlayerEndOfLine = true;
+                            }
+                        }
+                        tempX--;
+                    }
+                }
+
+                if (oppositePlayerObstruction == true && samePlayerEndOfLine == true)
+                {
+                    validMove = true;
+                    oppositePlayerObstruction = false;
+                    samePlayerEndOfLine = false;
+                }
+                //
+                //
+                //end Horo Left
+            }
+        }
+
+        private void CheckDown(int sX, ref int tempY, ref bool oppositePlayerObstruction, ref bool samePlayerEndOfLine, ref bool validMove, int player, int oppositePlayer)
+        {
+            oppositePlayerObstruction = false;
+            samePlayerEndOfLine = false;
+
+            if (validMove == false)
+            {
+
+                //Check for at least one opponent's piece
+                if (tempY < MAX)
+                {
+                    if (pieces[sX, tempY + 1].Value() == oppositePlayer)
+                    {
+                        oppositePlayerObstruction = true;
+                    }
+                }
+
+                if (oppositePlayerObstruction == true)
+                {
+                    while (tempY < MAX - 1 && samePlayerEndOfLine != true)
+                    {
+                        {
+                            ////Make sure there are no blank spaces in between
+                            //if (pieces[sX, tempY + 2].Value() != player)
+                            //{
+                            //    break;
+                            //}
+
+                            //Check to see if you have a piece capping a line off 
+                            if (pieces[sX, tempY + 2].Value() == player)
+                            {
+                                samePlayerEndOfLine = true;
+                            }
+                        }
+                        tempY++;
+                    }
+                }
+
+                if (oppositePlayerObstruction == true && samePlayerEndOfLine == true)
+                {
+                    validMove = true;
+                    oppositePlayerObstruction = false;
+                    samePlayerEndOfLine = false;
+                }
+                //
+                //
+                //end Vert Down   
+            }
+        }
+
+        private void CheckUp(int sX, ref int tempY, ref bool oppositePlayerObstruction, ref bool samePlayerEndOfLine, ref bool validMove, int player, int oppositePlayer)
+        {
+            //Reset
+            oppositePlayerObstruction = false;
+            samePlayerEndOfLine = false;
+
+            if (validMove == false)
+            {
+
+                //Check for at least one opponent's piece
+                if (tempY > MIN)
+                {
+                    if (pieces[sX, tempY - 1].Value() == oppositePlayer)
+                    {
+                        oppositePlayerObstruction = true;
+                    }
+                }
+
+                if (oppositePlayerObstruction == true)
+                {
+                    while (tempY > MIN + 1 && samePlayerEndOfLine != true)
+                    {
+                        {
+                            ////Make sure there are no blank spaces in between
+                            //if (pieces[sX, tempY - 2].Value() != player)
+                            //{
+                            //    break;
+                            //}
+
+                            //Check to see if you have a piece capping a line off 
+                            if (pieces[sX, tempY - 2].Value() == player)
+                            {
+                                samePlayerEndOfLine = true;
+                            }
+
+                        }
+                        tempY--;
+                    }
+                }
+
+                if (oppositePlayerObstruction == true && samePlayerEndOfLine == true)
+                {
+                    validMove = true;
+                    oppositePlayerObstruction = false;
+                    samePlayerEndOfLine = false;
+                }
+                //
+                //
+                //end Vert Up   
+            }
+        }
+    
+              
+          /*  #region Piece on board selected
+            else if (selectedPiece.X >= 0 && selectedPiece.X < 7 && selectedPiece.Y >= 0 && selectedPiece.Y < 7) // If piece on the board is selected
+            {
+                // Only perform click method if the click was on the board
+                if (mouseX >= 0 && mouseX < 7 && mouseY >= 0 && mouseY < 7)
+                {
+                    // Perform logic depending on what piece is in the space
+                    switch (pieces[mouseX, mouseY].Value())
+                    {
+                        case 0:     // If blank space clicked
+                            // If PerformMove is true
+                            if (MovePiece(selectedPiece, mouseX, mouseY, playerTurn))
+                            {
+                                // Prepare for next player
+                                if (AnyMoves(2))
+                                {
+                                    seiAvaMove.Stop();
+                                    playerTurn = 2;
+                                    seiAvaMove.Play();
+                                }
+                                //else if (!AnyPieces(2))
+                                //{
+                                //    FillBoard(1);
+                                //    drawBlueBanner = true;
+                                //}
+                                else
+                                    if (BoardFull())
+                                        boardFull = true;
+
+                                selectedPiece = new Vector2(-1, -1);
+                            }
+                            else
+                            {
+                                // Deselect piece
+                                selectedPiece = new Vector2(-1, -1);
+                                unMove.Play(1.0f, 0.0f, 0.0f, false);
+                            }
+                            break;
+                        case 1:     // If clicked on red piece
+                            // Select piece
+                            selectedPiece = new Vector2(mouseX, mouseY);
+                            selectPiece.Play(1.0f, 0.0f, 0.0f, false);
+                            break;
+                        case 2:     // If clicked on green piece
+                            // Deselect piece
+                            selectedPiece = new Vector2(-1, -1);
+                            unMove.Play(1.0f, 0.0f, 0.0f, false);
+                            break;
+                        default:    // Error
+                            // Error
+                            break;
+
+
+
+            #endregion
+                            break;
+
+                        #region Green turn logic if mouse is clicked
+                        case 2: // Green turn
+                            #region No piece selected
+                            if (selectedPiece.X < 0 || selectedPiece.Y < 0) // If selectedPiece is negative a.k.a. no piece selected
+                            {
+                                // Only perform click method if the click was on the board
+                                if (mouseX >= 0 && mouseX < 7 && mouseY >= 0 && mouseY < 7)
+                                {
+                                    // Perform logic depending on what piece is in the space
+                                    if (pieces[mouseX, mouseY].Value() == 0)
+                                    {
+                                        pieces[mouseX, mouseY].SetState(2);
+                                        Mutate(mouseX, mouseY, 2);
+                                        playerTurn = 1;
+                                    }
+                                    //switch (pieces[mouseX, mouseY].Value())
+                                    //{
+                                    //    case 0:     // If blank space clicked
+                                    //        // Do nothing for now
+                                    //        // Will play error noise in the future
+                                    //        break;
+                                    //    case 1:     // If clicked on red piece
+                                    //        // Do nothing for now
+                                    //        // Will play error noise in the future
+                                    //        break;
+                                    //    case 2:     // If clicked on green piece
+                                    //        // Select the green piece
+                                    //        selectedPiece = new Vector2(mouseX, mouseY);
+                                    //        selectPiece.Play(1.0f, 0.0f, 0.0f, false);
+                                    //        break;
+                                    //    default:    // Error
+                                    //        // Error
+                                    //        break;
+                                    //}
+                                }
+                            }
+                            #endregion
+                            #region Piece on board selected
+                            else if (selectedPiece.X >= 0 && selectedPiece.X < 7 && selectedPiece.Y >= 0 && selectedPiece.Y < 7) // If piece on the board is selected
+                            {
+                                // Only perform click method if the click was on the board
+                                if (mouseX >= 0 && mouseX < 7 && mouseY >= 0 && mouseY < 7)
+                                {
+                                    // Perform logic depending on what piece is in the space
+                                    switch (pieces[mouseX, mouseY].Value())
+                                    {
+                                        case 0:     // If blank space clicked
+                                            // If PerformMove is false (invalid move)
+                                            if (MovePiece(selectedPiece, mouseX, mouseY, playerTurn))
+                                            {
+                                                // Prepare for next player
+                                                if (AnyMoves(1))
+                                                {
+                                                    seiAvaMove.Stop();
+                                                    playerTurn = 1;
+                                                    seiAvaMove.Play();
+                                                }
+                                                //else if (!AnyPieces(1))
+                                                //{
+                                                //    FillBoard(2);
+                                                //    drawGreenBanner = true;
+                                                //}
+                                                else
+                                                    if (BoardFull())
+                                                        boardFull = true;
+
+                                                selectedPiece = new Vector2(-1, -1);
+                                            }
+                                            else
+                                            {
+                                                // Deselect piece
+                                                selectedPiece = new Vector2(-1, -1);
+                                                unMove.Play(1.0f, 0.0f, 0.0f, false);
+                                            }
+                                            break;
+                                        case 1:     // If clicked on red piece
+                                            // Deselect piece
+                                            selectedPiece = new Vector2(-1, -1);
+                                            unMove.Play(1.0f, 0.0f, 0.0f, false);
+                                            break;
+                                        case 2:     // If clicked on green piece
+                                            // Deselect piece
+                                            selectedPiece = new Vector2(mouseX, mouseY);
+                                            selectPiece.Play(1.0f, 0.0f, 0.0f, false);
+                                            break;
+                                        default:    // Error
+                                            // Error
+                                            break;
+                                    }
+                                }
+                            }
+                            break;
+                            #endregion
+                        #endregion
+                        #region If playerTurn is not set to a valid player
+                        default: // Error
+                            // If playerTurn is not 0 or 1
+                            // this would be due to a logical
+                            // error somewhere else in code
+                            break;
+                        #endregion
+                    }
+                }
+            }
+               
+                }
+           */
 
         public void Draw()
         {
@@ -704,7 +1218,7 @@ namespace Beta
             int tempY;
             bool validMove = false;
 
-            //Draw pices from clicked all the way horozontally upwards
+            //Draw pices from clicked all the way vertically upwards
             #region Up
             tempY = sY;
             while (tempY > 0)
@@ -728,14 +1242,14 @@ namespace Beta
                     {
                         break;
                     }
-                    tempY = DrawHoroUp(player, sX, tempY);
+                    tempY = DrawVertUp(player, sX, tempY);
                     tempY--;
                 }
             }
             validMove = false;
             #endregion
 
-            //Draw pices from clicked horozontally downwards
+            //Draw pices from clicked vertically downwards
             #region Down
 
             tempY = sY;
@@ -761,14 +1275,14 @@ namespace Beta
                     {
                         break;
                     }
-                    tempY = DrawHoroDown(player, sX, tempY);
+                    tempY = DrawVertDown(player, sX, tempY);
                 }
 
                 validMove = false;
             }
             #endregion
 
-            //Draw pieces from clicked vertically to the left
+            //Draw pieces from clicked horozontally to the left
             #region Left
 
             tempX = sX;
@@ -794,13 +1308,13 @@ namespace Beta
                     {
                         break;
                     }
-                    tempX = DrawVertLeft(player, sY, tempX);
+                    tempX = DrawHoroLeft(player, sY, tempX);
                 }
                 validMove = false;
             }
             #endregion
 
-            //Draw pieces from clicked vertically to the right
+            //Draw pieces from clicked horozontally to the right
             #region Right
 
             tempX = sX;
@@ -825,7 +1339,7 @@ namespace Beta
                     {
                         break;
                     }
-                    tempX = DrawVertRight(player, sY, tempX);
+                    tempX = DrawHoroRight(player, sY, tempX);
                 }
                 validMove = false;
             }
@@ -1004,7 +1518,7 @@ namespace Beta
             tempY--;
         }
 
-        private int DrawVertRight(int player, int sY, int tempX)
+        private int DrawHoroRight(int player, int sY, int tempX)
         {
             pieces[tempX + 1, sY].Mutate(player);
             animate.Enqueue(new Vector2(tempX + 1, sY));
@@ -1012,7 +1526,7 @@ namespace Beta
             return tempX;
         }
 
-        private int DrawVertLeft(int player, int sY, int tempX)
+        private int DrawHoroLeft(int player, int sY, int tempX)
         {
             pieces[tempX - 1, sY].Mutate(player);
             animate.Enqueue(new Vector2(tempX - 1, sY));
@@ -1020,7 +1534,7 @@ namespace Beta
             return tempX;
         }
 
-        private int DrawHoroDown(int player, int sX, int tempY)
+        private int DrawVertDown(int player, int sX, int tempY)
         {
             pieces[sX, tempY + 1].Mutate(player);
             animate.Enqueue(new Vector2(sX, tempY + 1));
@@ -1028,7 +1542,7 @@ namespace Beta
             return tempY;
         }
 
-        private int DrawHoroUp(int player, int sX, int tempY)
+        private int DrawVertUp(int player, int sX, int tempY)
         {
             pieces[sX, tempY - 1].Mutate(player);
             animate.Enqueue(new Vector2(sX, tempY - 1));

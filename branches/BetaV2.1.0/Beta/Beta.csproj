@@ -88,6 +88,7 @@
     <Compile Include="AIBoard.cs" />
     <Compile Include="Animation.cs" />
     <Compile Include="Board.cs" />
+    <Compile Include="Class1.cs" />
     <Compile Include="Credits.cs" />
     <Compile Include="Cursor.cs" />
     <Compile Include="Image.cs" />
