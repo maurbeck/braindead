@@ -1224,6 +1224,10 @@ namespace Beta
             while (tempY > 0)
             {
                 {
+                    if (pieces[sX, tempY - 1].Value() == 0 && validMove == false)
+                    {
+                        break;
+                    }
                     if (pieces[sX, tempY - 1].Value() == player)
                     {
                         validMove = true;
@@ -1257,6 +1261,10 @@ namespace Beta
             while (tempY < 6)
             {
                 {
+                    if (pieces[sX, tempY + 1].Value() == 0 && validMove == false)
+                    {
+                        break;
+                    }
                     if (pieces[sX, tempY + 1].Value() == player)
                     {
                         validMove = true;
@@ -1290,6 +1298,10 @@ namespace Beta
             while (tempX > 0)
             {
                 {
+                    if (pieces[tempX - 1, sY].Value() == 0 && validMove == false)
+                    {
+                        break;
+                    }
                     if (pieces[tempX - 1, sY].Value() == player)
                     {
                         validMove = true;
@@ -1322,6 +1334,10 @@ namespace Beta
             while (tempX < 6)
             {
                 {
+                    if (pieces[tempX + 1, sY].Value() == 0 && validMove == false)
+                    {
+                        break;
+                    }
                     if (pieces[tempX + 1, sY].Value() == player)
                     {
                         validMove = true;
@@ -1354,6 +1370,10 @@ namespace Beta
             while (tempY > 0 && tempX > 0)
             {
                 {
+                    if (pieces[tempX - 1, tempY - 1].Value() == 0 && validMove == false)
+                    {
+                        break;
+                    }
                     if (pieces[tempX - 1, tempY - 1].Value() == player)
                     {
                         validMove = true;
@@ -1388,6 +1408,10 @@ namespace Beta
             while (tempY < 6 && tempX < 6)
             {
                 {
+                    if (pieces[tempX + 1, tempY + 1].Value() == 0 && validMove == false)
+                    {
+                        break;
+                    }
                     if (pieces[tempX + 1, tempY + 1].Value() == player)
                     {
                         validMove = true;
@@ -1423,6 +1447,10 @@ namespace Beta
             while (tempY > 0 && tempX < 6)
             {
                 {
+                    if (pieces[tempX + 1, tempY - 1].Value() == 0 && validMove == false)
+                    {
+                        break;
+                    }
                     if (pieces[tempX + 1, tempY - 1].Value() == player)
                     {
                         validMove = true;
@@ -1458,6 +1486,10 @@ namespace Beta
             while (tempY < 6 && tempX > 0)
             {
                 {
+                    if (pieces[tempX - 1, tempY + 1].Value() == 0 && validMove == false)
+                    {
+                        break;
+                    }
                     if (pieces[tempX - 1, tempY + 1].Value() == player)
                     {
                         validMove = true;
