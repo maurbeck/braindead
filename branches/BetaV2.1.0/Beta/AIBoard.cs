@@ -376,6 +376,8 @@ namespace Beta
                                 }
                                 else if (!AnyPieces((int)PlayerTurn.Red))
                                 {
+                                    FillBoard((int)PlayerTurn.Green);
+                                    drawGreenBanner = true;
                                 }
                                 else
                                 {
