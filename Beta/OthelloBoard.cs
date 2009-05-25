@@ -47,7 +47,7 @@ namespace Beta
         Image greenBanner = new Image();
 
         // Array of pieces representing the board
-        Piece[,] pieces = new Piece[7, 7];
+        Piece[,] pieces = new Piece[LIMIT, LIMIT];
 
         // Queue to handle the animations one at a time
         Queue<Vector2> animate = new Queue<Vector2>();
@@ -66,30 +66,14 @@ namespace Beta
         // Board full
         public static bool boardFull;
 
-        // Piece count
-        //int redCount;
-        //int greenCount;
-
         // final scores for each player
         int plr1score;
         int plr2score;
-
-        //limit of board dimensions
-        const int X = 7;
-        const int Y = 7;
 
         // To draw the banners or not
         // Will be combined with animate.Count == 0
         bool drawBlueBanner;
         bool drawGreenBanner;
-
-        //make counters for plopendpieces looping
-        //int x1;
-        //int y1;
-        //int x2;
-        //int y2;
-        //int count1;
-        //int count2;
 
         //Sounds
         SoundEffect selectPiece;
@@ -101,14 +85,16 @@ namespace Beta
 
         //Define the min and max board positions
         const int MIN = 0;
-        const int MAX = 6;
+        const int MAX = 7;
 
+        //Define the pieces array size
+        const int LIMIT = 8;
 
         public OthelloBoard()
         {
-            for (int x = 0; x < 7; x++)
+            for (int x = 0; x < LIMIT; x++)
             {
-                for (int y = 0; y < 7; y++)
+                for (int y = 0; y < LIMIT; y++)
                 {
                     pieces[x, y] = new Piece();
                 }
@@ -137,11 +123,11 @@ namespace Beta
             board.Initialize(Vector2.Zero, new Rectangle(0, 0, 798, 798), Color.White, Vector2.Zero, new Vector2(0.5f), 1f);
 
             // Initialize Pieces to be all blank
-            for (int x = 0; x < 7; x++)
+            for (int x = 0; x < LIMIT; x++)
             {
-                for (int y = 0; y < 7; y++)
+                for (int y = 0; y < LIMIT; y++)
                 {
-                    pieces[x, y].Initialize(new Vector2(((100 * x) / 2 + offset.X), ((100 * y) / 2 + offset.Y)), new Rectangle(0, 0, 100, 100), Vector2.Zero, new Vector2(0.5f), 0.5f);
+                    pieces[x, y].Initialize(new Vector2(((100 * x) / 2), ((100 * y) / 2)), new Rectangle(0, 0, 100, 100), Vector2.Zero, new Vector2(0.5f), 0.5f);
                     pieces[x, y].SetState(0);
                 }
             }
@@ -211,24 +197,19 @@ namespace Beta
 
             // Set playerTurn
             playerTurn = (int)PlayerTurn.Red;
+            
             // Set selected piece
             selectedPiece = new Vector2(-1, -1);
+            
             // Set time
             time = 0;
+
             // Board full
             boardFull = false;
-            // Set counts
-            //redCount = 0;
-            //greenCount = 0;
-
+            
             drawBlueBanner = false;
             drawGreenBanner = false;
 
-            //x1 = 0;
-            //y1 = 0;
-            //x2 = 6;
-            //y2 = 6;
-            
         }
 
         public void LoadContent(SpriteBatch spriteBatch, Texture2D board, Texture2D red, Texture2D green, Texture2D redSelection, Texture2D greenSelection, Texture2D redGreen, Texture2D greenRed, Texture2D tPlr1, Texture2D tPlr2, Texture2D redCur, Texture2D greenCur, Texture2D blueBanner, Texture2D greenBanner)
@@ -245,9 +226,9 @@ namespace Beta
             this.greenBanner.LoadContent(spriteBatch, ref greenBanner);
 
             // Load the content for the pieces
-            for (int x = 0; x < 7; x++)
+            for (int x = 0; x < LIMIT; x++)
             {
-                for (int y = 0; y < 7; y++)
+                for (int y = 0; y < LIMIT; y++)
                 {
                     pieces[x, y].LoadContent(spriteBatch, red, green, redGreen, greenRed,tPlr1,tPlr2);
                 }
@@ -272,7 +253,7 @@ namespace Beta
 
         public void Update(GameTime gameTime, ref int state)
         {
-          
+
             // Get the keyboard state
             KeyboardState keyState = Keyboard.GetState();
 
@@ -329,53 +310,27 @@ namespace Beta
 
             #region Update all the pieces on the board
             // Update all pieces on the board
-            for (int x = 0; x < 7; x++)
+            for (int x = 0; x < LIMIT; x++)
             {
-                for (int y = 0; y < 7; y++)
+                for (int y = 0; y < LIMIT; y++)
                 {
                     pieces[x, y].Update(gameTime);
                 }
             }
             #endregion
 
-            #region Keep running total of pieces on board
-            // Update count of pieces if all animations are finished
-            // and the total of the last count is less than 49
-            /*
-            if (animate.Count == 0 && ((redCount + greenCount) < 49))
-            {
-                for (int x = 0; x < 7; x++)
-                {
-                    for (int y = 0; y < 7; y++)
-                    {
-                        switch (pieces[x, y].Value())
-                        {
-                            case 1:
-                                redCount++;
-                                break;
-                            case 2:
-                                greenCount++;
-                                break;
-                        }
-                    }
-                }
-            }
-            */
-
-
             if (boardFull == true && animate.Count == 0 && time > 1000)
             {
                 ClearBoard();
                 PlopEndPieces();
             }
-            #endregion
         }
 
         public void Click(MouseState mouseState)
         {
             // Find the grid coordinates of the mouse click
-            int mouseX = (int)Math.Floor((double)(mouseState.X - offset.X) / 50);
-            int mouseY = (int)Math.Floor((double)(mouseState.Y - offset.Y) / 50);
+            int mouseX = (int)Math.Floor((double)(mouseState.X) / 50);
+            int mouseY = (int)Math.Floor((double)(mouseState.Y) / 50);
 
             if (animate.Count == 0 && time >= 500 && !drawBlueBanner && !drawGreenBanner)
             {
@@ -384,7 +339,7 @@ namespace Beta
                 if (selectedPiece.X < 0 || selectedPiece.Y < 0) // If selectedPiece is negative a.k.a. no piece selected
                 {
                     // Only perform click method if the click was on the board
-                    if (mouseX >= 0 && mouseX < 7 && mouseY >= 0 && mouseY < 7)
+                    if (mouseX >= 0 && mouseX < LIMIT && mouseY >= MIN && mouseY < LIMIT)
                     {
                         // Perform logic depending on what piece is in the space
                         if (pieces[mouseX, mouseY].Value() == 0)
@@ -493,25 +448,7 @@ namespace Beta
                                 playerTurn = oppositePlayer;
                             }
 
-                            //switch (pieces[mouseX, mouseY].Value())
-                            //{
-                            //    case 0:     // If blank space clicked
-                            //        // Do nothing for now
-                            //        break;
-                            //    //case 1:     // If clicked on red piece
-                            //    //    // Select the red piece
-                            //    //    selectedPiece = new Vector2(mouseX, mouseY);
-                            //    //    selectPiece.Play(1.0f, 0.0f, 0.0f, false);
-                            //    //    break;
-                            //    //case 2:     // If clicked on green piece
-                            //    //    // Do nothing for now
-                            //    //    // Will play error noise in the future
-                            //    //    break;
-                            //    default:    // Error
-                            //        // Error
-                            //        break;
-                            //}
-                        }
+                       }
                     }
                 }
             }
@@ -923,180 +860,16 @@ namespace Beta
         }
     
               
-          /*  #region Piece on board selected
-            else if (selectedPiece.X >= 0 && selectedPiece.X < 7 && selectedPiece.Y >= 0 && selectedPiece.Y < 7) // If piece on the board is selected
-            {
-                // Only perform click method if the click was on the board
-                if (mouseX >= 0 && mouseX < 7 && mouseY >= 0 && mouseY < 7)
-                {
-                    // Perform logic depending on what piece is in the space
-                    switch (pieces[mouseX, mouseY].Value())
-                    {
-                        case 0:     // If blank space clicked
-                            // If PerformMove is true
-                            if (MovePiece(selectedPiece, mouseX, mouseY, playerTurn))
-                            {
-                                // Prepare for next player
-                                if (AnyMoves(2))
-                                {
-                                    seiAvaMove.Stop();
-                                    playerTurn = 2;
-                                    seiAvaMove.Play();
-                                }
-                                //else if (!AnyPieces(2))
-                                //{
-                                //    FillBoard(1);
-                                //    drawBlueBanner = true;
-                                //}
-                                else
-                                    if (BoardFull())
-                                        boardFull = true;
-
-                                selectedPiece = new Vector2(-1, -1);
-                            }
-                            else
-                            {
-                                // Deselect piece
-                                selectedPiece = new Vector2(-1, -1);
-                                unMove.Play(1.0f, 0.0f, 0.0f, false);
-                            }
-                            break;
-                        case 1:     // If clicked on red piece
-                            // Select piece
-                            selectedPiece = new Vector2(mouseX, mouseY);
-                            selectPiece.Play(1.0f, 0.0f, 0.0f, false);
-                            break;
-                        case 2:     // If clicked on green piece
-                            // Deselect piece
-                            selectedPiece = new Vector2(-1, -1);
-                            unMove.Play(1.0f, 0.0f, 0.0f, false);
-                            break;
-                        default:    // Error
-                            // Error
-                            break;
-
-
-
-            #endregion
-                            break;
-
-                        #region Green turn logic if mouse is clicked
-                        case 2: // Green turn
-                            #region No piece selected
-                            if (selectedPiece.X < 0 || selectedPiece.Y < 0) // If selectedPiece is negative a.k.a. no piece selected
-                            {
-                                // Only perform click method if the click was on the board
-                                if (mouseX >= 0 && mouseX < 7 && mouseY >= 0 && mouseY < 7)
-                                {
-                                    // Perform logic depending on what piece is in the space
-                                    if (pieces[mouseX, mouseY].Value() == 0)
-                                    {
-                                        pieces[mouseX, mouseY].SetState(2);
-                                        Mutate(mouseX, mouseY, 2);
-                                        playerTurn = 1;
-                                    }
-                                    //switch (pieces[mouseX, mouseY].Value())
-                                    //{
-                                    //    case 0:     // If blank space clicked
-                                    //        // Do nothing for now
-                                    //        // Will play error noise in the future
-                                    //        break;
-                                    //    case 1:     // If clicked on red piece
-                                    //        // Do nothing for now
-                                    //        // Will play error noise in the future
-                                    //        break;
-                                    //    case 2:     // If clicked on green piece
-                                    //        // Select the green piece
-                                    //        selectedPiece = new Vector2(mouseX, mouseY);
-                                    //        selectPiece.Play(1.0f, 0.0f, 0.0f, false);
-                                    //        break;
-                                    //    default:    // Error
-                                    //        // Error
-                                    //        break;
-                                    //}
-                                }
-                            }
-                            #endregion
-                            #region Piece on board selected
-                            else if (selectedPiece.X >= 0 && selectedPiece.X < 7 && selectedPiece.Y >= 0 && selectedPiece.Y < 7) // If piece on the board is selected
-                            {
-                                // Only perform click method if the click was on the board
-                                if (mouseX >= 0 && mouseX < 7 && mouseY >= 0 && mouseY < 7)
-                                {
-                                    // Perform logic depending on what piece is in the space
-                                    switch (pieces[mouseX, mouseY].Value())
-                                    {
-                                        case 0:     // If blank space clicked
-                                            // If PerformMove is false (invalid move)
-                                            if (MovePiece(selectedPiece, mouseX, mouseY, playerTurn))
-                                            {
-                                                // Prepare for next player
-                                                if (AnyMoves(1))
-                                                {
-                                                    seiAvaMove.Stop();
-                                                    playerTurn = 1;
-                                                    seiAvaMove.Play();
-                                                }
-                                                //else if (!AnyPieces(1))
-                                                //{
-                                                //    FillBoard(2);
-                                                //    drawGreenBanner = true;
-                                                //}
-                                                else
-                                                    if (BoardFull())
-                                                        boardFull = true;
-
-                                                selectedPiece = new Vector2(-1, -1);
-                                            }
-                                            else
-                                            {
-                                                // Deselect piece
-                                                selectedPiece = new Vector2(-1, -1);
-                                                unMove.Play(1.0f, 0.0f, 0.0f, false);
-                                            }
-                                            break;
-                                        case 1:     // If clicked on red piece
-                                            // Deselect piece
-                                            selectedPiece = new Vector2(-1, -1);
-                                            unMove.Play(1.0f, 0.0f, 0.0f, false);
-                                            break;
-                                        case 2:     // If clicked on green piece
-                                            // Deselect piece
-                                            selectedPiece = new Vector2(mouseX, mouseY);
-                                            selectPiece.Play(1.0f, 0.0f, 0.0f, false);
-                                            break;
-                                        default:    // Error
-                                            // Error
-                                            break;
-                                    }
-                                }
-                            }
-                            break;
-                            #endregion
-                        #endregion
-                        #region If playerTurn is not set to a valid player
-                        default: // Error
-                            // If playerTurn is not 0 or 1
-                            // this would be due to a logical
-                            // error somewhere else in code
-                            break;
-                        #endregion
-                    }
-                }
-            }
-               
-                }
-           */
-
+  
         public void Draw()
         {
             // Draw the board
             board.Draw();
 
             // Loop through and draw all of the pieces
-            for (int x = 0; x < 7; x++)
+            for (int x = 0; x < LIMIT; x++)
             {
-                for (int y = 0; y < 7; y++)
+                for (int y = 0; y < LIMIT; y++)
                 {
                     pieces[x, y].Draw();
                 }
@@ -1221,7 +994,7 @@ namespace Beta
             //Draw pices from clicked all the way vertically upwards
             #region Up
             tempY = sY;
-            while (tempY > 0)
+            while (tempY > MIN)
             {
                 {
                     if (pieces[sX, tempY - 1].Value() == 0 && validMove == false)
@@ -1240,7 +1013,7 @@ namespace Beta
             {
                 tempY = sY;
 
-                while (tempY > 0)
+                while (tempY > MIN)
                 {
                     if (pieces[sX, tempY - 1].Value() == player || pieces[sX, tempY - 1].Value() == 0)
                     {
@@ -1258,7 +1031,7 @@ namespace Beta
 
             tempY = sY;
 
-            while (tempY < 6)
+            while (tempY < MAX)
             {
                 {
                     if (pieces[sX, tempY + 1].Value() == 0 && validMove == false)
@@ -1277,7 +1050,7 @@ namespace Beta
             {
                 tempY = sY;
 
-                while (tempY < 6)
+                while (tempY < MAX)
                 {
                     if (pieces[sX, tempY + 1].Value() == player || pieces[sX, tempY + 1].Value() == 0)
                     {
@@ -1295,7 +1068,7 @@ namespace Beta
 
             tempX = sX;
 
-            while (tempX > 0)
+            while (tempX > MIN)
             {
                 {
                     if (pieces[tempX - 1, sY].Value() == 0 && validMove == false)
@@ -1314,7 +1087,7 @@ namespace Beta
             {
                 tempX = sX;
 
-                while (tempX > 0)
+                while (tempX > MIN)
                 {
                     if (pieces[tempX - 1, sY].Value() == player || pieces[tempX - 1, sY].Value() == 0)
                     {
@@ -1331,7 +1104,7 @@ namespace Beta
 
             tempX = sX;
 
-            while (tempX < 6)
+            while (tempX < MAX)
             {
                 {
                     if (pieces[tempX + 1, sY].Value() == 0 && validMove == false)
@@ -1349,7 +1122,7 @@ namespace Beta
             if (validMove == true)
             {
                 tempX = sX;
-                while (tempX < 6)
+                while (tempX < MAX)
                 {
                     if (pieces[tempX + 1, sY].Value() == player || pieces[tempX + 1, sY].Value() == 0)
                     {
@@ -1367,7 +1140,7 @@ namespace Beta
             tempX = sX;
             tempY = sY;
 
-            while (tempY > 0 && tempX > 0)
+            while (tempY > MIN && tempX > MIN)
             {
                 {
                     if (pieces[tempX - 1, tempY - 1].Value() == 0 && validMove == false)
@@ -1388,9 +1161,10 @@ namespace Beta
                 tempX = sX;
                 tempY = sY;
                 
-                while (tempY > 0 && tempX > 0)
+                while (tempY > MIN && tempX > MIN)
                 {
-                    if (pieces[tempX - 1, tempY - 1].Value() == player || pieces[tempX - 1, tempY - 1].Value() == 0)
+                    if (pieces[tempX - 1, tempY - 1].Value() == player ||
+                        pieces[tempX - 1, tempY - 1].Value() == 0)
                     {
                         break;
                     }
@@ -1405,7 +1179,7 @@ namespace Beta
             tempX = sX;
             tempY = sY;
 
-            while (tempY < 6 && tempX < 6)
+            while (tempY < MAX && tempX < MAX)
             {
                 {
                     if (pieces[tempX + 1, tempY + 1].Value() == 0 && validMove == false)
@@ -1426,9 +1200,10 @@ namespace Beta
                 tempX = sX;
                 tempY = sY;
                 
-                while (tempY < 6 && tempX < 6)
+                while (tempY < MAX && tempX < MAX)
                 {
-                    if (pieces[tempX + 1, tempY + 1].Value() == player || pieces[tempX + 1, tempY + 1].Value() == 0)
+                    if (pieces[tempX + 1, tempY + 1].Value() == player ||
+                        pieces[tempX + 1, tempY + 1].Value() == 0)
                     {
                         break;
                     }
@@ -1444,7 +1219,7 @@ namespace Beta
             tempX = sX;
             tempY = sY;
 
-            while (tempY > 0 && tempX < 6)
+            while (tempY > MIN && tempX < MAX)
             {
                 {
                     if (pieces[tempX + 1, tempY - 1].Value() == 0 && validMove == false)
@@ -1465,9 +1240,10 @@ namespace Beta
                 tempX = sX;
                 tempY = sY;
 
-                while (tempY > 0 && tempX < 6)
+                while (tempY > MIN && tempX < MAX)
                 {
-                    if (pieces[tempX + 1, tempY - 1].Value() == player || pieces[tempX + 1, tempY - 1].Value() == 0)
+                    if (pieces[tempX + 1, tempY - 1].Value() == player ||
+                        pieces[tempX + 1, tempY - 1].Value() == 0)
                     {
                         break;
                     }
@@ -1483,7 +1259,7 @@ namespace Beta
             tempX = sX;
             tempY = sY;
 
-            while (tempY < 6 && tempX > 0)
+            while (tempY < MAX && tempX > MIN)
             {
                 {
                     if (pieces[tempX - 1, tempY + 1].Value() == 0 && validMove == false)
@@ -1504,9 +1280,10 @@ namespace Beta
                 tempX = sX;
                 tempY = sY;
                 
-                while (tempY < 6 && tempX > 0)
+                while (tempY < MAX && tempX > MIN)
                 {
-                    if (pieces[tempX - 1, tempY + 1].Value() == player || pieces[tempX - 1, tempY + 1].Value() == 0)
+                    if (pieces[tempX - 1, tempY + 1].Value() == player ||
+                        pieces[tempX - 1, tempY + 1].Value() == 0)
                     {
                         break;
                     }
@@ -1582,77 +1359,77 @@ namespace Beta
             return tempY;
         }
 
-        public bool AnyMoves(int player)
-        {
-            for (int x = 0; x < 7; x++)
-            {
-                for (int y = 0; y < 7; y++)
-                {
-                    if (pieces[x, y].Value() == player)
-                    {
-                        for (int moveNum = 1; moveNum < 3; moveNum++)
-                        {
-                            // Northwest
-                            if (y > (0 + (moveNum - 1)) && x > (0 + (moveNum - 1)))
-                            {
-                                if (pieces[(x - moveNum), (y - moveNum)].Value() == 0)
-                                    return true;
-                            }
-                            // North
-                            if (y > (0 + (moveNum - 1)))
-                            {
-                                if (pieces[(x), (y - moveNum)].Value() == 0)
-                                    return true;
-                            }
-                            // Northeast
-                            // crashing bug was here, was checking if y < (7 - (moveNum - 1)) and x > (0 + (moveNum - 1))
-                            if (y > (0 + (moveNum - 1)) && x < (6 - (moveNum - 1)))
-                            {
-                                if (pieces[(x + moveNum), (y - moveNum)].Value() == 0)
-                                    return true;
-                            }
-                            // East
-                            if (x < (6 - (moveNum - 1)))
-                            {
-                                if (pieces[(x + moveNum), (y)].Value() == 0)
-                                    return true;
-                            }
-                            // Southeast
-                            if (y < (6 - (moveNum - 1)) && x < (6 - (moveNum - 1)))
-                            {
-                                if (pieces[(x + moveNum), (y + moveNum)].Value() == 0)
-                                    return true;
-                            }
-                            // South
-                            if (y < (6 - (moveNum - 1)))
-                            {
-                                if (pieces[(x), (y + moveNum)].Value() == 0)
-                                    return true;
-                            }
-                            // Southwest
-                            if (y < (6 - (moveNum - 1)) && x > (0 + (moveNum - 1)))
-                            {
-                                if (pieces[(x - moveNum), (y + moveNum)].Value() == 0)
-                                    return true;
-                            }
-                            // West
-                            if (x > (0 + (moveNum - 1)))
-                            {
-                                if (pieces[(x - moveNum), (y)].Value() == 0)
-                                    return true;
-                            }
-                        }
-                    }
-                }
-            }
-            return false;
-        }
+        //public bool AnyMoves(int player)
+        //{
+        //    for (int x = 0; x < 7; x++)
+        //    {
+        //        for (int y = 0; y < 7; y++)
+        //        {
+        //            if (pieces[x, y].Value() == player)
+        //            {
+        //                for (int moveNum = 1; moveNum < 3; moveNum++)
+        //                {
+        //                    // Northwest
+        //                    if (y > (0 + (moveNum - 1)) && x > (0 + (moveNum - 1)))
+        //                    {
+        //                        if (pieces[(x - moveNum), (y - moveNum)].Value() == 0)
+        //                            return true;
+        //                    }
+        //                    // North
+        //                    if (y > (0 + (moveNum - 1)))
+        //                    {
+        //                        if (pieces[(x), (y - moveNum)].Value() == 0)
+        //                            return true;
+        //                    }
+        //                    // Northeast
+        //                    // crashing bug was here, was checking if y < (7 - (moveNum - 1)) and x > (0 + (moveNum - 1))
+        //                    if (y > (0 + (moveNum - 1)) && x < (6 - (moveNum - 1)))
+        //                    {
+        //                        if (pieces[(x + moveNum), (y - moveNum)].Value() == 0)
+        //                            return true;
+        //                    }
+        //                    // East
+        //                    if (x < (6 - (moveNum - 1)))
+        //                    {
+        //                        if (pieces[(x + moveNum), (y)].Value() == 0)
+        //                            return true;
+        //                    }
+        //                    // Southeast
+        //                    if (y < (6 - (moveNum - 1)) && x < (6 - (moveNum - 1)))
+        //                    {
+        //                        if (pieces[(x + moveNum), (y + moveNum)].Value() == 0)
+        //                            return true;
+        //                    }
+        //                    // South
+        //                    if (y < (6 - (moveNum - 1)))
+        //                    {
+        //                        if (pieces[(x), (y + moveNum)].Value() == 0)
+        //                            return true;
+        //                    }
+        //                    // Southwest
+        //                    if (y < (6 - (moveNum - 1)) && x > (0 + (moveNum - 1)))
+        //                    {
+        //                        if (pieces[(x - moveNum), (y + moveNum)].Value() == 0)
+        //                            return true;
+        //                    }
+        //                    // West
+        //                    if (x > (0 + (moveNum - 1)))
+        //                    {
+        //                        if (pieces[(x - moveNum), (y)].Value() == 0)
+        //                            return true;
+        //                    }
+        //                }
+        //            }
+        //        }
+        //    }
+        //    return false;
+        //}
 
         public bool AnyPieces(int player)
         {
-            for (int y = 0; y < 7; y++)
+            for (int y = 0; y < LIMIT; y++)
             {
-                for (int x = 0; x < 7; x++)
+                for (int x = 0; x < LIMIT; x++)
                 {
                     if (pieces[x, y].Value() == player)
                     {
@@ -1666,9 +1443,9 @@ namespace Beta
 
         public bool BoardFull()
         {
-            for (int x = 0; x < 7; x++)
+            for (int x = 0; x < LIMIT; x++)
             {
-                for (int y = 0; y < 7; y++)
+                for (int y = 0; y < LIMIT; y++)
                 {
                     if (pieces[x, y].Value() == 0)
                         return false;
@@ -1680,9 +1457,9 @@ namespace Beta
         public void ClearBoard()
         {
             //save the score before board is erased
-            for (int x = 0; x < 7; x++)
+            for (int x = 0; x < LIMIT; x++)
             {
-                for (int y = 0; y < 7; y++)
+                for (int y = 0; y < LIMIT; y++)
                 {
                     switch (pieces[x, y].Value())
                     {
@@ -1698,9 +1475,9 @@ namespace Beta
             }
 
             //clear pieces
-            for (int x = 0; x < 7; x++)
+            for (int x = 0; x < LIMIT; x++)
             {
-                for (int y = 0; y < 7; y++)
+                for (int y = 0; y < LIMIT; y++)
                 {
                     pieces[x, y].SetState(0);
                 }
@@ -1717,9 +1494,9 @@ namespace Beta
                 drawGreenBanner = true;
 
 
-            for (int y = 0; y < 7; y++)
+            for (int y = 0; y < LIMIT; y++)
             {
-                for(int x = 0; x < 7; x++)
+                for(int x = 0; x < LIMIT; x++)
                 {
                     if (plr1score > 0)
                     {
@@ -1729,8 +1506,8 @@ namespace Beta
                     }
                     if (plr2score > 0)
                     {
-                        pieces[6-x,6-y].SetState(6);
-                        animate.Enqueue(new Vector2(6-x,6-y));
+                        pieces[ MAX - x , MAX - y ].SetState(6);
+                        animate.Enqueue(new Vector2( MAX - x ,MAX - y ) );
                         plr2score--;
                     }
                 }
