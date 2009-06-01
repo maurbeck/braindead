@@ -132,11 +132,11 @@ namespace Beta
                 }
             }
 
-            // Set the initial corner pieces
-           // pieces[0, 0].SetState(1);
-            //pieces[6, 6].SetState(1);
-            //pieces[0, 6].SetState(2);
-            //pieces[6, 0].SetState(2);
+            // Set the initial pieces
+            pieces[1, 1].SetState(1);
+            pieces[2, 2].SetState(1);
+            pieces[2, 1].SetState(1);
+            pieces[1, 2].SetState(2);
 
             //Peices for quick end of game
             //pieces[0, 0].SetState(1);
@@ -162,15 +162,15 @@ namespace Beta
             //pieces[6, 2].SetState(1);
             //pieces[0, 3].SetState(1);
             //pieces[1, 3].SetState(1);
-            pieces[2, 3].SetState(2);
-            pieces[3, 3].SetState(1);
+            //pieces[2, 3].SetState(2);
+            //pieces[3, 3].SetState(1);
             //pieces[4, 3].SetState(2);
             //pieces[5, 3].SetState(2);
             //pieces[6, 3].SetState(1);
             //pieces[0, 4].SetState(2);
             //pieces[1, 4].SetState(2);
-            pieces[2, 4].SetState(1);
-            pieces[3, 4].SetState(2);
+            //pieces[2, 4].SetState(1);
+            //pieces[3, 4].SetState(2);
             //pieces[4, 4].SetState(1);
             //pieces[5, 4].SetState(1);
             //pieces[6, 4].SetState(2);
@@ -380,8 +380,8 @@ namespace Beta
                             //Save out mouse positions
                             tempX = sX;
                             tempY = sY;
-
-                            CheckUp(sX, ref tempY, ref oppositePlayerObstruction, ref samePlayerEndOfLine, ref validMove, player, oppositePlayer);
+                            if(!validMove)
+                                CheckUp(sX, tempY, ref oppositePlayerObstruction, ref samePlayerEndOfLine, ref validMove, player, oppositePlayer);
 
                             //Vert Down
                             
@@ -389,7 +389,8 @@ namespace Beta
                             tempX = sX;
                             tempY = sY;
 
-                            CheckDown(sX, ref tempY, ref oppositePlayerObstruction, ref samePlayerEndOfLine, ref validMove, player, oppositePlayer);
+                            if (!validMove)
+                                CheckDown(sX, tempY, ref oppositePlayerObstruction, ref samePlayerEndOfLine, ref validMove, player, oppositePlayer);
 
                             //Horo Left
 
@@ -397,7 +398,8 @@ namespace Beta
                             tempX = sX;
                             tempY = sY;
 
-                            CheckLeft(sY, ref tempX, ref oppositePlayerObstruction, ref samePlayerEndOfLine, ref validMove, player, oppositePlayer);
+                            if (!validMove)
+                                CheckLeft(sY, tempX, ref oppositePlayerObstruction, ref samePlayerEndOfLine, ref validMove, player, oppositePlayer);
 
                             //Horo Right
 
@@ -405,7 +407,8 @@ namespace Beta
                             tempX = sX;
                             tempY = sY;
 
-                            CheckRight(sY, ref tempX, ref oppositePlayerObstruction, ref samePlayerEndOfLine, ref validMove, player, oppositePlayer);
+                            if (!validMove)
+                                CheckRight(sY, tempX, ref oppositePlayerObstruction, ref samePlayerEndOfLine, ref validMove, player, oppositePlayer);
 
                             // Diag Top Left
 
@@ -413,7 +416,8 @@ namespace Beta
                             tempX = sX;
                             tempY = sY;
 
-                            CheckTopLeft(ref tempX, ref tempY, ref oppositePlayerObstruction, ref samePlayerEndOfLine, ref validMove, player, oppositePlayer);
+                            if (!validMove)
+                                CheckTopLeft(tempX, tempY, ref oppositePlayerObstruction, ref samePlayerEndOfLine, ref validMove, player, oppositePlayer);
 
                             // Diag Bottom Right
 
@@ -421,7 +425,8 @@ namespace Beta
                             tempX = sX;
                             tempY = sY;
 
-                            CheckBottRight(ref tempX, ref tempY, ref oppositePlayerObstruction, ref samePlayerEndOfLine, ref validMove, player, oppositePlayer);
+                            if (!validMove)
+                                CheckBottRight( tempX, tempY, ref oppositePlayerObstruction, ref samePlayerEndOfLine, ref validMove, player, oppositePlayer);
 
                             // Diag Top Right
 
@@ -429,7 +434,8 @@ namespace Beta
                             tempX = sX;
                             tempY = sY;
 
-                            CheckTopRight(ref tempX, ref tempY, ref oppositePlayerObstruction, ref samePlayerEndOfLine, ref validMove, player, oppositePlayer);
+                            if (!validMove)
+                                CheckTopRight( tempX, tempY, ref oppositePlayerObstruction, ref samePlayerEndOfLine, ref validMove, player, oppositePlayer);
 
                             // Diag Bottom Left
 
@@ -437,7 +443,8 @@ namespace Beta
                             tempX = sX;
                             tempY = sY;
 
-                            CheckBottLeft(ref tempX, ref tempY, ref oppositePlayerObstruction, ref samePlayerEndOfLine, ref validMove, player, oppositePlayer);
+                            if (!validMove)
+                                CheckBottLeft( tempX, tempY, ref oppositePlayerObstruction, ref samePlayerEndOfLine, ref validMove, player, oppositePlayer);
 
 
                             //if any of the above Checks pass, at least one mutation needs to occur
@@ -445,7 +452,19 @@ namespace Beta
                             {
                                 pieces[mouseX, mouseY].SetState(player);
                                 Mutate(mouseX, mouseY, player);
-                                playerTurn = oppositePlayer;
+
+                                if (AnyMoves(oppositePlayer))
+                                    playerTurn = oppositePlayer;
+                                else
+                                {
+                                    boardFull = true;
+                                    ClearBoard();
+                                    PlopEndPieces();
+                                }
+            
+                    
+                    
+                                    
                             }
 
                        }
@@ -454,7 +473,7 @@ namespace Beta
             }
         }
 
-        private void CheckBottLeft(ref int tempX, ref int tempY, ref bool oppositePlayerObstruction, ref bool samePlayerEndOfLine, ref bool validMove, int player, int oppositePlayer)
+        private void CheckBottLeft( int tempX, int tempY, ref bool oppositePlayerObstruction, ref bool samePlayerEndOfLine, ref bool validMove, int player, int oppositePlayer)
         {
             oppositePlayerObstruction = false;
             samePlayerEndOfLine = false;
@@ -505,7 +524,7 @@ namespace Beta
             }
         }
 
-        private void CheckTopRight(ref int tempX, ref int tempY, ref bool oppositePlayerObstruction, ref bool samePlayerEndOfLine, ref bool validMove, int player, int oppositePlayer)
+        private void CheckTopRight( int tempX,  int tempY, ref bool oppositePlayerObstruction, ref bool samePlayerEndOfLine, ref bool validMove, int player, int oppositePlayer)
         {
             oppositePlayerObstruction = false;
             samePlayerEndOfLine = false;
@@ -556,7 +575,7 @@ namespace Beta
             }
         }
 
-        private void CheckBottRight(ref int tempX, ref int tempY, ref bool oppositePlayerObstruction, ref bool samePlayerEndOfLine, ref bool validMove, int player, int oppositePlayer)
+        private void CheckBottRight( int tempX,  int tempY, ref bool oppositePlayerObstruction, ref bool samePlayerEndOfLine, ref bool validMove, int player, int oppositePlayer)
         {
             oppositePlayerObstruction = false;
             samePlayerEndOfLine = false;
@@ -607,7 +626,7 @@ namespace Beta
             }
         }
 
-        private void CheckTopLeft(ref int tempX, ref int tempY, ref bool oppositePlayerObstruction, ref bool samePlayerEndOfLine, ref bool validMove, int player, int oppositePlayer)
+        private void CheckTopLeft( int tempX,  int tempY, ref bool oppositePlayerObstruction, ref bool samePlayerEndOfLine, ref bool validMove, int player, int oppositePlayer)
         {
             oppositePlayerObstruction = false;
             samePlayerEndOfLine = false;
@@ -657,7 +676,7 @@ namespace Beta
             }
         }
 
-        private void CheckRight(int sY, ref int tempX, ref bool oppositePlayerObstruction, ref bool samePlayerEndOfLine, ref bool validMove, int player, int oppositePlayer)
+        private void CheckRight(int sY,  int tempX, ref bool oppositePlayerObstruction, ref bool samePlayerEndOfLine, ref bool validMove, int player, int oppositePlayer)
         {
             oppositePlayerObstruction = false;
             samePlayerEndOfLine = false;
@@ -707,7 +726,7 @@ namespace Beta
             }
         }
 
-        private void CheckLeft(int sY, ref int tempX, ref bool oppositePlayerObstruction, ref bool samePlayerEndOfLine, ref bool validMove, int player, int oppositePlayer)
+        private void CheckLeft(int sY,  int tempX, ref bool oppositePlayerObstruction, ref bool samePlayerEndOfLine, ref bool validMove, int player, int oppositePlayer)
         {
             oppositePlayerObstruction = false;
             samePlayerEndOfLine = false;
@@ -757,7 +776,7 @@ namespace Beta
             }
         }
 
-        private void CheckDown(int sX, ref int tempY, ref bool oppositePlayerObstruction, ref bool samePlayerEndOfLine, ref bool validMove, int player, int oppositePlayer)
+        private void CheckDown(int sX,  int tempY, ref bool oppositePlayerObstruction, ref bool samePlayerEndOfLine, ref bool validMove, int player, int oppositePlayer)
         {
             oppositePlayerObstruction = false;
             samePlayerEndOfLine = false;
@@ -807,7 +826,7 @@ namespace Beta
             }
         }
 
-        private void CheckUp(int sX, ref int tempY, ref bool oppositePlayerObstruction, ref bool samePlayerEndOfLine, ref bool validMove, int player, int oppositePlayer)
+        private void CheckUp(int sX,  int tempY, ref bool oppositePlayerObstruction, ref bool samePlayerEndOfLine, ref bool validMove, int player, int oppositePlayer)
         {
             //Reset
             oppositePlayerObstruction = false;
@@ -1359,71 +1378,67 @@ namespace Beta
             return tempY;
         }
 
-        //public bool AnyMoves(int player)
-        //{
-        //    for (int x = 0; x < 7; x++)
-        //    {
-        //        for (int y = 0; y < 7; y++)
-        //        {
-        //            if (pieces[x, y].Value() == player)
-        //            {
-        //                for (int moveNum = 1; moveNum < 3; moveNum++)
-        //                {
-        //                    // Northwest
-        //                    if (y > (0 + (moveNum - 1)) && x > (0 + (moveNum - 1)))
-        //                    {
-        //                        if (pieces[(x - moveNum), (y - moveNum)].Value() == 0)
-        //                            return true;
-        //                    }
-        //                    // North
-        //                    if (y > (0 + (moveNum - 1)))
-        //                    {
-        //                        if (pieces[(x), (y - moveNum)].Value() == 0)
-        //                            return true;
-        //                    }
-        //                    // Northeast
-        //                    // crashing bug was here, was checking if y < (7 - (moveNum - 1)) and x > (0 + (moveNum - 1))
-        //                    if (y > (0 + (moveNum - 1)) && x < (6 - (moveNum - 1)))
-        //                    {
-        //                        if (pieces[(x + moveNum), (y - moveNum)].Value() == 0)
-        //                            return true;
-        //                    }
-        //                    // East
-        //                    if (x < (6 - (moveNum - 1)))
-        //                    {
-        //                        if (pieces[(x + moveNum), (y)].Value() == 0)
-        //                            return true;
-        //                    }
-        //                    // Southeast
-        //                    if (y < (6 - (moveNum - 1)) && x < (6 - (moveNum - 1)))
-        //                    {
-        //                        if (pieces[(x + moveNum), (y + moveNum)].Value() == 0)
-        //                            return true;
-        //                    }
-        //                    // South
-        //                    if (y < (6 - (moveNum - 1)))
-        //                    {
-        //                        if (pieces[(x), (y + moveNum)].Value() == 0)
-        //                            return true;
-        //                    }
-        //                    // Southwest
-        //                    if (y < (6 - (moveNum - 1)) && x > (0 + (moveNum - 1)))
-        //                    {
-        //                        if (pieces[(x - moveNum), (y + moveNum)].Value() == 0)
-        //                            return true;
-        //                    }
-        //                    // West
-        //                    if (x > (0 + (moveNum - 1)))
-        //                    {
-        //                        if (pieces[(x - moveNum), (y)].Value() == 0)
-        //                            return true;
-        //                    }
-        //                }
-        //            }
-        //        }
-        //    }
-        //    return false;
-        //}
+        public bool AnyMoves(int player)
+        {
+            //Initialize variables
+
+            //Flags for finding if you have a piece capping off a line
+            bool oppositePlayerObstruction = false;
+            bool samePlayerEndOfLine = false;
+
+            //Is true if you have an opponents piece with a friendly piece after it
+            bool validMove = false;
+
+            //Set up a variable to hold who's turn it is
+            //Used so I don't ahve to copy and paste a hugh chunk of code and
+            //change 1's to 2's and vise versa.
+            //int player = playerTurn;
+
+            //Ready to store the value of the opposite player's number
+            //Must initialize to 0
+            int oppositePlayer = 0;
+
+
+            //Sets up the opposite player's number
+            if (player == 1)
+                oppositePlayer = 2;
+            if (player == 2)
+                oppositePlayer = 1;
+
+
+            //Simulates mouse click
+            //Iterates thru pieces to see if any have a move
+            for (int y = 0; y < LIMIT; y++)
+            {
+                for (int x = 0; x < LIMIT; x++)
+                {
+                    if ( validMove == false)
+                    {
+                        if (pieces[x, y].Value() == 0 )
+                        {
+                            CheckUp(x, y, ref oppositePlayerObstruction, ref samePlayerEndOfLine, ref validMove, player, oppositePlayer);
+                            CheckDown(x, y, ref oppositePlayerObstruction, ref samePlayerEndOfLine, ref validMove, player, oppositePlayer);
+                            CheckLeft(x, y, ref oppositePlayerObstruction, ref samePlayerEndOfLine, ref validMove, player, oppositePlayer);
+                            CheckRight(x, y, ref oppositePlayerObstruction, ref samePlayerEndOfLine, ref validMove, player, oppositePlayer);
+                            CheckTopLeft(x, x, ref oppositePlayerObstruction, ref samePlayerEndOfLine, ref validMove, player, oppositePlayer);
+                            CheckTopRight(x, y, ref oppositePlayerObstruction, ref samePlayerEndOfLine, ref validMove, player, oppositePlayer);
+                            CheckBottLeft(x, y, ref oppositePlayerObstruction, ref samePlayerEndOfLine, ref validMove, player, oppositePlayer);
+                            CheckBottRight(x, y, ref oppositePlayerObstruction, ref samePlayerEndOfLine, ref validMove, player, oppositePlayer);
+
+                            if (validMove)
+                            {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+
+
+
+
+            return false;
+        }
 
         public bool AnyPieces(int player)
         {
