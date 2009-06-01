@@ -134,12 +134,12 @@ namespace Beta
                                     Color.White, Vector2.Zero,
                                     new Vector2(0.5f), 0f);
 
-            // Initialize the banners
-            blueBanner.Initialize(new Vector2(0, 297 / 2), new Rectangle(0, 0, 798, 204),
+            // Initialize the banners ( position was 0, 297 / 2)
+            blueBanner.Initialize(new Vector2(0, 99 / 2 ), new Rectangle(0, 0, 798, 204),
                                   Color.White, Vector2.Zero,
                                   new Vector2(0.5f), 0f);
 
-            greenBanner.Initialize( new Vector2(0, 297 / 2), new Rectangle(0, 0, 798, 204),
+            greenBanner.Initialize( new Vector2(0, 498 / 2 ), new Rectangle(0, 0, 798, 204),
                                     Color.White, Vector2.Zero,
                                     new Vector2(0.5f), 0f);
 
@@ -162,61 +162,61 @@ namespace Beta
             }
 
             // Set the initial corner pieces
-            pieces[0, 0].SetState(1);
-            pieces[6, 6].SetState(1);
-            pieces[0, 6].SetState(2);
-            pieces[6, 0].SetState(2);
+            //pieces[0, 0].SetState(1);
+            //pieces[6, 6].SetState(1);
+            //pieces[0, 6].SetState(2);
+            //pieces[6, 0].SetState(2);
 
             //Peices for quick end of game
-            //pieces[0, 0].SetState(1);
-            //pieces[1, 0].SetState(1);
-            //pieces[2, 0].SetState(1);
-            //pieces[3, 0].SetState(1);
-            //pieces[4, 0].SetState(1);
-            //pieces[5, 0].SetState(1);
-            //pieces[6, 0].SetState(1);
-            //pieces[0, 1].SetState(1);
-            //pieces[1, 1].SetState(2);
-            //pieces[2, 1].SetState(1);
-            //pieces[3, 1].SetState(1);
-            //pieces[4, 1].SetState(1);
-            //pieces[5, 1].SetState(2);
-            //pieces[6, 1].SetState(1);
-            //pieces[0, 2].SetState(1);
-            ////pieces[1, 2].SetState(2);
-            ////pieces[2, 2].SetState(1);
-            ////pieces[3, 2].SetState(1);
-            //pieces[4, 2].SetState(1);
-            //pieces[5, 2].SetState(2);
-            //pieces[6, 2].SetState(1);
-            //pieces[0, 3].SetState(1);
-            //pieces[1, 3].SetState(1);
-            //pieces[2, 3].SetState(2);
-            //pieces[3, 3].SetState(2);
-            //pieces[4, 3].SetState(2);
-            //pieces[5, 3].SetState(2);
-            //pieces[6, 3].SetState(1);
-            //pieces[0, 4].SetState(2);
-            //pieces[1, 4].SetState(2);
-            //pieces[2, 4].SetState(2);
-            //pieces[3, 4].SetState(2);
-            //pieces[4, 4].SetState(1);
-            //pieces[5, 4].SetState(1);
-            //pieces[6, 4].SetState(2);
-            //pieces[0, 5].SetState(1);
-            //pieces[1, 5].SetState(1);
-            //pieces[2, 5].SetState(2);
-            //pieces[3, 5].SetState(2);
-            //pieces[4, 5].SetState(2);
-            //pieces[5, 5].SetState(1);
-            //pieces[6, 5].SetState(1);
-            //pieces[0, 6].SetState(2);
-            //pieces[1, 6].SetState(1);
-            //pieces[2, 6].SetState(1);
-            //pieces[3, 6].SetState(1);
-            //pieces[4, 6].SetState(1);
-            //pieces[5, 6].SetState(1);
-            //pieces[6, 6].SetState(1);
+            pieces[0, 0].SetState(2);
+            pieces[1, 0].SetState(2);
+            pieces[2, 0].SetState(2);
+            pieces[3, 0].SetState(2);
+            pieces[4, 0].SetState(2);
+            pieces[5, 0].SetState(2);
+            pieces[6, 0].SetState(2);
+            pieces[0, 1].SetState(2);
+            pieces[1, 1].SetState(2);
+            pieces[2, 1].SetState(2);
+            pieces[3, 1].SetState(2);
+            pieces[4, 1].SetState(1);
+            pieces[5, 1].SetState(2);
+            pieces[6, 1].SetState(1);
+            pieces[0, 2].SetState(1);
+            //pieces[1, 2].SetState(2);
+            //pieces[2, 2].SetState(1);
+            //pieces[3, 2].SetState(1);
+            pieces[4, 2].SetState(1);
+            pieces[5, 2].SetState(2);
+            pieces[6, 2].SetState(1);
+            pieces[0, 3].SetState(1);
+            pieces[1, 3].SetState(1);
+            pieces[2, 3].SetState(2);
+            pieces[3, 3].SetState(2);
+            pieces[4, 3].SetState(2);
+            pieces[5, 3].SetState(2);
+            pieces[6, 3].SetState(1);
+            pieces[0, 4].SetState(2);
+            pieces[1, 4].SetState(2);
+            pieces[2, 4].SetState(2);
+            pieces[3, 4].SetState(2);
+            pieces[4, 4].SetState(1);
+            pieces[5, 4].SetState(1);
+            pieces[6, 4].SetState(2);
+            pieces[0, 5].SetState(1);
+            pieces[1, 5].SetState(1);
+            pieces[2, 5].SetState(2);
+            pieces[3, 5].SetState(2);
+            pieces[4, 5].SetState(2);
+            pieces[5, 5].SetState(1);
+            pieces[6, 5].SetState(1);
+            pieces[0, 6].SetState(2);
+            pieces[1, 6].SetState(2);
+            pieces[2, 6].SetState(2);
+            pieces[3, 6].SetState(2);
+            pieces[4, 6].SetState(2);
+            pieces[5, 6].SetState(2);
+            pieces[6, 6].SetState(2);
 
             // Fill board to test complete green elimination
             //pieces[0, 0].SetState(1);
