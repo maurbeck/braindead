@@ -1528,7 +1528,7 @@ namespace Beta
                     }
                 }
             }
-           // boardFull = false;
+            boardFull = false;
 
             return;
         }
