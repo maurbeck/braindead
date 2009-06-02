@@ -116,7 +116,7 @@ namespace Beta
             greenSelect.Initialize(Vector2.Zero, new Rectangle(0, 0, 100, 100), Color.White, Vector2.Zero, new Vector2(0.5f), 0f);
 
             // Initialize the banners
-            blueBanner.Initialize(new Vector2(0, 297/2), new Rectangle(0, 0, 798, 204), Color.White, Vector2.Zero, new Vector2(0.5f), 0f);
+            blueBanner.Initialize(new Vector2(0, 297/2), new Rectangle(0, 0, 798, 204), new Color(255,255,255,0), Vector2.Zero, new Vector2(0.5f), 0f);
             greenBanner.Initialize(new Vector2(0, 297/2), new Rectangle(0, 0, 798, 204), Color.White, Vector2.Zero, new Vector2(0.5f), 0f);
 
             // Initialize the board image
@@ -132,11 +132,18 @@ namespace Beta
                 }
             }
 
-            // Set the initial pieces
-            pieces[1, 1].SetState(1);
-            pieces[2, 2].SetState(1);
-            pieces[2, 1].SetState(1);
-            pieces[1, 2].SetState(2);
+            //Set the initial pieces for normal othello game
+            //pieces[3, 3].SetState(1);
+            //pieces[4, 4].SetState(1);
+            //pieces[4, 3].SetState(2);
+            //pieces[3, 4].SetState(2);
+
+
+            //Quick end Othello game
+            pieces[3, 3].SetState(1);
+            pieces[4, 4].SetState(1);
+            pieces[4, 3].SetState(1);
+            pieces[3, 4].SetState(2);
 
             //Peices for quick end of game
             //pieces[0, 0].SetState(1);
@@ -324,6 +331,7 @@ namespace Beta
                 ClearBoard();
                 PlopEndPieces();
             }
+
         }
 
         public void Click(MouseState mouseState)
@@ -335,7 +343,7 @@ namespace Beta
             if (animate.Count == 0 && time >= 500 && !drawBlueBanner && !drawGreenBanner)
             {
 
-                
+
                 if (selectedPiece.X < 0 || selectedPiece.Y < 0) // If selectedPiece is negative a.k.a. no piece selected
                 {
                     // Only perform click method if the click was on the board
@@ -355,7 +363,7 @@ namespace Beta
                             //Flags for finding if you have a piece capping off a line
                             bool oppositePlayerObstruction = false;
                             bool samePlayerEndOfLine = false;
-                            
+
                             //Is true if you have an opponents piece with a friendly piece after it
                             bool validMove = false;
 
@@ -376,15 +384,15 @@ namespace Beta
                                 oppositePlayer = 1;
 
                             //Vert Up
-                                                        
+
                             //Save out mouse positions
                             tempX = sX;
                             tempY = sY;
-                            if(!validMove)
+                            if (!validMove)
                                 CheckUp(sX, tempY, ref oppositePlayerObstruction, ref samePlayerEndOfLine, ref validMove, player, oppositePlayer);
 
                             //Vert Down
-                            
+
                             //Save out mouse positions
                             tempX = sX;
                             tempY = sY;
@@ -426,7 +434,7 @@ namespace Beta
                             tempY = sY;
 
                             if (!validMove)
-                                CheckBottRight( tempX, tempY, ref oppositePlayerObstruction, ref samePlayerEndOfLine, ref validMove, player, oppositePlayer);
+                                CheckBottRight(tempX, tempY, ref oppositePlayerObstruction, ref samePlayerEndOfLine, ref validMove, player, oppositePlayer);
 
                             // Diag Top Right
 
@@ -435,7 +443,7 @@ namespace Beta
                             tempY = sY;
 
                             if (!validMove)
-                                CheckTopRight( tempX, tempY, ref oppositePlayerObstruction, ref samePlayerEndOfLine, ref validMove, player, oppositePlayer);
+                                CheckTopRight(tempX, tempY, ref oppositePlayerObstruction, ref samePlayerEndOfLine, ref validMove, player, oppositePlayer);
 
                             // Diag Bottom Left
 
@@ -444,7 +452,7 @@ namespace Beta
                             tempY = sY;
 
                             if (!validMove)
-                                CheckBottLeft( tempX, tempY, ref oppositePlayerObstruction, ref samePlayerEndOfLine, ref validMove, player, oppositePlayer);
+                                CheckBottLeft(tempX, tempY, ref oppositePlayerObstruction, ref samePlayerEndOfLine, ref validMove, player, oppositePlayer);
 
 
                             //if any of the above Checks pass, at least one mutation needs to occur
@@ -458,16 +466,9 @@ namespace Beta
                                 else
                                 {
                                     boardFull = true;
-                                    ClearBoard();
-                                    PlopEndPieces();
                                 }
-            
-                    
-                    
-                                    
                             }
-
-                       }
+                        }
                     }
                 }
             }
@@ -1527,7 +1528,7 @@ namespace Beta
                     }
                 }
             }
-            boardFull = false;
+           // boardFull = false;
 
             return;
         }
