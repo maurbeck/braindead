@@ -257,13 +257,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Blue2Green.png">
-      <Name>Blue2Green</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Black.png">
       <Name>Black</Name>
       <Importer>TextureImporter</Importer>
