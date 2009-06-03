@@ -41,7 +41,9 @@ namespace Beta
 
         // Cursor textures
         Texture2D greenCursor;
-        Texture2D redCursor;
+        Texture2D blueCursor;
+        Texture2D blackCursor;
+        Texture2D whiteCursor;
 
         // Textures for the menu state
         Texture2D menuBgTex;
@@ -64,16 +66,26 @@ namespace Beta
 
         // Textures for the game state
         Texture2D boardTex;
-        Texture2D redTex;
+        Texture2D blueTex;
         Texture2D greenTex;
-        Texture2D redSelectTex;
+        Texture2D blueSelectTex;
         Texture2D greenSelectTex;
-        Texture2D redToGreen;
-        Texture2D greenToRed;
+        Texture2D blueToGreen;
+        Texture2D greenToBlue;
         Texture2D transToPlr1;
         Texture2D transToPlr2;
         Texture2D blueBanner;
         Texture2D greenBanner;
+
+        //Textures for Othello
+        Texture2D othBoard;
+        Texture2D blackTex;
+        Texture2D whiteTex;
+        Texture2D blackToWhite;
+        Texture2D whiteToBlack;
+        Texture2D blackBanner;
+        Texture2D whiteBanner;
+       
 
         // Textures for the credits state
         Texture2D creditBgTex;
@@ -163,9 +175,9 @@ namespace Beta
             tutorialBtnTex = Content.Load<Texture2D>("RulesBut");
             quitBtnTex = Content.Load<Texture2D>("EndBut");
             // This is used as the normal cursor, will also be used in other states
-            redCursor = Content.Load<Texture2D>("RedCursor"); 
+            blueCursor = Content.Load<Texture2D>("blueCursor"); 
 
-            menu.LoadContent(   spriteBatch, menuBgTex, redCursor, 
+            menu.LoadContent(   spriteBatch, menuBgTex, blueCursor, 
                                 gameBtnTex, tutorialBtnTex, quitBtnTex);
 
             // Load the content for the instructions state
@@ -185,22 +197,33 @@ namespace Beta
                                         instruction2BgTex, instruction3BgTex,
                                         moveAnim, attAnim, 
                                         tipsAnim, tipsAnimLeft,
-                                        tipsAnimRight, redCursor,
+                                        tipsAnimRight, blueCursor,
                                         mainBtnTex, backBtnTex,
                                         nextBtnTex);
 
             // Load the content for the game state
             boardTex = Content.Load<Texture2D>("BoardTest");
-            redTex = Content.Load<Texture2D>("Red");
+            blueTex = Content.Load<Texture2D>("Blue");
             greenTex = Content.Load<Texture2D>("Green");
-            redSelectTex = Content.Load<Texture2D>("BlueSelection");
+            blueSelectTex = Content.Load<Texture2D>("BlueSelection");
             greenSelectTex = Content.Load<Texture2D>("GreenSelection");
-            redToGreen = Content.Load<Texture2D>("RedToGreen");
-            greenToRed = Content.Load<Texture2D>("GreenToRed");
+            blueToGreen = Content.Load<Texture2D>("BlueToGreen");
+            greenToBlue = Content.Load<Texture2D>("GreenToBlue");
             transToPlr1 = Content.Load<Texture2D>("TransToPlr1");
             transToPlr2 = Content.Load<Texture2D>("TransToPlr2");
             blueBanner = Content.Load<Texture2D>("BlueBanner");
             greenBanner = Content.Load<Texture2D>("GreenBanner");
+
+            //Load the content for the othello state
+            othBoard = Content.Load<Texture2D>("Board8x8Green");
+            blackTex = Content.Load<Texture2D>("Black");
+            whiteTex = Content.Load<Texture2D>("White");
+            blackToWhite = Content.Load<Texture2D>("blackToWhite");
+            whiteToBlack = Content.Load<Texture2D>("whiteToBlack");
+            blackBanner = Content.Load<Texture2D>("BlackBanner");
+            whiteBanner = Content.Load<Texture2D>("WhiteBanner");
+            blackCursor = Content.Load<Texture2D>("BlackCursor");
+            whiteCursor = Content.Load<Texture2D>("WhiteCursor");
 
             // Load the content for the credit state
             creditBgTex = Content.Load<Texture2D>("Credits");
@@ -225,29 +248,28 @@ namespace Beta
                 ("AvailableMove_8Bit");
 
             
-            board.LoadContent(  spriteBatch, boardTex, redTex,
-                                greenTex, greenSelectTex, redSelectTex,
-                                redToGreen, greenToRed, transToPlr1,
-                                transToPlr2, redCursor, greenCursor,
+            board.LoadContent(  spriteBatch, boardTex, blueTex,
+                                greenTex, greenSelectTex, blueSelectTex,
+                                blueToGreen, greenToBlue, transToPlr1,
+                                transToPlr2, blueCursor, greenCursor,
                                 blueBanner, greenBanner);
             board.LoadAudio(selectPiece, unavailableMove, availableMove,
                             playerOneToPlayerTwo);
             menu.LoadAudio(mtInstructionScreen1);
             instructions.LoadAudio(mtInstructionScreen2);
 
-            aiBoard.LoadContent(spriteBatch, boardTex, redTex,
-                                greenTex, greenSelectTex, redSelectTex,
-                                redToGreen, greenToRed, transToPlr1,
-                                transToPlr2, redCursor, greenCursor,
+            aiBoard.LoadContent(spriteBatch, boardTex, blueTex,
+                                greenTex, greenSelectTex, blueSelectTex,
+                                blueToGreen, greenToBlue, transToPlr1,
+                                transToPlr2, blueCursor, greenCursor,
                                 blueBanner, greenBanner);
             aiBoard.LoadAudio(  selectPiece, unavailableMove, availableMove,
                                 playerOneToPlayerTwo);
 
-            othello.LoadContent(spriteBatch, boardTex, redTex,
-                                greenTex, greenSelectTex, redSelectTex, 
-                                redToGreen, greenToRed, transToPlr1,
-                                transToPlr2, redCursor, greenCursor,
-                                blueBanner, greenBanner);
+            othello.LoadContent(spriteBatch, othBoard, blackTex,
+                                whiteTex, blackToWhite, whiteToBlack,
+                                blueBanner, greenBanner, blackCursor, whiteCursor,
+                                transToPlr1, transToPlr2);
             othello.LoadAudio(  selectPiece, unavailableMove, availableMove,
                                 playerOneToPlayerTwo);
         }

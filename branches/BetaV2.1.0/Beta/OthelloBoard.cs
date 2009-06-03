@@ -35,16 +35,12 @@ namespace Beta
         Image board = new Image();
 
         // Cursors
-        Cursor redCursor = new Cursor();
-        Cursor greenCursor = new Cursor();
-
-        // Images for the selected piece
-        Image redSelect = new Image();
-        Image greenSelect = new Image();
+        Cursor blackCursor = new Cursor();
+        Cursor whiteCursor = new Cursor();
 
         // Images for the banners
-        Image blueBanner = new Image();
-        Image greenBanner = new Image();
+        Image blackBanner = new Image();
+        Image whiteBanner = new Image();
 
         // Array of pieces representing the board
         Piece[,] pieces = new Piece[LIMIT, LIMIT];
@@ -72,8 +68,8 @@ namespace Beta
 
         // To draw the banners or not
         // Will be combined with animate.Count == 0
-        bool drawBlueBanner;
-        bool drawGreenBanner;
+        bool drawBlackBanner;
+        bool drawWhiteBanner;
 
         //Sounds
         SoundEffect selectPiece;
@@ -108,16 +104,12 @@ namespace Beta
             // Clear the animation queue
             animate.Clear();
             // Initialize the cursors
-            redCursor.Initialize(Vector2.Zero, new Rectangle(0, 0, 50, 50), Color.White, Vector2.Zero, new Vector2(0.5f), 0.0f);
-            greenCursor.Initialize(Vector2.Zero, new Rectangle(0, 0, 50, 50), Color.White, Vector2.Zero, new Vector2(0.5f), 0.0f);
-
-            // Initialize the selected peices
-            redSelect.Initialize(Vector2.Zero, new Rectangle(0, 0, 100, 100), Color.White, Vector2.Zero, new Vector2(0.5f), 0f);
-            greenSelect.Initialize(Vector2.Zero, new Rectangle(0, 0, 100, 100), Color.White, Vector2.Zero, new Vector2(0.5f), 0f);
+            blackCursor.Initialize(Vector2.Zero, new Rectangle(0, 0, 50, 50), Color.White, Vector2.Zero, new Vector2(0.5f), 0.0f);
+            whiteCursor.Initialize(Vector2.Zero, new Rectangle(0, 0, 50, 50), Color.White, Vector2.Zero, new Vector2(0.5f), 0.0f);
 
             // Initialize the banners
-            blueBanner.Initialize(new Vector2(0, 297/2), new Rectangle(0, 0, 798, 204), new Color(255,255,255,0), Vector2.Zero, new Vector2(0.5f), 0f);
-            greenBanner.Initialize(new Vector2(0, 297/2), new Rectangle(0, 0, 798, 204), Color.White, Vector2.Zero, new Vector2(0.5f), 0f);
+            blackBanner.Initialize(new Vector2(0, 297/2), new Rectangle(0, 0, 798, 204), new Color(255,255,255,0), Vector2.Zero, new Vector2(0.5f), 0f);
+            whiteBanner.Initialize(new Vector2(0, 297/2), new Rectangle(0, 0, 798, 204), Color.White, Vector2.Zero, new Vector2(0.5f), 0f);
 
             // Initialize the board image
             board.Initialize(Vector2.Zero, new Rectangle(0, 0, 798, 798), Color.White, Vector2.Zero, new Vector2(0.5f), 1f);
@@ -133,17 +125,17 @@ namespace Beta
             }
 
             //Set the initial pieces for normal othello game
-            //pieces[3, 3].SetState(1);
-            //pieces[4, 4].SetState(1);
-            //pieces[4, 3].SetState(2);
-            //pieces[3, 4].SetState(2);
+            pieces[3, 3].SetState(1);
+            pieces[4, 4].SetState(1);
+            pieces[4, 3].SetState(2);
+            pieces[3, 4].SetState(2);
 
 
             //Quick end Othello game
-            pieces[3, 3].SetState(1);
-            pieces[4, 4].SetState(1);
-            pieces[4, 3].SetState(1);
-            pieces[3, 4].SetState(2);
+            //pieces[3, 3].SetState(1);
+            //pieces[4, 4].SetState(1);
+            //pieces[4, 3].SetState(1);
+            //pieces[3, 4].SetState(2);
 
             //Peices for quick end of game
             //pieces[0, 0].SetState(1);
@@ -214,35 +206,31 @@ namespace Beta
             // Board full
             boardFull = false;
             
-            drawBlueBanner = false;
-            drawGreenBanner = false;
+            drawBlackBanner = false;
+            drawWhiteBanner = false;
 
         }
 
-        public void LoadContent(SpriteBatch spriteBatch, Texture2D board, Texture2D red, Texture2D green, Texture2D redSelection, Texture2D greenSelection, Texture2D redGreen, Texture2D greenRed, Texture2D tPlr1, Texture2D tPlr2, Texture2D redCur, Texture2D greenCur, Texture2D blueBanner, Texture2D greenBanner)
+        public void LoadContent(SpriteBatch spriteBatch, Texture2D board, Texture2D red, Texture2D green, Texture2D redGreen, Texture2D greenRed, Texture2D blueBanner, Texture2D greenBanner, Texture2D redCur, Texture2D greenCur, Texture2D tPlr1, Texture2D tPlr2)
         {
             // Load the content for the board image
             this.board.LoadContent(spriteBatch, ref board);
 
-            // Load the content for the selected piece images
-            this.redSelect.LoadContent(spriteBatch, ref redSelection);
-            this.greenSelect.LoadContent(spriteBatch, ref greenSelection);
-
             // Load the banners
-            this.blueBanner.LoadContent(spriteBatch, ref blueBanner);
-            this.greenBanner.LoadContent(spriteBatch, ref greenBanner);
+            this.blackBanner.LoadContent(spriteBatch, ref blueBanner);
+            this.whiteBanner.LoadContent(spriteBatch, ref greenBanner);
 
             // Load the content for the pieces
             for (int x = 0; x < LIMIT; x++)
             {
                 for (int y = 0; y < LIMIT; y++)
                 {
-                    pieces[x, y].LoadContent(spriteBatch, red, green, redGreen, greenRed,tPlr1,tPlr2);
+                    pieces[x, y].LoadContent(spriteBatch, red, green, redGreen, greenRed, tPlr1, tPlr2);
                 }
             }
 
-            redCursor.LoadContent(spriteBatch, ref redCur);
-            greenCursor.LoadContent(spriteBatch, ref greenCur);
+            blackCursor.LoadContent(spriteBatch, ref redCur);
+            whiteCursor.LoadContent(spriteBatch, ref greenCur);
         }
 
         public void LoadAudio(SoundEffect selectPiece, SoundEffect unMove, SoundEffect aMove, SoundEffect convert)
@@ -282,8 +270,8 @@ namespace Beta
             }
 
             // Update both cursors
-            redCursor.Update();
-            greenCursor.Update();
+            blackCursor.Update();
+            whiteCursor.Update();
 
             #region Handle animations one at a time
             /* Old version: allowed for movement before the last piece was animated
@@ -340,7 +328,7 @@ namespace Beta
             int mouseX = (int)Math.Floor((double)(mouseState.X) / 50);
             int mouseY = (int)Math.Floor((double)(mouseState.Y) / 50);
 
-            if (animate.Count == 0 && time >= 500 && !drawBlueBanner && !drawGreenBanner)
+            if (animate.Count == 0 && time >= 500 && !drawBlackBanner && !drawWhiteBanner)
             {
 
 
@@ -896,13 +884,13 @@ namespace Beta
             }
 
             // Draw the banners
-            if (drawGreenBanner == true && animate.Count == 0 && time >= 1000)
+            if (drawWhiteBanner == true && animate.Count == 0 && time >= 1000)
             {
-                greenBanner.Draw();
+                whiteBanner.Draw();
             }
-            if (drawBlueBanner == true && animate.Count == 0 && time >= 1000)
+            if (drawBlackBanner == true && animate.Count == 0 && time >= 1000)
             {
-                blueBanner.Draw();
+                blackBanner.Draw();
             }
 
             if (!boardFull)
@@ -910,11 +898,11 @@ namespace Beta
                 // Draw the correct cursor
                 if (playerTurn == (int)PlayerTurn.Red)
                 {
-                    redCursor.Draw();
+                    blackCursor.Draw();
                 }
                 else if (playerTurn == (int)PlayerTurn.Green)
                 {
-                    greenCursor.Draw();
+                    whiteCursor.Draw();
                 }
             }
         }
@@ -1505,9 +1493,9 @@ namespace Beta
         public void PlopEndPieces()
         {
             if (plr1score > plr2score)
-                drawBlueBanner = true;
+                drawBlackBanner = true;
             else
-                drawGreenBanner = true;
+                drawWhiteBanner = true;
 
 
             for (int y = 0; y < LIMIT; y++)
