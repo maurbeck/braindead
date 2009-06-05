@@ -126,10 +126,10 @@ namespace Beta
             }
 
             //Set the initial pieces for normal othello game
-            //pieces[3, 3].SetState(1);
-            //pieces[4, 4].SetState(1);
-            //pieces[4, 3].SetState(2);
-            //pieces[3, 4].SetState(2);
+            pieces[3, 3].SetState(1);
+            pieces[4, 4].SetState(1);
+            pieces[4, 3].SetState(2);
+            pieces[3, 4].SetState(2);
             
             //Quick end Othello game (player 1 favor)
             //pieces[3, 3].SetState(1);
@@ -144,18 +144,18 @@ namespace Beta
             //pieces[2, 2].SetState(2);
 
             //Fill board to test passing of turns
-            pieces[2, 4].SetState(2);
-            pieces[3, 3].SetState(1);
-            pieces[3, 4].SetState(1);
-            pieces[4, 2].SetState(1);
-            pieces[4, 3].SetState(2);
-            pieces[4, 4].SetState(1);
-            pieces[5, 2].SetState(1);
-            pieces[5, 4].SetState(1);
-            pieces[5, 1].SetState(1);
-            pieces[6, 0].SetState(1);
-            pieces[6, 4].SetState(1);
-            pieces[7, 4].SetState(1);
+            //pieces[2, 4].SetState(2);
+            //pieces[3, 3].SetState(1);
+            //pieces[3, 4].SetState(1);
+            //pieces[4, 2].SetState(1);
+            //pieces[4, 3].SetState(2);
+            //pieces[4, 4].SetState(1);
+            //pieces[5, 2].SetState(1);
+            //pieces[5, 4].SetState(1);
+            //pieces[5, 1].SetState(1);
+            //pieces[6, 0].SetState(1);
+            //pieces[6, 4].SetState(1);
+            //pieces[7, 4].SetState(1);
 
 
 
