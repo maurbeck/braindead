@@ -68,8 +68,9 @@ namespace Beta
 
         // To draw the banners or not
         // Will be combined with animate.Count == 0
-        bool drawBlackBanner;
-        bool drawWhiteBanner;
+        bool blackWin;
+        bool whiteWin;
+        bool drawEndBanner;
 
         //Sounds
         SoundEffect selectPiece;
@@ -108,8 +109,8 @@ namespace Beta
             whiteCursor.Initialize(Vector2.Zero, new Rectangle(0, 0, 50, 50), Color.White, Vector2.Zero, new Vector2(0.5f), 0.0f);
 
             // Initialize the banners
-            blackBanner.Initialize(new Vector2(0, 297/2), new Rectangle(0, 0, 798, 204), new Color(255,255,255,0), Vector2.Zero, new Vector2(0.5f), 0f);
-            whiteBanner.Initialize(new Vector2(0, 297/2), new Rectangle(0, 0, 798, 204), Color.White, Vector2.Zero, new Vector2(0.5f), 0f);
+            blackBanner.Initialize(new Vector2(0, 297 / 2), new Rectangle(0, 0, 798, 204), new Color(255, 255, 255, 0), Vector2.Zero, new Vector2(0.5f), 0f);
+            whiteBanner.Initialize(new Vector2(0, 297 / 2), new Rectangle(0, 0, 798, 204), new Color(255, 255, 255, 0), Vector2.Zero, new Vector2(0.5f), 0f);
 
             // Initialize the board image
             board.Initialize(Vector2.Zero, new Rectangle(0, 0, 798, 798), Color.White, Vector2.Zero, new Vector2(0.5f), 1f);
@@ -125,68 +126,17 @@ namespace Beta
             }
 
             //Set the initial pieces for normal othello game
-            pieces[3, 3].SetState(1);
-            pieces[4, 4].SetState(1);
-            pieces[4, 3].SetState(2);
-            pieces[3, 4].SetState(2);
+            //pieces[3, 3].SetState(1);
+            //pieces[4, 4].SetState(1);
+            //pieces[4, 3].SetState(2);
+            //pieces[3, 4].SetState(2);
 
 
             //Quick end Othello game
-            //pieces[3, 3].SetState(1);
-            //pieces[4, 4].SetState(1);
-            //pieces[4, 3].SetState(1);
-            //pieces[3, 4].SetState(2);
-
-            //Peices for quick end of game
-            //pieces[0, 0].SetState(1);
-            //pieces[1, 0].SetState(1);
-            //pieces[2, 0].SetState(1);
-            //pieces[3, 0].SetState(1);
-            //pieces[4, 0].SetState(1);
-            //pieces[5, 0].SetState(1);
-            //pieces[6, 0].SetState(1);
-            //pieces[0, 1].SetState(1);
-            //pieces[1, 1].SetState(2);
-            //pieces[2, 1].SetState(1);
-            //pieces[3, 1].SetState(1);
-            //pieces[4, 1].SetState(1);
-            //pieces[5, 1].SetState(2);
-            //pieces[6, 1].SetState(1);
-            //pieces[0, 2].SetState(1);
-            //pieces[1, 2].SetState(2);
-            //pieces[2, 2].SetState(1);
-            //pieces[3, 2].SetState(2);
-            //pieces[4, 2].SetState(1);
-            //pieces[5, 2].SetState(2);
-            //pieces[6, 2].SetState(1);
-            //pieces[0, 3].SetState(1);
-            //pieces[1, 3].SetState(1);
-            //pieces[2, 3].SetState(2);
-            //pieces[3, 3].SetState(1);
-            //pieces[4, 3].SetState(2);
-            //pieces[5, 3].SetState(2);
-            //pieces[6, 3].SetState(1);
-            //pieces[0, 4].SetState(2);
-            //pieces[1, 4].SetState(2);
-            //pieces[2, 4].SetState(1);
-            //pieces[3, 4].SetState(2);
-            //pieces[4, 4].SetState(1);
-            //pieces[5, 4].SetState(1);
-            //pieces[6, 4].SetState(2);
-            //pieces[0, 5].SetState(1);
-            //pieces[1, 5].SetState(1);
-            //pieces[2, 5].SetState(2);
-            //pieces[3, 5].SetState(2);
-            //pieces[4, 5].SetState(2);
-            //pieces[5, 5].SetState(1);
-            //pieces[6, 5].SetState(1);
-            //pieces[0, 6].SetState(2);
-            //pieces[1, 6].SetState(1);
-            //pieces[2, 6].SetState(1);
-            //pieces[3, 6].SetState(1);
-            //pieces[4, 6].SetState(1);
-            //pieces[5, 6].SetState(1);
-            //pieces[6, 6].SetState(1);
+            pieces[3, 3].SetState(1);
+            pieces[4, 4].SetState(1);
+            pieces[4, 3].SetState(1);
+            pieces[3, 4].SetState(2);
 
             // Fill board to test complete green elimination
             //pieces[0, 0].SetState(1);
@@ -196,18 +146,18 @@ namespace Beta
 
             // Set playerTurn
             playerTurn = (int)PlayerTurn.Red;
-            
+
             // Set selected piece
             selectedPiece = new Vector2(-1, -1);
-            
+
             // Set time
             time = 0;
 
             // Board full
             boardFull = false;
-            
-            drawBlackBanner = false;
-            drawWhiteBanner = false;
+
+            blackWin = false;
+            whiteWin = false;
 
         }
 
@@ -320,6 +270,16 @@ namespace Beta
                 PlopEndPieces();
             }
 
+
+            if (drawEndBanner == true)
+            {
+                blackBanner.color.A = 0;
+
+                blackBanner.color.A += (byte)(2 * gameTime.ElapsedGameTime.TotalSeconds);
+
+                if (blackBanner.color.A == 255)
+                    drawEndBanner = false;
+            }
         }
 
         public void Click(MouseState mouseState)
@@ -328,7 +288,7 @@ namespace Beta
             int mouseX = (int)Math.Floor((double)(mouseState.X) / 50);
             int mouseY = (int)Math.Floor((double)(mouseState.Y) / 50);
 
-            if (animate.Count == 0 && time >= 500 && !drawBlackBanner && !drawWhiteBanner)
+            if (animate.Count == 0 && time >= 500 && !blackWin && !whiteWin)
             {
 
 
@@ -462,7 +422,7 @@ namespace Beta
             }
         }
 
-        private void CheckBottLeft( int tempX, int tempY, ref bool oppositePlayerObstruction, ref bool samePlayerEndOfLine, ref bool validMove, int player, int oppositePlayer)
+        private void CheckBottLeft(int tempX, int tempY, ref bool oppositePlayerObstruction, ref bool samePlayerEndOfLine, ref bool validMove, int player, int oppositePlayer)
         {
             oppositePlayerObstruction = false;
             samePlayerEndOfLine = false;
@@ -513,7 +473,7 @@ namespace Beta
             }
         }
 
-        private void CheckTopRight( int tempX,  int tempY, ref bool oppositePlayerObstruction, ref bool samePlayerEndOfLine, ref bool validMove, int player, int oppositePlayer)
+        private void CheckTopRight(int tempX, int tempY, ref bool oppositePlayerObstruction, ref bool samePlayerEndOfLine, ref bool validMove, int player, int oppositePlayer)
         {
             oppositePlayerObstruction = false;
             samePlayerEndOfLine = false;
@@ -564,7 +524,7 @@ namespace Beta
             }
         }
 
-        private void CheckBottRight( int tempX,  int tempY, ref bool oppositePlayerObstruction, ref bool samePlayerEndOfLine, ref bool validMove, int player, int oppositePlayer)
+        private void CheckBottRight(int tempX, int tempY, ref bool oppositePlayerObstruction, ref bool samePlayerEndOfLine, ref bool validMove, int player, int oppositePlayer)
         {
             oppositePlayerObstruction = false;
             samePlayerEndOfLine = false;
@@ -615,7 +575,7 @@ namespace Beta
             }
         }
 
-        private void CheckTopLeft( int tempX,  int tempY, ref bool oppositePlayerObstruction, ref bool samePlayerEndOfLine, ref bool validMove, int player, int oppositePlayer)
+        private void CheckTopLeft(int tempX, int tempY, ref bool oppositePlayerObstruction, ref bool samePlayerEndOfLine, ref bool validMove, int player, int oppositePlayer)
         {
             oppositePlayerObstruction = false;
             samePlayerEndOfLine = false;
@@ -665,7 +625,7 @@ namespace Beta
             }
         }
 
-        private void CheckRight(int sY,  int tempX, ref bool oppositePlayerObstruction, ref bool samePlayerEndOfLine, ref bool validMove, int player, int oppositePlayer)
+        private void CheckRight(int sY, int tempX, ref bool oppositePlayerObstruction, ref bool samePlayerEndOfLine, ref bool validMove, int player, int oppositePlayer)
         {
             oppositePlayerObstruction = false;
             samePlayerEndOfLine = false;
@@ -715,7 +675,7 @@ namespace Beta
             }
         }
 
-        private void CheckLeft(int sY,  int tempX, ref bool oppositePlayerObstruction, ref bool samePlayerEndOfLine, ref bool validMove, int player, int oppositePlayer)
+        private void CheckLeft(int sY, int tempX, ref bool oppositePlayerObstruction, ref bool samePlayerEndOfLine, ref bool validMove, int player, int oppositePlayer)
         {
             oppositePlayerObstruction = false;
             samePlayerEndOfLine = false;
@@ -765,7 +725,7 @@ namespace Beta
             }
         }
 
-        private void CheckDown(int sX,  int tempY, ref bool oppositePlayerObstruction, ref bool samePlayerEndOfLine, ref bool validMove, int player, int oppositePlayer)
+        private void CheckDown(int sX, int tempY, ref bool oppositePlayerObstruction, ref bool samePlayerEndOfLine, ref bool validMove, int player, int oppositePlayer)
         {
             oppositePlayerObstruction = false;
             samePlayerEndOfLine = false;
@@ -815,7 +775,7 @@ namespace Beta
             }
         }
 
-        private void CheckUp(int sX,  int tempY, ref bool oppositePlayerObstruction, ref bool samePlayerEndOfLine, ref bool validMove, int player, int oppositePlayer)
+        private void CheckUp(int sX, int tempY, ref bool oppositePlayerObstruction, ref bool samePlayerEndOfLine, ref bool validMove, int player, int oppositePlayer)
         {
             //Reset
             oppositePlayerObstruction = false;
@@ -866,9 +826,9 @@ namespace Beta
                 //end Vert Up   
             }
         }
-    
-              
-  
+
+
+
         public void Draw()
         {
             // Draw the board
@@ -884,11 +844,11 @@ namespace Beta
             }
 
             // Draw the banners
-            if (drawWhiteBanner == true && animate.Count == 0 && time >= 1000)
+            if (whiteWin == true && animate.Count == 0 && time >= 1000)
             {
                 whiteBanner.Draw();
             }
-            if (drawBlackBanner == true && animate.Count == 0 && time >= 1000)
+            if (blackWin == true && animate.Count == 0 && time >= 1000)
             {
                 blackBanner.Draw();
             }
@@ -1168,7 +1128,7 @@ namespace Beta
             {
                 tempX = sX;
                 tempY = sY;
-                
+
                 while (tempY > MIN && tempX > MIN)
                 {
                     if (pieces[tempX - 1, tempY - 1].Value() == player ||
@@ -1207,7 +1167,7 @@ namespace Beta
             {
                 tempX = sX;
                 tempY = sY;
-                
+
                 while (tempY < MAX && tempX < MAX)
                 {
                     if (pieces[tempX + 1, tempY + 1].Value() == player ||
@@ -1287,7 +1247,7 @@ namespace Beta
             {
                 tempX = sX;
                 tempY = sY;
-                
+
                 while (tempY < MAX && tempX > MIN)
                 {
                     if (pieces[tempX - 1, tempY + 1].Value() == player ||
@@ -1304,7 +1264,7 @@ namespace Beta
 
         private void DrawDiagBottLeft(int player, ref int tempX, ref int tempY)
         {
-           // if (pieces[tempX - 1, tempY + 1].Value() != player)
+            // if (pieces[tempX - 1, tempY + 1].Value() != player)
             pieces[tempX - 1, tempY + 1].Mutate(player);
             animate.Enqueue(new Vector2(tempX - 1, tempY + 1));
             tempX--;
@@ -1401,9 +1361,9 @@ namespace Beta
             {
                 for (int x = 0; x < LIMIT; x++)
                 {
-                    if ( validMove == false)
+                    if (validMove == false)
                     {
-                        if (pieces[x, y].Value() == 0 )
+                        if (pieces[x, y].Value() == 0)
                         {
                             CheckUp(x, y, ref oppositePlayerObstruction, ref samePlayerEndOfLine, ref validMove, player, oppositePlayer);
                             CheckDown(x, y, ref oppositePlayerObstruction, ref samePlayerEndOfLine, ref validMove, player, oppositePlayer);
@@ -1493,33 +1453,35 @@ namespace Beta
         public void PlopEndPieces()
         {
             if (plr1score > plr2score)
-                drawBlackBanner = true;
+                blackWin = true;
             else
-                drawWhiteBanner = true;
+                whiteWin = true;
+
+            blackBanner.color.A = 100;
 
 
             for (int y = 0; y < LIMIT; y++)
             {
-                for(int x = 0; x < LIMIT; x++)
+                for (int x = 0; x < LIMIT; x++)
                 {
                     if (plr1score > 0)
                     {
-                        pieces[x,y].SetState(5);
-                        animate.Enqueue(new Vector2(x,y));
+                        pieces[x, y].SetState(5);
+                        animate.Enqueue(new Vector2(x, y));
                         plr1score--;
                     }
                     if (plr2score > 0)
                     {
-                        pieces[ MAX - x , MAX - y ].SetState(6);
-                        animate.Enqueue(new Vector2( MAX - x ,MAX - y ) );
+                        pieces[MAX - x, MAX - y].SetState(6);
+                        animate.Enqueue(new Vector2(MAX - x, MAX - y));
                         plr2score--;
                     }
                 }
             }
             boardFull = false;
+            drawEndBanner = true;
 
             return;
         }
-
     }
 }
