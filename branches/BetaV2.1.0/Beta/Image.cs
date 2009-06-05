@@ -13,7 +13,7 @@ namespace Beta
         protected Texture2D texture;
         protected Vector2 position;
         protected Rectangle source;
-        protected Color color;
+        public Color color;
         protected Single rotation;
         protected Vector2 origin;
         protected Vector2 scale;
