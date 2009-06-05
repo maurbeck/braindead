@@ -253,9 +253,12 @@ namespace Beta
                                 blueToGreen, greenToBlue, transToPlr1,
                                 transToPlr2, blueCursor, greenCursor,
                                 blueBanner, greenBanner);
+
             board.LoadAudio(selectPiece, unavailableMove, availableMove,
                             playerOneToPlayerTwo);
+
             menu.LoadAudio(mtInstructionScreen1);
+
             instructions.LoadAudio(mtInstructionScreen2);
 
             aiBoard.LoadContent(spriteBatch, boardTex, blueTex,
@@ -263,13 +266,15 @@ namespace Beta
                                 blueToGreen, greenToBlue, transToPlr1,
                                 transToPlr2, blueCursor, greenCursor,
                                 blueBanner, greenBanner);
+
             aiBoard.LoadAudio(  selectPiece, unavailableMove, availableMove,
                                 playerOneToPlayerTwo);
 
             othello.LoadContent(spriteBatch, othBoard, blackTex,
                                 whiteTex, blackToWhite, whiteToBlack,
-                                blueBanner, greenBanner, blackCursor, whiteCursor,
+                                whiteBanner, blackBanner, blackCursor, whiteCursor,
                                 transToPlr1, transToPlr2);
+
             othello.LoadAudio(  selectPiece, unavailableMove, availableMove,
                                 playerOneToPlayerTwo);
         }
