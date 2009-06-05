@@ -130,7 +130,7 @@ namespace Beta
             pieces[4, 4].SetState(1);
             pieces[4, 3].SetState(2);
             pieces[3, 4].SetState(2);
-            
+
             //Quick end Othello game (player 1 favor)
             //pieces[3, 3].SetState(1);
             //pieces[4, 4].SetState(1);
@@ -310,7 +310,7 @@ namespace Beta
             int mouseY = (int)Math.Floor((double)(mouseState.Y) / 50);
 
             if (animate.Count == 0 && time >= 500 && !player1Win && !player2Win)
-            {                
+            {
                 if (selectedPiece.X < 0 || selectedPiece.Y < 0) // If selectedPiece is negative a.k.a. no piece selected
                 {
                     // Only perform click method if the click was on the board
@@ -427,19 +427,20 @@ namespace Beta
                             {
                                 pieces[mouseX, mouseY].SetState(player);
                                 Mutate(mouseX, mouseY, player);
-                            
-                                if (AnyMoves(oppositePlayer))
-                                    playerTurn = oppositePlayer;
 
-                                else if (!AnyPieces(oppositePlayer))
+                                if (AnyPieces(oppositePlayer) && AnyMoves(oppositePlayer))
+                                    playerTurn = oppositePlayer;
+                                else if (AnyPieces(player) && AnyMoves(player))
+                                    playerTurn = player;
+                                else
                                 {
                                     if (playerTurn == 1)
                                         player1Win = true;
                                     if (playerTurn == 2)
                                         player2Win = true;
-                                }
-                                else
                                     boardFull = true;
+                                }
+                   
                             }
                         }
                     }
@@ -1399,6 +1400,7 @@ namespace Beta
                             CheckBottLeft(x, y, ref oppositePlayerObstruction, ref samePlayerEndOfLine, ref validMove, player, oppositePlayer);
                             CheckBottRight(x, y, ref oppositePlayerObstruction, ref samePlayerEndOfLine, ref validMove, player, oppositePlayer);
 
+                            if(validMove)
                             return validMove;
                         }
                     }
@@ -1424,6 +1426,21 @@ namespace Beta
                 }
             }
             return false;
+        }
+
+        public void FillBoard(int player)
+        {
+            for (int y = 0; y < 7; y++)
+            {
+                for (int x = 0; x < 7; x++)
+                {
+                    if (pieces[x, y].Value() == 0)
+                    {
+                        pieces[x, y].SetState(player + 4);
+                        animate.Enqueue(new Vector2(x, y));
+                    }
+                }
+            }
         }
 
 
