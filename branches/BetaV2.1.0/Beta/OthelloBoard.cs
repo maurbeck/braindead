@@ -130,19 +130,36 @@ namespace Beta
             //pieces[4, 4].SetState(1);
             //pieces[4, 3].SetState(2);
             //pieces[3, 4].SetState(2);
-
-
+            
             //Quick end Othello game (player 1 favor)
-            pieces[3, 3].SetState(1);
-            pieces[4, 4].SetState(1);
-            pieces[4, 3].SetState(1);
-            pieces[3, 4].SetState(2);
+            //pieces[3, 3].SetState(1);
+            //pieces[4, 4].SetState(1);
+            //pieces[4, 3].SetState(1);
+            //pieces[3, 4].SetState(2);
 
             // Fill board to test complete player2 elimination
             //pieces[0, 0].SetState(1);
             //pieces[1, 0].SetState(1);
             //pieces[0, 1].SetState(1);
             //pieces[2, 2].SetState(2);
+
+            //Fill board to test passing of turns
+            pieces[2, 4].SetState(2);
+            pieces[3, 3].SetState(1);
+            pieces[3, 4].SetState(1);
+            pieces[4, 2].SetState(1);
+            pieces[4, 3].SetState(2);
+            pieces[4, 4].SetState(1);
+            pieces[5, 2].SetState(1);
+            pieces[5, 4].SetState(1);
+            pieces[5, 1].SetState(1);
+            pieces[6, 0].SetState(1);
+            pieces[6, 4].SetState(1);
+            pieces[7, 4].SetState(1);
+
+
+
+
 
             // Set playerTurn
             playerTurn = (int)PlayerTurn.player1;
@@ -273,8 +290,16 @@ namespace Beta
 
             if (drawEndBanner == true && animate.Count == 0 && time > 1050)
             {
-                if(player1Banner.color.A <= 253)
-                    player1Banner.color.A += 2;
+                if (player1Win)
+                {
+                    if (player1Banner.color.A <= 253)
+                        player1Banner.color.A += 2;
+                }
+                if (player2Win)
+                {
+                    if (player2Banner.color.A <= 253)
+                        player2Banner.color.A += 2;
+                }
             }
         }
 
@@ -285,9 +310,7 @@ namespace Beta
             int mouseY = (int)Math.Floor((double)(mouseState.Y) / 50);
 
             if (animate.Count == 0 && time >= 500 && !player1Win && !player2Win)
-            {
-
-
+            {                
                 if (selectedPiece.X < 0 || selectedPiece.Y < 0) // If selectedPiece is negative a.k.a. no piece selected
                 {
                     // Only perform click method if the click was on the board
@@ -404,13 +427,19 @@ namespace Beta
                             {
                                 pieces[mouseX, mouseY].SetState(player);
                                 Mutate(mouseX, mouseY, player);
-
+                            
                                 if (AnyMoves(oppositePlayer))
                                     playerTurn = oppositePlayer;
-                                else
+
+                                else if (!AnyPieces(oppositePlayer))
                                 {
-                                    boardFull = true;
+                                    if (playerTurn == 1)
+                                        player1Win = true;
+                                    if (playerTurn == 2)
+                                        player2Win = true;
                                 }
+                                else
+                                    boardFull = true;
                             }
                         }
                     }
@@ -1370,10 +1399,7 @@ namespace Beta
                             CheckBottLeft(x, y, ref oppositePlayerObstruction, ref samePlayerEndOfLine, ref validMove, player, oppositePlayer);
                             CheckBottRight(x, y, ref oppositePlayerObstruction, ref samePlayerEndOfLine, ref validMove, player, oppositePlayer);
 
-                            if (validMove)
-                            {
-                                return true;
-                            }
+                            return validMove;
                         }
                     }
                 }
@@ -1454,6 +1480,7 @@ namespace Beta
                 player2Win = true;
 
             player1Banner.color.A = 100;
+            player2Banner.color.A = 100;
 
 
             for (int y = 0; y < LIMIT; y++)

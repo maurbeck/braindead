@@ -272,7 +272,7 @@ namespace Beta
 
             othello.LoadContent(spriteBatch, othelloBoardTex, player1OthelloTex,
                                 player2OthelloTex, player1ToPlayer2Othello, player2ToPlayer1Othello,
-                                player2OthelloBanner, player1OthelloBanner, player1OthelloCursor, player2OthelloCursor,
+                                player1OthelloBanner, player2OthelloBanner, player1OthelloCursor, player2OthelloCursor,
                                 transparentToPlayer1, transparentToPlayer2);
 
             othello.LoadAudio(  selectPiece, unavailableMove, availableMove,
