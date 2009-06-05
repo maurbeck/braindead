@@ -809,7 +809,7 @@ namespace Beta
                                             unMove.Play(1.0f, 0.0f, 0.0f, false);
                                         }
                                         break;
-                                    case 1:     // If clicked on red piece
+                                    case 1:     // If clicked on player1 piece
                                         // Deselect piece
                                         selectedPiece = new Vector2(-1, -1);
                                         unMove.Play(1.0f, 0.0f, 0.0f, false);

@@ -40,10 +40,10 @@ namespace Beta
         
 
         // Cursor textures
-        Texture2D greenCursor;
-        Texture2D blueCursor;
-        Texture2D blackCursor;
-        Texture2D whiteCursor;
+        Texture2D player2JojamianCursor;
+        Texture2D player1JojamianCursor;
+        Texture2D player1OthelloCursor;
+        Texture2D player2OthelloCursor;
 
         // Textures for the menu state
         Texture2D menuBgTex;
@@ -64,27 +64,27 @@ namespace Beta
         Texture2D tipsAnimLeft;
         Texture2D tipsAnimRight;
 
-        // Textures for the game state
-        Texture2D boardTex;
-        Texture2D blueTex;
-        Texture2D greenTex;
-        Texture2D blueSelectTex;
-        Texture2D greenSelectTex;
-        Texture2D blueToGreen;
-        Texture2D greenToBlue;
-        Texture2D transToPlr1;
-        Texture2D transToPlr2;
-        Texture2D blueBanner;
-        Texture2D greenBanner;
+        // Textures for the jojamian game state
+        Texture2D jojamianBoardTex;
+        Texture2D player1JojamianTex;
+        Texture2D player2JojamianTex;
+        Texture2D player1SelectTex;
+        Texture2D player2SelectTex;
+        Texture2D player1ToPlayer2Jojamian;
+        Texture2D player2ToPlayer1Jojamian;
+        Texture2D transparentToPlayer1;
+        Texture2D transparentToPlayer2;
+        Texture2D player1JojamianBanner;
+        Texture2D player2JojamianBanner;
 
-        //Textures for Othello
-        Texture2D othBoard;
-        Texture2D blackTex;
-        Texture2D whiteTex;
-        Texture2D blackToWhite;
-        Texture2D whiteToBlack;
-        Texture2D blackBanner;
-        Texture2D whiteBanner;
+        //Textures for Othello game state
+        Texture2D othelloBoardTex;
+        Texture2D player1OthelloTex;
+        Texture2D player2OthelloTex;
+        Texture2D player1ToPlayer2Othello;
+        Texture2D player2ToPlayer1Othello;
+        Texture2D player1OthelloBanner;
+        Texture2D player2OthelloBanner;
        
 
         // Textures for the credits state
@@ -175,9 +175,9 @@ namespace Beta
             tutorialBtnTex = Content.Load<Texture2D>("RulesBut");
             quitBtnTex = Content.Load<Texture2D>("EndBut");
             // This is used as the normal cursor, will also be used in other states
-            blueCursor = Content.Load<Texture2D>("blueCursor"); 
+            player1JojamianCursor = Content.Load<Texture2D>("blueCursor"); 
 
-            menu.LoadContent(   spriteBatch, menuBgTex, blueCursor, 
+            menu.LoadContent(   spriteBatch, menuBgTex, player1JojamianCursor, 
                                 gameBtnTex, tutorialBtnTex, quitBtnTex);
 
             // Load the content for the instructions state
@@ -197,41 +197,41 @@ namespace Beta
                                         instruction2BgTex, instruction3BgTex,
                                         moveAnim, attAnim, 
                                         tipsAnim, tipsAnimLeft,
-                                        tipsAnimRight, blueCursor,
+                                        tipsAnimRight, player1JojamianCursor,
                                         mainBtnTex, backBtnTex,
                                         nextBtnTex);
 
             // Load the content for the game state
-            boardTex = Content.Load<Texture2D>("BoardTest");
-            blueTex = Content.Load<Texture2D>("Blue");
-            greenTex = Content.Load<Texture2D>("Green");
-            blueSelectTex = Content.Load<Texture2D>("BlueSelection");
-            greenSelectTex = Content.Load<Texture2D>("GreenSelection");
-            blueToGreen = Content.Load<Texture2D>("BlueToGreen");
-            greenToBlue = Content.Load<Texture2D>("GreenToBlue");
-            transToPlr1 = Content.Load<Texture2D>("TransToPlr1");
-            transToPlr2 = Content.Load<Texture2D>("TransToPlr2");
-            blueBanner = Content.Load<Texture2D>("BlueBanner");
-            greenBanner = Content.Load<Texture2D>("GreenBanner");
+            jojamianBoardTex = Content.Load<Texture2D>("BoardTest");
+            player1JojamianTex = Content.Load<Texture2D>("Blue");
+            player2JojamianTex = Content.Load<Texture2D>("Green");
+            player1SelectTex = Content.Load<Texture2D>("BlueSelection");
+            player2SelectTex = Content.Load<Texture2D>("GreenSelection");
+            player1ToPlayer2Jojamian = Content.Load<Texture2D>("BlueToGreen");
+            player2ToPlayer1Jojamian = Content.Load<Texture2D>("GreenToBlue");
+            transparentToPlayer1 = Content.Load<Texture2D>("TransToPlr1");
+            transparentToPlayer2 = Content.Load<Texture2D>("TransToPlr2");
+            player1JojamianBanner = Content.Load<Texture2D>("BlueBanner");
+            player2JojamianBanner = Content.Load<Texture2D>("GreenBanner");
 
             //Load the content for the othello state
-            othBoard = Content.Load<Texture2D>("Board8x8Green");
-            blackTex = Content.Load<Texture2D>("Black");
-            whiteTex = Content.Load<Texture2D>("White");
-            blackToWhite = Content.Load<Texture2D>("blackToWhite");
-            whiteToBlack = Content.Load<Texture2D>("whiteToBlack");
-            blackBanner = Content.Load<Texture2D>("BlackBanner");
-            whiteBanner = Content.Load<Texture2D>("WhiteBanner");
-            blackCursor = Content.Load<Texture2D>("BlackCursor");
-            whiteCursor = Content.Load<Texture2D>("WhiteCursor");
+            othelloBoardTex = Content.Load<Texture2D>("Board8x8Green");
+            player1OthelloTex = Content.Load<Texture2D>("Black");
+            player2OthelloTex = Content.Load<Texture2D>("White");
+            player1ToPlayer2Othello = Content.Load<Texture2D>("blackToWhite");
+            player2ToPlayer1Othello = Content.Load<Texture2D>("whiteToBlack");
+            player1OthelloBanner = Content.Load<Texture2D>("BlackBanner");
+            player2OthelloBanner = Content.Load<Texture2D>("WhiteBanner");
+            player1OthelloCursor = Content.Load<Texture2D>("BlackCursor");
+            player2OthelloCursor = Content.Load<Texture2D>("WhiteCursor");
 
             // Load the content for the credit state
             creditBgTex = Content.Load<Texture2D>("Credits");
             
 
-            greenCursor = Content.Load<Texture2D>("GreenCursor");
+            player2JojamianCursor = Content.Load<Texture2D>("GreenCursor");
 
-            credits.LoadContent(spriteBatch, creditBgTex, greenCursor);
+            credits.LoadContent(spriteBatch, creditBgTex, player2JojamianCursor);
 
             //Load the sounds
             mtInstructionScreen1 = Content.Load<SoundEffect>
@@ -248,11 +248,11 @@ namespace Beta
                 ("AvailableMove_8Bit");
 
             
-            board.LoadContent(  spriteBatch, boardTex, blueTex,
-                                greenTex, greenSelectTex, blueSelectTex,
-                                blueToGreen, greenToBlue, transToPlr1,
-                                transToPlr2, blueCursor, greenCursor,
-                                blueBanner, greenBanner);
+            board.LoadContent(  spriteBatch, jojamianBoardTex, player1JojamianTex,
+                                player2JojamianTex, player2SelectTex, player1SelectTex,
+                                player1ToPlayer2Jojamian, player2ToPlayer1Jojamian, transparentToPlayer1,
+                                transparentToPlayer2, player1JojamianCursor, player2JojamianCursor,
+                                player1JojamianBanner, player2JojamianBanner);
 
             board.LoadAudio(selectPiece, unavailableMove, availableMove,
                             playerOneToPlayerTwo);
@@ -261,19 +261,19 @@ namespace Beta
 
             instructions.LoadAudio(mtInstructionScreen2);
 
-            aiBoard.LoadContent(spriteBatch, boardTex, blueTex,
-                                greenTex, greenSelectTex, blueSelectTex,
-                                blueToGreen, greenToBlue, transToPlr1,
-                                transToPlr2, blueCursor, greenCursor,
-                                blueBanner, greenBanner);
+            aiBoard.LoadContent(spriteBatch, jojamianBoardTex, player1JojamianTex,
+                                player2JojamianTex, player2SelectTex, player1SelectTex,
+                                player1ToPlayer2Jojamian, player2ToPlayer1Jojamian, transparentToPlayer1,
+                                transparentToPlayer2, player1JojamianCursor, player2JojamianCursor,
+                                player1JojamianBanner, player2JojamianBanner);
 
             aiBoard.LoadAudio(  selectPiece, unavailableMove, availableMove,
                                 playerOneToPlayerTwo);
 
-            othello.LoadContent(spriteBatch, othBoard, blackTex,
-                                whiteTex, blackToWhite, whiteToBlack,
-                                whiteBanner, blackBanner, blackCursor, whiteCursor,
-                                transToPlr1, transToPlr2);
+            othello.LoadContent(spriteBatch, othelloBoardTex, player1OthelloTex,
+                                player2OthelloTex, player1ToPlayer2Othello, player2ToPlayer1Othello,
+                                player2OthelloBanner, player1OthelloBanner, player1OthelloCursor, player2OthelloCursor,
+                                transparentToPlayer1, transparentToPlayer2);
 
             othello.LoadAudio(  selectPiece, unavailableMove, availableMove,
                                 playerOneToPlayerTwo);
