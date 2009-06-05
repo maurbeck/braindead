@@ -12,22 +12,22 @@ namespace Beta
         // Derives all variables from Animation
         // Animation derives all variables from Image
         // Piece specific variables
-        Texture2D redTex;
-        Texture2D greenTex;
-        Texture2D redToGreen;
-        Texture2D greenToRed;
-        Texture2D transToPlr1;
-        Texture2D transToPlr2;
+        Texture2D player1Piece;
+        Texture2D player2Piece;
+        Texture2D player1TransformToPlayer2;
+        Texture2D player2TransformToPlayer1;
+        Texture2D transparentToPlayer1;
+        Texture2D transparentToPlayer2;
         int state;
 
 
         private enum State
         {
             Blank = 0,
-            Red = 1,
-            Green = 2,
-            RedToGreen = 3,
-            GreenToRed = 4,
+            Player1 = 1,
+            Player2 = 2,
+            Player1ToPlayer2 = 3,
+            Player2ToPlayer1 = 4,
             TransToPlr1 = 5,
             TransToPlr2 = 6
         }
@@ -67,18 +67,18 @@ namespace Beta
         }
 
         // Load all required graphics content
-        public void LoadContent(SpriteBatch spriteBatch, Texture2D red,
-                                Texture2D green, Texture2D redGreen,
-                                Texture2D greenRed, Texture2D tPlr1,
-                                Texture2D tPlr2)
+        public void LoadContent(SpriteBatch spriteBatch, Texture2D player1,
+                                Texture2D player2, Texture2D player1Player2,
+                                Texture2D player2Player1, Texture2D transparentPlayer1,
+                                Texture2D transparentPlayer2)
         {
             this.spriteBatch = spriteBatch;
-            this.redTex = red;
-            this.greenTex = green;
-            this.redToGreen = redGreen;
-            this.greenToRed = greenRed;
-            this.transToPlr1 = tPlr1;
-            this.transToPlr2 = tPlr2;
+            this.player1Piece = player1;
+            this.player2Piece = player2;
+            this.player1TransformToPlayer2 = player1Player2;
+            this.player2TransformToPlayer1 = player2Player1;
+            this.transparentToPlayer1 = transparentPlayer1;
+            this.transparentToPlayer2 = transparentPlayer2;
         }
 
         // Update the animations
@@ -95,11 +95,11 @@ namespace Beta
                         // Animation.Reset()
                         Reset();
                         // Set the state to the correct static state
-                        if (state == (int)State.RedToGreen)
+                        if (state == (int)State.Player1ToPlayer2)
                         {
                             state = 2;
                         }
-                        if (state == (int)State.GreenToRed)
+                        if (state == (int)State.Player2ToPlayer1)
                         {
                             state = 1;
                         }
@@ -130,15 +130,15 @@ namespace Beta
         // the animation handler starts the animation
         public void Mutate(int toState)
         {
-            // If toState is red
-            if (toState == (int)State.Red)
+            // If toState is player1
+            if (toState == (int)State.Player1)
             {
-                state = (int)State.GreenToRed;
+                state = (int)State.Player2ToPlayer1;
             }
-            // If toState is green
-            if (toState == (int)State.Green)
+            // If toState is player2
+            if (toState == (int)State.Player2)
             {
-                state = (int)State.RedToGreen;
+                state = (int)State.Player1ToPlayer2;
             }
         }
 
@@ -165,42 +165,42 @@ namespace Beta
                     break;
                 case 1:
                     spriteBatch.Begin();
-                    spriteBatch.Draw(   this.redTex, this.position, this.source,
+                    spriteBatch.Draw(   this.player1Piece, this.position, this.source,
                                         this.color, this.rotation, this.origin,
                                         this.scale, this.effects, this.depth);
                     spriteBatch.End();
                     break;
                 case 2:
                     spriteBatch.Begin();
-                    spriteBatch.Draw(this.greenTex, this.position, this.source,
+                    spriteBatch.Draw(this.player2Piece, this.position, this.source,
                                      this.color, this.rotation, this.origin,
                                      this.scale, this.effects, this.depth);
                     spriteBatch.End();
                     break;
                 case 3:
                     spriteBatch.Begin();
-                    spriteBatch.Draw(   this.redToGreen, this.position, this.source,
+                    spriteBatch.Draw(   this.player1TransformToPlayer2, this.position, this.source,
                                         this.color, this.rotation, this.origin,
                                         this.scale, this.effects, this.depth);
                     spriteBatch.End();
                     break;
                 case 4:
                     spriteBatch.Begin();
-                    spriteBatch.Draw(this.greenToRed, this.position, this.source,
+                    spriteBatch.Draw(this.player2TransformToPlayer1, this.position, this.source,
                                      this.color, this.rotation, this.origin,
                                      this.scale, this.effects, this.depth);
                     spriteBatch.End();
                     break;
                 case 5:
                     spriteBatch.Begin();
-                    spriteBatch.Draw(this.transToPlr1, this.position, this.source,
+                    spriteBatch.Draw(this.transparentToPlayer1, this.position, this.source,
                                      this.color, this.rotation, this.origin, 
                                      this.scale, this.effects, this.depth);
                     spriteBatch.End();
                     break;
                 case 6:
                     spriteBatch.Begin();
-                    spriteBatch.Draw(this.transToPlr2, this.position, this.source, 
+                    spriteBatch.Draw(this.transparentToPlayer2, this.position, this.source, 
                                      this.color, this.rotation, this.origin,
                                      this.scale, this.effects, this.depth);
                     spriteBatch.End();

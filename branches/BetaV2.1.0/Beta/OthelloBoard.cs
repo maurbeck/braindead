@@ -15,8 +15,8 @@ namespace Beta
         // Enumeration for player turns
         private enum PlayerTurn
         {
-            Red = 1,
-            Green = 2
+            player1 = 1,
+            player2 = 2
         }
 
         // Enumeration for game states
@@ -35,12 +35,12 @@ namespace Beta
         Image board = new Image();
 
         // Cursors
-        Cursor blackCursor = new Cursor();
-        Cursor whiteCursor = new Cursor();
+        Cursor player1Cur = new Cursor();
+        Cursor player2Cur = new Cursor();
 
         // Images for the banners
-        Image blackBanner = new Image();
-        Image whiteBanner = new Image();
+        Image player1Banner = new Image();
+        Image player2Banner = new Image();
 
         // Array of pieces representing the board
         Piece[,] pieces = new Piece[LIMIT, LIMIT];
@@ -68,8 +68,8 @@ namespace Beta
 
         // To draw the banners or not
         // Will be combined with animate.Count == 0
-        bool blackWin;
-        bool whiteWin;
+        bool player1Win;
+        bool player2Win;
         bool drawEndBanner;
 
         //Sounds
@@ -105,12 +105,12 @@ namespace Beta
             // Clear the animation queue
             animate.Clear();
             // Initialize the cursors
-            blackCursor.Initialize(Vector2.Zero, new Rectangle(0, 0, 50, 50), Color.White, Vector2.Zero, new Vector2(0.5f), 0.0f);
-            whiteCursor.Initialize(Vector2.Zero, new Rectangle(0, 0, 50, 50), Color.White, Vector2.Zero, new Vector2(0.5f), 0.0f);
+            player1Cur.Initialize(Vector2.Zero, new Rectangle(0, 0, 50, 50), Color.White, Vector2.Zero, new Vector2(0.5f), 0.0f);
+            player2Cur.Initialize(Vector2.Zero, new Rectangle(0, 0, 50, 50), Color.White, Vector2.Zero, new Vector2(0.5f), 0.0f);
 
             // Initialize the banners
-            blackBanner.Initialize(new Vector2(0, 297 / 2), new Rectangle(0, 0, 798, 204), new Color(255, 255, 255, 0), Vector2.Zero, new Vector2(0.5f), 0f);
-            whiteBanner.Initialize(new Vector2(0, 297 / 2), new Rectangle(0, 0, 798, 204), new Color(255, 255, 255, 0), Vector2.Zero, new Vector2(0.5f), 0f);
+            player1Banner.Initialize(new Vector2(0, 297 / 2), new Rectangle(0, 0, 798, 204), new Color(255, 255, 255, 0), Vector2.Zero, new Vector2(0.5f), 0f);
+            player2Banner.Initialize(new Vector2(0, 297 / 2), new Rectangle(0, 0, 798, 204), new Color(255, 255, 255, 0), Vector2.Zero, new Vector2(0.5f), 0f);
 
             // Initialize the board image
             board.Initialize(Vector2.Zero, new Rectangle(0, 0, 798, 798), Color.White, Vector2.Zero, new Vector2(0.5f), 1f);
@@ -132,20 +132,20 @@ namespace Beta
             //pieces[3, 4].SetState(2);
 
 
-            //Quick end Othello game
+            //Quick end Othello game (player 1 favor)
             pieces[3, 3].SetState(1);
             pieces[4, 4].SetState(1);
             pieces[4, 3].SetState(1);
             pieces[3, 4].SetState(2);
 
-            // Fill board to test complete green elimination
+            // Fill board to test complete player2 elimination
             //pieces[0, 0].SetState(1);
             //pieces[1, 0].SetState(1);
             //pieces[0, 1].SetState(1);
             //pieces[2, 2].SetState(2);
 
             // Set playerTurn
-            playerTurn = (int)PlayerTurn.Red;
+            playerTurn = (int)PlayerTurn.player1;
 
             // Set selected piece
             selectedPiece = new Vector2(-1, -1);
@@ -156,31 +156,31 @@ namespace Beta
             // Board full
             boardFull = false;
 
-            blackWin = false;
-            whiteWin = false;
+            player1Win = false;
+            player2Win = false;
 
         }
 
-        public void LoadContent(SpriteBatch spriteBatch, Texture2D board, Texture2D red, Texture2D green, Texture2D redGreen, Texture2D greenRed, Texture2D blueBanner, Texture2D greenBanner, Texture2D redCur, Texture2D greenCur, Texture2D tPlr1, Texture2D tPlr2)
+        public void LoadContent(SpriteBatch spriteBatch, Texture2D board, Texture2D player1Piece, Texture2D player2Piece, Texture2D player1TransformToPlayer2, Texture2D player2TransformToPlayer1, Texture2D player1Banner, Texture2D player2Banner, Texture2D player1Cursor, Texture2D player2Cursor, Texture2D transparentToPlayer1, Texture2D transparentToPlayer2)
         {
             // Load the content for the board image
             this.board.LoadContent(spriteBatch, ref board);
 
             // Load the banners
-            this.blackBanner.LoadContent(spriteBatch, ref blueBanner);
-            this.whiteBanner.LoadContent(spriteBatch, ref greenBanner);
+            this.player1Banner.LoadContent(spriteBatch, ref player1Banner);
+            this.player2Banner.LoadContent(spriteBatch, ref player2Banner);
 
             // Load the content for the pieces
             for (int x = 0; x < LIMIT; x++)
             {
                 for (int y = 0; y < LIMIT; y++)
                 {
-                    pieces[x, y].LoadContent(spriteBatch, red, green, redGreen, greenRed, tPlr1, tPlr2);
+                    pieces[x, y].LoadContent(spriteBatch, player1Piece, player2Piece, player1TransformToPlayer2, player2TransformToPlayer1, transparentToPlayer1, transparentToPlayer2);
                 }
             }
 
-            blackCursor.LoadContent(spriteBatch, ref redCur);
-            whiteCursor.LoadContent(spriteBatch, ref greenCur);
+            player1Cur.LoadContent(spriteBatch, ref player1Cursor);
+            player2Cur.LoadContent(spriteBatch, ref player2Cursor);
         }
 
         public void LoadAudio(SoundEffect selectPiece, SoundEffect unMove, SoundEffect aMove, SoundEffect convert)
@@ -220,8 +220,8 @@ namespace Beta
             }
 
             // Update both cursors
-            blackCursor.Update();
-            whiteCursor.Update();
+            player1Cur.Update();
+            player2Cur.Update();
 
             #region Handle animations one at a time
             /* Old version: allowed for movement before the last piece was animated
@@ -271,14 +271,10 @@ namespace Beta
             }
 
 
-            if (drawEndBanner == true)
+            if (drawEndBanner == true && animate.Count == 0 && time > 1050)
             {
-                blackBanner.color.A = 0;
-
-                blackBanner.color.A += (byte)(2 * gameTime.ElapsedGameTime.TotalSeconds);
-
-                if (blackBanner.color.A == 255)
-                    drawEndBanner = false;
+                if(player1Banner.color.A <= 253)
+                    player1Banner.color.A += 2;
             }
         }
 
@@ -288,7 +284,7 @@ namespace Beta
             int mouseX = (int)Math.Floor((double)(mouseState.X) / 50);
             int mouseY = (int)Math.Floor((double)(mouseState.Y) / 50);
 
-            if (animate.Count == 0 && time >= 500 && !blackWin && !whiteWin)
+            if (animate.Count == 0 && time >= 500 && !player1Win && !player2Win)
             {
 
 
@@ -844,25 +840,25 @@ namespace Beta
             }
 
             // Draw the banners
-            if (whiteWin == true && animate.Count == 0 && time >= 1000)
+            if (player2Win == true && animate.Count == 0 && time >= 1000)
             {
-                whiteBanner.Draw();
+                player2Banner.Draw();
             }
-            if (blackWin == true && animate.Count == 0 && time >= 1000)
+            if (player1Win == true && animate.Count == 0 && time >= 1000)
             {
-                blackBanner.Draw();
+                player1Banner.Draw();
             }
 
             if (!boardFull)
             {
                 // Draw the correct cursor
-                if (playerTurn == (int)PlayerTurn.Red)
+                if (playerTurn == (int)PlayerTurn.player1)
                 {
-                    blackCursor.Draw();
+                    player1Cur.Draw();
                 }
-                else if (playerTurn == (int)PlayerTurn.Green)
+                else if (playerTurn == (int)PlayerTurn.player2)
                 {
-                    whiteCursor.Draw();
+                    player2Cur.Draw();
                 }
             }
         }
@@ -1453,11 +1449,11 @@ namespace Beta
         public void PlopEndPieces()
         {
             if (plr1score > plr2score)
-                blackWin = true;
+                player1Win = true;
             else
-                whiteWin = true;
+                player2Win = true;
 
-            blackBanner.color.A = 100;
+            player1Banner.color.A = 100;
 
 
             for (int y = 0; y < LIMIT; y++)
