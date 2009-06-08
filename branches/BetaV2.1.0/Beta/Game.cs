@@ -47,9 +47,17 @@ namespace Beta
 
         // Textures for the menu state
         Texture2D menuBgTex;
-        Texture2D gameBtnTex;
-        Texture2D tutorialBtnTex;
-        Texture2D quitBtnTex;
+        //Texture2D gameBtnTex;
+        //Texture2D tutorialBtnTex;
+        //Texture2D quitBtnTex;
+
+        //Texture2D mainMenuBackground;
+        Texture2D onePlayerJojamian;
+        Texture2D twoPlayerJojamian;
+        Texture2D rulesJojamian;
+        Texture2D endGame;
+        Texture2D onePlayerOthello;
+
 
         // Textures for instructions
         Texture2D instruction1BgTex;
@@ -171,14 +179,24 @@ namespace Beta
             
             // Load the content for the menu state
             menuBgTex = Content.Load<Texture2D>("MainScreenPieces");
-            gameBtnTex = Content.Load<Texture2D>("StartBut");
-            tutorialBtnTex = Content.Load<Texture2D>("RulesBut");
-            quitBtnTex = Content.Load<Texture2D>("EndBut");
+            //gameBtnTex = Content.Load<Texture2D>("StartBut");
+            //tutorialBtnTex = Content.Load<Texture2D>("RulesBut");
+            //quitBtnTex = Content.Load<Texture2D>("EndBut");
+
             // This is used as the normal cursor, will also be used in other states
             player1JojamianCursor = Content.Load<Texture2D>("blueCursor"); 
 
-            menu.LoadContent(   spriteBatch, menuBgTex, player1JojamianCursor, 
-                                gameBtnTex, tutorialBtnTex, quitBtnTex);
+            //mainMenuBackground = Content.Load<Texture2D>(
+            onePlayerJojamian = Content.Load<Texture2D>("Button_OnePlayer");
+            twoPlayerJojamian = Content.Load<Texture2D>("Button_TwoPlayer");
+            rulesJojamian = Content.Load<Texture2D>("Button_Rules");
+            endGame = Content.Load<Texture2D>("Button_End");
+            onePlayerOthello = Content.Load<Texture2D>("Button_Othello");
+            
+
+            menu.LoadContent(   spriteBatch, menuBgTex, player1JojamianCursor,
+                                onePlayerJojamian, twoPlayerJojamian, rulesJojamian,
+                                endGame, onePlayerOthello);
 
             // Load the content for the instructions state
             instruction1BgTex = Content.Load<Texture2D>("NewInstructions");
