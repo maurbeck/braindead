@@ -175,6 +175,8 @@ namespace Beta
 
             player1Win = false;
             player2Win = false;
+            drawEndBanner = false;
+
 
         }
 
@@ -1352,6 +1354,8 @@ namespace Beta
 
             return tempY;
         }
+
+
 
         public bool AnyMoves(int player)
         {

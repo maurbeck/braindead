@@ -32,9 +32,15 @@ namespace Beta
 
         // Buttons
         // Are animations to handle mouse overs
-        Animation gameButton = new Animation();
-        Animation tutorialButton = new Animation();
-        Animation quitButton = new Animation();
+        //Animation gameButton = new Animation();
+        //Animation tutorialButton = new Animation();
+        //Animation quitButton = new Animation();
+
+        Animation onePlayerJojamianButton = new Animation();
+        Animation twoPlayerJojamianButton = new Animation();
+        Animation rulesJojamianButton = new Animation();
+        Animation endGameButton = new Animation();
+        Animation onePlayerOthelloButton = new Animation();
 
         //Sounds
         SoundEffect mouseClick;
@@ -50,37 +56,73 @@ namespace Beta
                                     Color.White, Vector2.Zero, 
                                     new Vector2(0.5f), 1.0f);
             // Initialize cursor
-            cursor.Initialize(  Vector2.Zero, new Rectangle(0, 0, 50, 50),
-                                Color.White, Vector2.Zero, 
+            cursor.Initialize(Vector2.Zero, new Rectangle(0, 0, 50, 50),
+                                Color.White, Vector2.Zero,
                                 new Vector2(0.5f), 0.0f);
 
             // Initialize buttons
-            gameButton.Initialize(  new Vector2(279/2, 200/2), new Rectangle(0, 0, 240, 100),
+            //gameButton.Initialize(  new Vector2(279/2, 200/2), new Rectangle(0, 0, 240, 100),
+            //                        Vector2.Zero, new Vector2(0.5f),
+            //                        0.5f, 10, 2, false);
+
+            //tutorialButton.Initialize(  new Vector2(279/2, 349/2), new Rectangle(0, 0, 240, 100),
+            //                            Vector2.Zero, new Vector2(0.5f),
+            //                            0.5f, 10, 2, false);
+
+            //quitButton.Initialize(  new Vector2(279/2, 500/2), new Rectangle(0, 0, 240, 100),
+            //                        Vector2.Zero, new Vector2(0.5f),
+            //                        0.5f, 10, 2, false);
+
+
+            onePlayerJojamianButton.Initialize( new Vector2(92 / 2, 300 / 2 ), new Rectangle(0, 0, 280, 80),
+                                    Vector2.Zero, new Vector2(0.5f),
+                                    0.5f, 10, 2, false);
+                                        
+
+            twoPlayerJojamianButton.Initialize(new Vector2(92 / 2, 400 / 2), new Rectangle(0, 0, 280, 80),
                                     Vector2.Zero, new Vector2(0.5f),
                                     0.5f, 10, 2, false);
 
-            tutorialButton.Initialize(  new Vector2(279/2, 349/2), new Rectangle(0, 0, 240, 100),
-                                        Vector2.Zero, new Vector2(0.5f),
-                                        0.5f, 10, 2, false);
-
-            quitButton.Initialize(  new Vector2(279/2, 500/2), new Rectangle(0, 0, 240, 100),
+            rulesJojamianButton.Initialize(new Vector2(92 / 2, 500 / 2), new Rectangle(0, 0, 280, 80),
                                     Vector2.Zero, new Vector2(0.5f),
                                     0.5f, 10, 2, false);
+
+            onePlayerOthelloButton.Initialize(new Vector2(442 / 2, 400 / 2), new Rectangle(0, 0, 280, 80),
+                        Vector2.Zero, new Vector2(0.5f),
+                        0.5f, 10, 2, false);
+            
+            endGameButton.Initialize(new Vector2(300 / 2, 625 / 2), new Rectangle(0, 0, 280, 80),
+                                    Vector2.Zero, new Vector2(0.5f),
+                                    0.5f, 10, 2, false);
+
+
+
+
+
             //End Initialize Buttons
         }
 
         public void LoadContent(SpriteBatch spriteBatch, Texture2D menuBackground,
-                                Texture2D cursorTex, Texture2D gameBtnTex,
-                                Texture2D tutorialBtnTex, Texture2D quitBtnTex)
+                                Texture2D cursorTex, Texture2D onePlayerJojamianButtonTexture, 
+                                Texture2D twoPlayerJojamianButtonTexture, Texture2D rulesJojamianButtonTexture,
+                                Texture2D endGameButtonTexture, Texture2D onePlayerOthelloButtonTexture)
         {
             // Pass content to the background image
             background.LoadContent(spriteBatch, ref menuBackground);
             // Pass content to the cursor
             cursor.LoadContent(spriteBatch, ref cursorTex);
+
             // Pass content to the buttons
-            gameButton.LoadContent(spriteBatch, ref gameBtnTex);
-            tutorialButton.LoadContent(spriteBatch, ref tutorialBtnTex);
-            quitButton.LoadContent(spriteBatch, ref quitBtnTex);
+            //gameButton.LoadContent(spriteBatch, ref gameBtnTex);
+            //tutorialButton.LoadContent(spriteBatch, ref tutorialBtnTex);
+            //quitButton.LoadContent(spriteBatch, ref quitBtnTex);
+
+            onePlayerJojamianButton.LoadContent(spriteBatch, ref onePlayerJojamianButtonTexture);
+            twoPlayerJojamianButton.LoadContent(spriteBatch, ref twoPlayerJojamianButtonTexture);
+            rulesJojamianButton.LoadContent(spriteBatch, ref rulesJojamianButtonTexture);
+            endGameButton.LoadContent(spriteBatch, ref endGameButtonTexture);
+            onePlayerOthelloButton.LoadContent(spriteBatch, ref onePlayerOthelloButtonTexture);
+
         }
 
         public void LoadAudio(SoundEffect mouseClick)
@@ -112,47 +154,41 @@ namespace Beta
             }
             //'Mouse'over
             //
-            // Change game button on mouse over
-            if (mouseState.X > 279 / 2 && mouseState.X < 519 / 2 &&
-                mouseState.Y > 200 / 2 && mouseState.Y < 300 / 2)
-                gameButton.LastFrame();
+            // Change one player jojamian button on mouse over
+            if (mouseState.X > 92 / 2 && mouseState.X < 378 / 2 &&
+                mouseState.Y > 300 / 2 && mouseState.Y < 380 / 2)
+                onePlayerJojamianButton.LastFrame();
             else
-                gameButton.Reset();
+                onePlayerJojamianButton.Reset();
 
-            // Change tutorial button on mouse over
-            if (mouseState.X > 279 / 2 && mouseState.X < 519 / 2 && 
-                mouseState.Y > 349 / 2 && mouseState.Y < 449 / 2)
-                tutorialButton.LastFrame();
+            //change two player jojamian button
+            if (mouseState.X > 92 / 2 && mouseState.X < 378 / 2 &&
+                 mouseState.Y > 400 / 2 && mouseState.Y < 480 / 2)
+                twoPlayerJojamianButton.LastFrame();
             else
-                tutorialButton.Reset();
+                twoPlayerJojamianButton.Reset();
 
-            // Change quit button on mouse over
-            if (mouseState.X > 279 / 2 && mouseState.X < 519 / 2 && 
-                mouseState.Y > 500 / 2 && mouseState.Y < 600 / 2)
-                quitButton.LastFrame();
+            //change rules button on mouseover
+            if (mouseState.X > 92 / 2 && mouseState.X < 378 / 2 &&
+                mouseState.Y > 500 / 2 && mouseState.Y < 580 / 2)
+                rulesJojamianButton.LastFrame();
             else
-                quitButton.Reset();
+                rulesJojamianButton.Reset();
 
-            // Change game button on mouse over
-            if (mouseState.X > 279 / 2 && mouseState.X < 519 / 2 && 
-                mouseState.Y > 200 / 2 && mouseState.Y < 300 / 2)
-                gameButton.LastFrame();
+            //change othello button on mouse over
+            if (mouseState.X > 442 / 2 && mouseState.X < 722 / 2 &&
+                mouseState.Y > 400 / 2 && mouseState.Y < 480 / 2)
+                onePlayerOthelloButton.LastFrame();
             else
-                gameButton.Reset();
+                onePlayerOthelloButton.Reset();
 
-            // Change tutorial button on mouse over
-            if (mouseState.X > 279 / 2 && mouseState.X < 519 / 2 && 
-                mouseState.Y > 349 / 2 && mouseState.Y < 449 / 2)
-                tutorialButton.LastFrame();
+            //change end game button on mouseover
+            if (mouseState.X > 300 / 2 && mouseState.X < 580 / 2 &&
+                mouseState.Y > 625 / 2 && mouseState.Y < 705 / 2)
+                endGameButton.LastFrame();
             else
-                tutorialButton.Reset();
+                endGameButton.Reset();
 
-            // Change quit button on mouse over
-            if (mouseState.X > 279 / 2 && mouseState.X < 519 / 2 && 
-                mouseState.Y > 500 / 2 && mouseState.Y < 600 / 2)
-                quitButton.LastFrame();
-            else
-                quitButton.Reset();
 
 #endif
 
@@ -195,9 +231,14 @@ namespace Beta
             cursor.Update();
 
             // Update the buttons
-            gameButton.Update(gameTime);
-            tutorialButton.Update(gameTime);
-            quitButton.Update(gameTime);
+            //gameButton.Update(gameTime);
+            //tutorialButton.Update(gameTime);
+            //quitButton.Update(gameTime);
+            onePlayerJojamianButton.Update(gameTime);
+            twoPlayerJojamianButton.Update(gameTime);
+            rulesJojamianButton.Update(gameTime);
+            onePlayerOthelloButton.Update(gameTime);
+            endGameButton.Update(gameTime);
             
         }
 
@@ -240,30 +281,66 @@ namespace Beta
 
         public void Click(MouseState mouseState, ref int state)
         {
-            // Check if clicked on tutorial button
-            if (mouseState.X > 279 / 2 && mouseState.X < 519 / 2 &&
-                mouseState.Y > 349 / 2 && mouseState.Y < 449 / 2)
+            // Check if clicked on one player jojamain button
+            if (mouseState.X > 92 / 2 && mouseState.X < 378 / 2 &&
+                mouseState.Y > 300 / 2 && mouseState.Y < 380 / 2)
+            {
+                // No tutorial state yet
+                state = (int)State.AIGame;
+                mouseClick.Play(1.0f, 0.0f, 0.0f, false);
+            }
+
+            //click on two player jojamian button
+            if (mouseState.X > 92 / 2 && mouseState.X < 378 / 2 &&
+                 mouseState.Y > 400 / 2 && mouseState.Y < 480 / 2)
+            {
+                // No tutorial state yet
+                state = (int)State.Game;
+                mouseClick.Play(1.0f, 0.0f, 0.0f, false);
+            }
+
+            //click on rules button
+            if (mouseState.X > 92 / 2 && mouseState.X < 378 / 2 &&
+                mouseState.Y > 500 / 2 && mouseState.Y < 580 / 2)
             {
                 // No tutorial state yet
                 state = (int)State.Instructions;
                 mouseClick.Play(1.0f, 0.0f, 0.0f, false);
             }
 
-            // Check if clicked on game button
-            if (mouseState.X > 279 / 2 && mouseState.X < 519 / 2 && 
-                mouseState.Y > 200 / 2 && mouseState.Y < 300 / 2)
+            //click on othello button
+            if (mouseState.X > 442 / 2 && mouseState.X < 722 / 2 &&
+                mouseState.Y > 400 / 2 && mouseState.Y < 480 / 2)
             {
-                // Set the state to the game state
-                state = (int)State.Game;
+                // No tutorial state yet
+                state = (int)State.Othello;
+                mouseClick.Play(1.0f, 0.0f, 0.0f, false);
+
+            }
+            //click on end game button
+            if (mouseState.X > 300 / 2 && mouseState.X < 580 / 2 &&
+                mouseState.Y > 625 / 2 && mouseState.Y < 705 / 2)
+            {
+                // No tutorial state yet
+                state = (int)State.Credits;
                 mouseClick.Play(1.0f, 0.0f, 0.0f, false);
             }
 
-            // Check if clicked on quit button
-            if (mouseState.X > 279 / 2 && mouseState.X < 519 / 2 &&
-                mouseState.Y > 500 / 2 && mouseState.Y < 600 / 2)
-            {
-                state = (int)State.Credits;
-            }
+            //// Check if clicked on game button
+            //if (mouseState.X > 279 / 2 && mouseState.X < 519 / 2 && 
+            //    mouseState.Y > 200 / 2 && mouseState.Y < 300 / 2)
+            //{
+            //    // Set the state to the game state
+            //    state = (int)State.Game;
+            //    mouseClick.Play(1.0f, 0.0f, 0.0f, false);
+            //}
+
+            //// Check if clicked on quit button
+            //if (mouseState.X > 279 / 2 && mouseState.X < 519 / 2 &&
+            //    mouseState.Y > 500 / 2 && mouseState.Y < 600 / 2)
+            //{
+            //    state = (int)State.Credits;
+            //}
         }
 
         public void Draw()
@@ -271,13 +348,18 @@ namespace Beta
             // Draw background
             background.Draw();
 
-            // Draw buttons
-            gameButton.Draw();
-            tutorialButton.Draw();
-            quitButton.Draw();
-
             // Draw cursor
             cursor.Draw();
+
+            // Draw buttons
+            //gameButton.Draw();
+            //tutorialButton.Draw();
+            //quitButton.Draw();
+            onePlayerJojamianButton.Draw();
+            twoPlayerJojamianButton.Draw();
+            rulesJojamianButton.Draw();
+            onePlayerOthelloButton.Draw();
+            endGameButton.Draw();
         }
     }
 }
