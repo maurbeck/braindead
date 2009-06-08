@@ -97,16 +97,9 @@ namespace Beta
 
         // To draw the banners or not
         // Will be combined with animate.Count == 0
-        bool drawBlueBanner;
-        bool drawGreenBanner;
-
-        //make counters for plopendpieces looping
-        //int x1;
-        //int y1;
-        //int x2;
-        //int y2;
-        //int count1;
-        //int count2;
+        bool player1Win;
+        bool player2Win;
+        bool drawEndBanner;
 
         //Sounds
         SoundEffect selectPiece;
@@ -145,8 +138,8 @@ namespace Beta
             greenSelect.Initialize(Vector2.Zero, new Rectangle(0, 0, 100, 100), Color.White, Vector2.Zero, new Vector2(0.5f), 0f);
 
             // Initialize the banners
-            blueBanner.Initialize(new Vector2(0, 297/2), new Rectangle(0, 0, 798, 204), Color.White, Vector2.Zero, new Vector2(0.5f), 0f);
-            greenBanner.Initialize(new Vector2(0, 297/2), new Rectangle(0, 0, 798, 204), Color.White, Vector2.Zero, new Vector2(0.5f), 0f);
+            blueBanner.Initialize(new Vector2(0, 297 / 2), new Rectangle(0, 0, 798, 204), new Color(255, 255, 255, 0), Vector2.Zero, new Vector2(0.5f), 0f);
+            greenBanner.Initialize(new Vector2(0, 297 / 2), new Rectangle(0, 0, 798, 204), new Color(255, 255, 255, 0), Vector2.Zero, new Vector2(0.5f), 0f);
 
             // Initialize the board image
             board.Initialize(Vector2.Zero, new Rectangle(0, 0, 798, 798), Color.White, Vector2.Zero, new Vector2(0.5f), 1f);
@@ -241,8 +234,9 @@ namespace Beta
             //redCount = 0;
             //greenCount = 0;
 
-            drawBlueBanner = false;
-            drawGreenBanner = false;            
+            player1Win = false;
+            player2Win = false;
+            drawEndBanner = false;          
         }
 
         public void LoadContent(SpriteBatch spriteBatch, Texture2D board, Texture2D red, Texture2D green, Texture2D redSelection, Texture2D greenSelection, Texture2D redGreen, Texture2D greenRed, Texture2D tPlr1, Texture2D tPlr2, Texture2D redCur, Texture2D greenCur, Texture2D blueBanner, Texture2D greenBanner)
@@ -342,7 +336,7 @@ namespace Beta
             #endregion
 
             #region Do the AI Logic
-            if(playerTurn == (int)PlayerTurn.Green && !drawBlueBanner && !drawGreenBanner && !boardFull)
+            if(playerTurn == (int)PlayerTurn.Green && !drawEndBanner && !boardFull)
             {
                 if(time > 1000)
                 {
@@ -377,7 +371,7 @@ namespace Beta
                                 else if (!AnyPieces((int)PlayerTurn.Red))
                                 {
                                     FillBoard((int)PlayerTurn.Green);
-                                    drawGreenBanner = true;
+                                    player2Win = true;
                                 }
                                 else
                                 {
@@ -397,6 +391,21 @@ namespace Beta
                 ClearBoard();
                 PlopEndPieces();
             }
+
+            if (drawEndBanner == true && animate.Count == 0 && time > 1050)
+            {
+                if (player1Win)
+                {
+                    if (blueBanner.color.A <= 253)
+                        blueBanner.color.A += 2;
+                }
+                if (player2Win)
+                {
+                    if (greenBanner.color.A <= 253)
+                        greenBanner.color.A += 2;
+                }
+            }
+        
         }
 
         public void Click(MouseState mouseState)
@@ -405,7 +414,7 @@ namespace Beta
             int mouseX = (int)Math.Floor((double)(mouseState.X - offset.X) / 50);
             int mouseY = (int)Math.Floor((double)(mouseState.Y - offset.Y) / 50);
 
-            if (animate.Count == 0 && time >= 500 && !drawBlueBanner && !drawGreenBanner)
+            if (animate.Count == 0 && time >= 500 && !drawEndBanner)
             {
                 switch (playerTurn)
                 {
@@ -463,7 +472,7 @@ namespace Beta
                                             else if (!AnyPieces(2))
                                             {
                                                 FillBoard(1);
-                                                drawBlueBanner = true;
+                                                player1Win = true;
                                             }
                                             else
                                                 if (BoardFull())
@@ -628,13 +637,13 @@ namespace Beta
             }
 
             // Draw the banners
-            if (drawGreenBanner == true && animate.Count == 0 && time >= 1000)
-            {
-                greenBanner.Draw();
-            }
-            if (drawBlueBanner == true && animate.Count == 0 && time >= 1000)
+            if (player1Win == true && animate.Count == 0 && time >= 1000)
             {
                 blueBanner.Draw();
+            }
+            if (player2Win == true && animate.Count == 0 && time >= 1000)
+            {
+                greenBanner.Draw();
             }
 
             if (!boardFull)
@@ -899,6 +908,7 @@ namespace Beta
                     }
                 }
             }
+            drawEndBanner = true;
         }
 
         public bool BoardFull()
@@ -948,9 +958,12 @@ namespace Beta
         public void PlopEndPieces()
         {
             if (plr1score > plr2score)
-                drawBlueBanner = true;
+                player1Win = true;
             else
-                drawGreenBanner = true;
+                player2Win = true;
+
+            blueBanner.color.A = 100;
+            greenBanner.color.A = 100;
 
 
             for (int y = 0; y < 7; y++)
@@ -972,6 +985,8 @@ namespace Beta
                 }
             }
             boardFull = false;
+            drawEndBanner = true;
+
 
             return;
         }
