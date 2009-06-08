@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual C# Express 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Beta", "Beta\Beta.csproj", "{7ADBF2C9-A99A-4C31-9BFC-19D156953B27}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Debug|x86 = Debug|x86
+		Debug|Xbox 360 = Debug|Xbox 360
+		Release|Mixed Platforms = Release|Mixed Platforms
+		Release|x86 = Release|x86
+		Release|Xbox 360 = Release|Xbox 360
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7ADBF2C9-A99A-4C31-9BFC-19D156953B27}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{7ADBF2C9-A99A-4C31-9BFC-19D156953B27}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{7ADBF2C9-A99A-4C31-9BFC-19D156953B27}.Debug|x86.ActiveCfg = Debug|x86
+		{7ADBF2C9-A99A-4C31-9BFC-19D156953B27}.Debug|x86.Build.0 = Debug|x86
+		{7ADBF2C9-A99A-4C31-9BFC-19D156953B27}.Debug|Xbox 360.ActiveCfg = Debug|x86
+		{7ADBF2C9-A99A-4C31-9BFC-19D156953B27}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{7ADBF2C9-A99A-4C31-9BFC-19D156953B27}.Release|Mixed Platforms.Build.0 = Release|x86
+		{7ADBF2C9-A99A-4C31-9BFC-19D156953B27}.Release|x86.ActiveCfg = Release|x86
+		{7ADBF2C9-A99A-4C31-9BFC-19D156953B27}.Release|x86.Build.0 = Release|x86
+		{7ADBF2C9-A99A-4C31-9BFC-19D156953B27}.Release|Xbox 360.ActiveCfg = Release|x86
+		{49B41845-06F1-405C-9F62-B6C526236081}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{49B41845-06F1-405C-9F62-B6C526236081}.Debug|x86.ActiveCfg = Debug|x86
+		{49B41845-06F1-405C-9F62-B6C526236081}.Debug|Xbox 360.ActiveCfg = Debug|x86
+		{49B41845-06F1-405C-9F62-B6C526236081}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{49B41845-06F1-405C-9F62-B6C526236081}.Release|x86.ActiveCfg = Release|x86
+		{49B41845-06F1-405C-9F62-B6C526236081}.Release|Xbox 360.ActiveCfg = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
