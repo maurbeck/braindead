@@ -157,6 +157,8 @@ namespace Beta
             //pieces[6, 4].SetState(1);
             //pieces[7, 4].SetState(1);
 
+            //pieces[4, 3].SetState(2);
+            //pieces[2, 3].SetState(1);
 
 
 
@@ -473,10 +475,11 @@ namespace Beta
                     {
                         {
                             ////Make sure there are no blank spaces in between
-                            //if (pieces[tempX - 2, tempY + 2].Value() != player)
-                            //{
-                            //    break;
-                            //}
+                            if (pieces[tempX - 2, tempY + 2].Value() == 0)
+                            {
+                                break;
+                            }
+
                             //Check to see if you have a piece capping a line off 
                             if (pieces[tempX - 2, tempY + 2].Value() == player)
                             {
@@ -524,10 +527,11 @@ namespace Beta
                     {
                         {
                             ////Make sure there are no blank spaces in between
-                            //if (pieces[tempX + 2, tempY - 2].Value() != player)
-                            //{
-                            //    break;
-                            //}
+                            if (pieces[tempX + 2, tempY - 2].Value() == 0)
+                            {
+                                break;
+                            }
+
                             //Check to see if you have a piece capping a line off 
                             if (pieces[tempX + 2, tempY - 2].Value() == player)
                             {
@@ -575,10 +579,11 @@ namespace Beta
                     {
                         {
                             ////Make sure there are no blank spaces in between
-                            //if (pieces[tempX + 2, tempY + 2].Value() != player)
-                            //{
-                            //    break;
-                            //}
+                            if (pieces[tempX + 2, tempY + 2].Value() == 0)
+                            {
+                                break;
+                            }
+
                             //Check to see if you have a piece capping a line off 
                             if (pieces[tempX + 2, tempY + 2].Value() == player)
                             {
@@ -626,10 +631,11 @@ namespace Beta
                     {
                         {
                             ////Make sure there are no blank spaces in between
-                            //if (pieces[tempX - 2, tempY - 2].Value() != player)
-                            //{
-                            //    break;
-                            //}
+                            if (pieces[tempX - 2, tempY - 2].Value() == 0)
+                            {
+                                break;
+                            }
+
                             //Check to see if you have a piece capping a line off 
                             if (pieces[tempX - 2, tempY - 2].Value() == player)
                             {
@@ -676,10 +682,11 @@ namespace Beta
                     {
                         {
                             ////Make sure there are no blank spaces in between
-                            //if (pieces[tempX + 2, sY].Value() != player)
-                            //{
-                            //    break;
-                            //}
+                            if (pieces[tempX + 2, sY].Value() == 0)
+                            {
+                                break;
+                            }
+
                             //Check to see if you have a piece capping a line off 
                             if (pieces[tempX + 2, sY].Value() == player)
                             {
@@ -725,11 +732,11 @@ namespace Beta
                     while (tempX > MIN + 1 && samePlayerEndOfLine != true)
                     {
                         {
-                            ////Make sure there are no blank spaces in between
-                            //if (pieces[tempX - 2, sY].Value() != player)
-                            //{
-                            //    break;
-                            //}
+                            //Make sure there are no blank spaces in between
+                            if (pieces[tempX - 2, sY].Value() == 0)
+                            {
+                                break;
+                            }
 
                             //Check to see if you have a piece capping a line off 
                             if (pieces[tempX - 2, sY].Value() == player)
@@ -775,11 +782,11 @@ namespace Beta
                     while (tempY < MAX - 1 && samePlayerEndOfLine != true)
                     {
                         {
-                            ////Make sure there are no blank spaces in between
-                            //if (pieces[sX, tempY + 2].Value() != player)
-                            //{
-                            //    break;
-                            //}
+                            //Make sure there are no blank spaces in between
+                            if (pieces[sX, tempY + 2].Value() == 0)
+                            {
+                                break;
+                            }
 
                             //Check to see if you have a piece capping a line off 
                             if (pieces[sX, tempY + 2].Value() == player)
@@ -826,11 +833,11 @@ namespace Beta
                     while (tempY > MIN + 1 && samePlayerEndOfLine != true)
                     {
                         {
-                            ////Make sure there are no blank spaces in between
-                            //if (pieces[sX, tempY - 2].Value() != player)
-                            //{
-                            //    break;
-                            //}
+                            //Make sure there are no blank spaces in between
+                            if (pieces[sX, tempY - 2].Value() == 0)
+                            {
+                                break;
+                            }
 
                             //Check to see if you have a piece capping a line off 
                             if (pieces[sX, tempY - 2].Value() == player)
