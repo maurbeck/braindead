@@ -348,9 +348,6 @@ namespace Beta
             // Draw background
             background.Draw();
 
-            // Draw cursor
-            cursor.Draw();
-
             // Draw buttons
             //gameButton.Draw();
             //tutorialButton.Draw();
@@ -360,6 +357,9 @@ namespace Beta
             rulesJojamianButton.Draw();
             onePlayerOthelloButton.Draw();
             endGameButton.Draw();
+
+            // Draw cursor
+            cursor.Draw();
         }
     }
 }
