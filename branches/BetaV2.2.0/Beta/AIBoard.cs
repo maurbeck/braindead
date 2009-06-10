@@ -40,7 +40,7 @@ namespace Beta
         }
 
         // Image of the board
-        Image board = new Image();
+        Image tempBoard = new Image();
 
         // Cursors
         Cursor redCursor = new Cursor();
@@ -74,8 +74,6 @@ namespace Beta
         Vector2 aiMoveTo;
         // Piece to select
         Vector2 aiPieceToSelect;
-        // To jump or not
-        bool aiJump;
 
         // Board offset
         Vector2 offset;
@@ -109,9 +107,6 @@ namespace Beta
         SoundEffectInstance seiConvert;
         SoundEffectInstance seiAvaMove;
 
-        //AI
-        Random AIRandom = new Random(); 
-
         public AIBoard()
         {
             for (int x = 0; x < 7; x++)
@@ -142,7 +137,7 @@ namespace Beta
             greenBanner.Initialize(new Vector2(0, 297 / 2), new Rectangle(0, 0, 798, 204), new Color(255, 255, 255, 0), Vector2.Zero, new Vector2(0.5f), 0f);
 
             // Initialize the board image
-            board.Initialize(Vector2.Zero, new Rectangle(0, 0, 798, 798), Color.White, Vector2.Zero, new Vector2(0.5f), 1f);
+            tempBoard.Initialize(Vector2.Zero, new Rectangle(0, 0, 798, 798), Color.White, Vector2.Zero, new Vector2(0.5f), 1f);
 
             // Initialize Pieces to be all blank
             for (int x = 0; x < 7; x++)
@@ -223,7 +218,6 @@ namespace Beta
             aiState = (int)AIState.Calculations;
             aiMoveTo = new Vector2();
             aiPieceToSelect = new Vector2();
-            aiJump = false;
             // Set selected piece
             selectedPiece = new Vector2(-1, -1);
             // Set time
@@ -242,7 +236,7 @@ namespace Beta
         public void LoadContent(SpriteBatch spriteBatch, Texture2D board, Texture2D red, Texture2D green, Texture2D redSelection, Texture2D greenSelection, Texture2D redGreen, Texture2D greenRed, Texture2D tPlr1, Texture2D tPlr2, Texture2D redCur, Texture2D greenCur, Texture2D blueBanner, Texture2D greenBanner)
         {
             // Load the content for the board image
-            this.board.LoadContent(spriteBatch, ref board);
+            this.tempBoard.LoadContent(spriteBatch, ref board);
 
             // Load the content for the selected piece images
             this.redSelect.LoadContent(spriteBatch, ref redSelection);
@@ -345,10 +339,7 @@ namespace Beta
                         case (int)AIState.Calculations:
                             if (animate.Count == 0)
                             {
-                                int random = AIRandom.Next(0, 25);
-                                aiJump = (random == 1);
-                                aiMoveTo = FindBestMove(aiJump);
-                                aiPieceToSelect = PieceToSelect(aiMoveTo, aiJump);
+                                FindBestMove(GenerateBoard(), ref aiPieceToSelect, ref aiMoveTo);
                                 aiState = (int)AIState.Select;
                                 time = 0;
                             }
@@ -608,7 +599,7 @@ namespace Beta
         public void Draw()
         {
             // Draw the board
-            board.Draw();
+            tempBoard.Draw();
 
             // Loop through and draw all of the pieces
             for (int x = 0; x < 7; x++)
@@ -995,283 +986,777 @@ namespace Beta
  /*******************************************************************
  * A.I.
  * ****************************************************************/ 
-        private Vector2 FindBestMove(bool jump)
+        private void FindBestMove(byte[,] board, ref Vector2 moveFrom, ref Vector2 moveTo)
         {
-            
-            int maxGain = 0;
-            List<Vector2> moveList = new List<Vector2>();
+            byte gainOne = 0;
+            byte gainTwo = 0;
 
-            for (int y = 0; y < 7; y++)
+            byte[,] tempBoard = new byte[7, 7];
+
+            List<Move> moves = new List<Move>();
+            List<byte> rebuttle = new List<byte>();
+
+            #region Find all available moves on the board and put them in a list
+            for (byte x = 0; x < 7; x++)
             {
-                for (int x = 0; x < 7; x++)
+                for (byte y = 0; y < 7; y++)
                 {
-                    if (pieces[x, y].Value() == 0 && IsValidMove(x, y, jump))
+                    // If its player 2
+                    if (board[x, y] == 2)
                     {
-                        int gain = FindGain(x, y, jump);
-                        if (gain > maxGain)
+                        for (int moveNum = 1; moveNum < 3; moveNum++)
                         {
-
-                            maxGain = gain;
-
-                            moveList.Clear();
-                            moveList.Add(new Vector2(x, y));
-                        }
-                        else if (gain == maxGain)
-                        {
-                            moveList.Add(new Vector2(x, y));
+                            Move tempMove;
+                            // Northwest
+                            if (y > (0 + (moveNum - 1)) && x > (0 + (moveNum - 1)))
+                            {
+                                if (board[x - moveNum, y - moveNum] == 0)
+                                {
+                                    tempMove.From = new Vector2(x, y);
+                                    tempMove.To = new Vector2(x - moveNum, y - moveNum);
+                                    tempMove.Gain = FindGain(board, tempMove.From, tempMove.To);
+                                    moves.Add(tempMove);
+                                }
+                            }
+                            // North
+                            if (y > (0 + (moveNum - 1)))
+                            {
+                                if (board[x, y - moveNum] == 0)
+                                {
+                                    tempMove.From = new Vector2(x, y);
+                                    tempMove.To = new Vector2(x, y - moveNum);
+                                    tempMove.Gain = FindGain(board, tempMove.From, tempMove.To);
+                                    moves.Add(tempMove);
+                                }
+                            }
+                            // Northeast
+                            if (y > (0 + (moveNum - 1)) && x < (6 - (moveNum - 1)))
+                            {
+                                if (board[x + moveNum, y - moveNum] == 0)
+                                {
+                                    tempMove.From = new Vector2(x, y);
+                                    tempMove.To = new Vector2(x + moveNum, y - moveNum);
+                                    tempMove.Gain = FindGain(board, tempMove.From, tempMove.To);
+                                    moves.Add(tempMove);
+                                }
+                            }
+                            // East
+                            if (x < (6 - (moveNum - 1)))
+                            {
+                                if (board[x + moveNum, y] == 0)
+                                {
+                                    tempMove.From = new Vector2(x, y);
+                                    tempMove.To = new Vector2(x + moveNum, y);
+                                    tempMove.Gain = FindGain(board, tempMove.From, tempMove.To);
+                                    moves.Add(tempMove);
+                                }
+                            }
+                            // Southeast
+                            if (y < (6 - (moveNum - 1)) && x < (6 - (moveNum - 1)))
+                            {
+                                if (board[x + moveNum, y + moveNum] == 0)
+                                {
+                                    tempMove.From = new Vector2(x, y);
+                                    tempMove.To = new Vector2(x + moveNum, y + moveNum);
+                                    tempMove.Gain = FindGain(board, tempMove.From, tempMove.To);
+                                    moves.Add(tempMove);
+                                }
+                            }
+                            // South
+                            if (y < (6 - (moveNum - 1)))
+                            {
+                                if (board[x, y + moveNum] == 0)
+                                {
+                                    tempMove.From = new Vector2(x, y);
+                                    tempMove.To = new Vector2(x, y + moveNum);
+                                    tempMove.Gain = FindGain(board, tempMove.From, tempMove.To);
+                                    moves.Add(tempMove);
+                                }
+                            }
+                            // Southwest
+                            if (y < (6 - (moveNum - 1)) && x > (0 + (moveNum - 1)))
+                            {
+                                if (board[x - moveNum, y + moveNum] == 0)
+                                {
+                                    tempMove.From = new Vector2(x, y);
+                                    tempMove.To = new Vector2(x - moveNum, y + moveNum);
+                                    tempMove.Gain = FindGain(board, tempMove.From, tempMove.To);
+                                    moves.Add(tempMove);
+                                }
+                            }
+                            // West
+                            if (x > (0 + (moveNum - 1)))
+                            {
+                                if (board[x - moveNum, y] == 0)
+                                {
+                                    tempMove.From = new Vector2(x, y);
+                                    tempMove.To = new Vector2(x - moveNum, y);
+                                    tempMove.Gain = FindGain(board, tempMove.From, tempMove.To);
+                                    moves.Add(tempMove);
+                                }
+                            }
                         }
                     }
                 }
             }
+            #endregion
 
-            Vector2 move = new Vector2();
+            #region Find the top 2 gains in the list
+            foreach (Move move in moves)
+            {
+                if (move.Gain > gainOne)
+                {
+                    gainTwo = gainOne;
+                    gainOne = move.Gain;
+                }
+            }
+            if (gainTwo == 0)
+                gainTwo = gainOne;
+            #endregion
 
-            if (moveList.Count == 0)
+            #region Remove Everything that is not the top two gains
+            List<int> toRemove = new List<int>();
+            int count = 0;
+            foreach (Move move in moves)
             {
-                move = FindBestMove(!jump);
+                if (move.Gain < gainTwo)
+                    toRemove.Add(count);
+                count++;
             }
-            else
+            count = 0;
+            foreach (int move in toRemove)
             {
-                int moveNum = AIRandom.Next(0, moveList.Count);
-                move = moveList[moveNum];
+                moves.RemoveAt(move - count);
+                count++;
             }
-            return move; 
+            toRemove.Clear();
+            #endregion
+
+            #region Take the players possible moves into account
+            foreach (Move move in moves)
+            {
+                rebuttle.Add(FindRebuttalValue(tempBoard));
+            }
+            #endregion
+
+            #region Find the new top gain
+            for (int i = 0; i < moves.Count; i++)
+            {
+                if (moves[i].Gain - rebuttle[i] > gainOne)
+                    gainOne = (byte)(moves[i].Gain - rebuttle[i]);
+            }
+            #endregion
+
+            #region Remove all but the top gains
+            count = 0;
+            foreach (Move move in moves)
+            {
+                if (move.Gain < gainOne)
+                    toRemove.Add(count);
+                count++;
+            }
+            count = 0;
+            foreach (int move in toRemove)
+            {
+                moves.RemoveAt(move - count);
+                count++;
+            }
+            #endregion
+
+            #region Return the move
+            moveFrom = moves[0].From;
+            moveTo = moves[0].To;
+            moves.Clear();
+            rebuttle.Clear();
+            return;
+            #endregion
         }
 
-        private Vector2 PieceToSelect(Vector2 moveTo, bool jump)
+        private byte FindGain(byte[,] tempBoard, Vector2 fromPos, Vector2 toPos)
         {
-            List<Vector2> pieceList = new List<Vector2>();
-            float x = moveTo.X;
-            float y = moveTo.Y;
+            byte player = tempBoard[(int)fromPos.X, (int)fromPos.Y];
+            bool jump = true;
+            byte count = 1;
 
-            float moveNum;
-
-            if (!jump)
+            if (toPos.Y > 0 && toPos.X > 0)//1
             {
-                moveNum = 1;
-            }
-            else
-            {
-                moveNum = 2;
-            }
-
-            // Northwest
-            if (y > (0 + (moveNum - 1)) && x > (0 + (moveNum - 1)))
-            {
-                if (pieces[(int)(x - moveNum), (int)(y - moveNum)].Value() == (int)PlayerTurn.Green)
+                if (tempBoard[(int)toPos.X - 1, (int)toPos.Y - 1] != 0 && tempBoard[(int)toPos.X - 1, (int)toPos.Y - 1] != player)
                 {
-                    pieceList.Add(new Vector2(x - moveNum, y - moveNum));
-                }
-            }
-            // North
-            if (y > (0 + (moveNum - 1)))
-            {
-                if (pieces[(int)(x), (int)(y - moveNum)].Value() == (int)PlayerTurn.Green)
-                {
-                    pieceList.Add(new Vector2(x, y - moveNum));
-                }
-            }
-            // Northeast
-            if (y > (0 + (moveNum - 1)) && x < (6 - (moveNum - 1)))
-            {
-                if (pieces[(int)(x + moveNum), (int)(y - moveNum)].Value() == (int)PlayerTurn.Green)
-                {
-                    pieceList.Add(new Vector2(x + moveNum, y - moveNum));
-                }
-            }
-            // East
-            if (x < (6 - (moveNum - 1)))
-            {
-                if (pieces[(int)(x + moveNum), (int)(y)].Value() == (int)PlayerTurn.Green)
-                {
-                    pieceList.Add(new Vector2(x + moveNum, y));
-                }
-            }
-            // Southeast
-            if (y < (6 - (moveNum - 1)) && x < (6 - (moveNum - 1)))
-            {
-                if (pieces[(int)(x + moveNum), (int)(y + moveNum)].Value() == (int)PlayerTurn.Green)
-                {
-                    pieceList.Add(new Vector2(x + moveNum, y + moveNum));
-                }
-            }
-            // South
-            if (y < (6 - (moveNum - 1)))
-            {
-                if (pieces[(int)(x), (int)(y + moveNum)].Value() == (int)PlayerTurn.Green)
-                {
-                    pieceList.Add(new Vector2(x, y + moveNum));
-                }
-            }
-            // Southwest
-            if (y < (6 - (moveNum - 1)) && x > (0 + (moveNum - 1)))
-            {
-                if (pieces[(int)(x - moveNum), (int)(y + moveNum)].Value() == (int)PlayerTurn.Green)
-                {
-                    pieceList.Add(new Vector2(x - moveNum, y + moveNum));
-                }
-            }
-            // West
-            if (x > (0 + (moveNum - 1)))
-            {
-                if (pieces[(int)(x - moveNum), (int)(y)].Value() == (int)PlayerTurn.Green)
-                {
-                    pieceList.Add(new Vector2(x - moveNum, y));
+                    count++;
+                    if (toPos.X - 1 == fromPos.X && toPos.Y - 1 == fromPos.Y)
+                    {
+                        jump = false;
+                    }
                 }
             }
 
-            Vector2 piece = new Vector2();
-            if (pieceList.Count == 0)
+            if (toPos.Y > 0)//2
             {
-                piece = PieceToSelect(moveTo, !jump);
+                if (tempBoard[(int)toPos.X, (int)toPos.Y - 1] != 0 && tempBoard[(int)toPos.X, (int)toPos.Y - 1] != player)
+                {
+                    count++;
+                    if (toPos.X == fromPos.X && toPos.Y - 1 == fromPos.Y)
+                    {
+                        jump = false;
+                    }
+                }
             }
-            else
+
+            if (toPos.Y > 0 && toPos.X < 6)//3
             {
-                int pieceNum = AIRandom.Next(0, pieceList.Count - 1);
-                piece = pieceList[pieceNum];
+                if (tempBoard[(int)toPos.X + 1, (int)toPos.Y - 1] != 0 && tempBoard[(int)toPos.X + 1, (int)toPos.Y - 1] != player)
+                {
+                    count++;
+                    if (toPos.X + 1 == fromPos.X && toPos.Y - 1 == fromPos.Y)
+                    {
+                        jump = false;
+                    }
+                }
             }
-            return piece; 
+
+            if (toPos.X < 6)//5
+            {
+                if (tempBoard[(int)toPos.X + 1, (int)toPos.Y] != 0 && tempBoard[(int)toPos.X + 1, (int)toPos.Y] != player)
+                {
+                    count++;
+                    if (toPos.X + 1 == fromPos.X && toPos.Y == fromPos.Y)
+                    {
+                        jump = false;
+                    }
+                }
+            }
+
+            if (toPos.Y < 6 && toPos.X < 6)//8
+            {
+                if (tempBoard[(int)toPos.X + 1, (int)toPos.Y + 1] != 0 && tempBoard[(int)toPos.X + 1, (int)toPos.Y + 1] != player)
+                {
+                    count++;
+                    if (toPos.X + 1 == fromPos.X && toPos.Y + 1 == fromPos.Y)
+                    {
+                        jump = false;
+                    }
+                }
+            }
+
+            if (toPos.Y < 6)//7
+            {
+                if (tempBoard[(int)toPos.X, (int)toPos.Y + 1] != 0 && tempBoard[(int)toPos.X, (int)toPos.Y + 1] != player)
+                {
+                    count++;
+                    if (toPos.X == fromPos.X && toPos.Y + 1 == fromPos.Y)
+                    {
+                        jump = false;
+                    }
+                }
+            }
+
+            if (toPos.Y < 6 && toPos.X > 0)//6
+            {
+                if (tempBoard[(int)toPos.X - 1, (int)toPos.Y + 1] != 0 && tempBoard[(int)toPos.X - 1, (int)toPos.Y + 1] != player)
+                {
+                    count++;
+                    if (toPos.X - 1 == fromPos.X && toPos.Y + 1 == fromPos.Y)
+                    {
+                        jump = false;
+                    }
+                }
+            }
+
+            if (toPos.X > 0)//4
+            {
+                if (tempBoard[(int)toPos.X - 1, (int)toPos.Y] != 0 && tempBoard[(int)toPos.X - 1, (int)toPos.Y] != player)
+                {
+                    count++;
+                    if (toPos.X - 1 == fromPos.X && toPos.Y == fromPos.Y)
+                    {
+                        jump = false;
+                    }
+                }
+            }
+
+            if (jump == true)
+            {
+                count--;
+            }
+
+            return count;
         }
 
-        private int FindGain(int targetX, int targetY, bool jump)
-       {
-           int count = 0;
-
-           if (targetX < 6)
-           {
-               if (pieces[targetX + 1, targetY].Value() == (int)PlayerTurn.Red)
-               {
-                   count++;
-               }
-           }
-           if (targetX > 0)
-           {
-               if (pieces[targetX - 1, targetY].Value() == (int)PlayerTurn.Red)
-               {
-                   count++;
-               }
-           }
-           if (targetY < 6)
-           {
-               if (pieces[targetX, targetY + 1].Value() == (int)PlayerTurn.Red)
-               {
-                   count++;
-               }
-           }
-           if (targetY > 0)
-           {
-               if (pieces[targetX, targetY - 1].Value() == (int)PlayerTurn.Red)
-               {
-                   count++;
-               }
-           }
-           if (targetX < 6 && targetY < 6)
-           {
-               if (pieces[targetX + 1, targetY + 1].Value() == (int)PlayerTurn.Red)
-               {
-                   count++;
-               }
-           }
-           if (targetX > 0 && targetY < 6)
-           {
-               if (pieces[targetX - 1, targetY + 1].Value() == (int)PlayerTurn.Red)
-               {
-                   count++;
-               }
-           }
-           if (targetX > 0 && targetY > 0)
-           {
-               if (pieces[targetX - 1, targetY - 1].Value() == (int)PlayerTurn.Red)
-               {
-                   count++;
-               }
-           }
-           if (targetX < 6 && targetY > 0)
-           {
-               if (pieces[targetX + 1, targetY - 1].Value() == (int)PlayerTurn.Red)
-               {
-                   count++;
-               }
-           }
-           if (!jump)
-           {
-               count++;
-           }
-          
-           return count;
-       }
-
-        private bool IsValidMove(int targetX, int targetY, bool jump)
+        private byte[,] TestMove(byte[,] tempBoard, Vector2 fromPos, Vector2 toPos)
         {
-            int moveNum;
+            //if (pieces[(int)toPos.X, (int)toPos.Y].Value() != 0)
+            //{
+            //    return NULL;
+            //}
 
-            if (!jump)
+            //if (pieces[(int)fromPos.X, (int)fromPos.Y].Value() == 0)
+            //{
+            //    return NULL;
+            //}
+
+            byte player = tempBoard[(int)fromPos.X, (int)fromPos.Y];
+            bool jump = true;
+
+            if (toPos.Y > 0 && toPos.X > 0)//1
             {
-                moveNum = 1;
-            }
-            else
-            {
-                moveNum = 2;
+                if (tempBoard[(int)toPos.X - 1, (int)toPos.Y - 1] != 0 && tempBoard[(int)toPos.X - 1, (int)toPos.Y - 1] != player)
+                {
+                    tempBoard[(int)toPos.X - 1, (int)toPos.Y - 1] = player;
+                    if (toPos.X - 1 == fromPos.X && toPos.Y - 1 == fromPos.Y)
+                    {
+                        jump = false;
+                    }
+                }
             }
 
-            if (targetX < ( 6 - (moveNum - 1)))
+            if (toPos.Y > 0)//2
             {
-                if (pieces[targetX + moveNum, targetY].Value() == (int)PlayerTurn.Green)
+                if (tempBoard[(int)toPos.X, (int)toPos.Y - 1] != 0 && tempBoard[(int)toPos.X, (int)toPos.Y - 1] != player)
                 {
-                    return true;
+                    tempBoard[(int)toPos.X, (int)toPos.Y - 1] = player;
+                    if (toPos.X == fromPos.X && toPos.Y - 1 == fromPos.Y)
+                    {
+                        jump = false;
+                    }
                 }
             }
-            if (targetX > ( 0 + (moveNum - 1)))
+
+            if (toPos.Y > 0 && toPos.X < 6)//3
             {
-                if (pieces[targetX - moveNum, targetY].Value() == (int)PlayerTurn.Green)
+                if (tempBoard[(int)toPos.X + 1, (int)toPos.Y - 1] != 0 && tempBoard[(int)toPos.X + 1, (int)toPos.Y - 1] != player)
                 {
-                    return true;
+                    tempBoard[(int)toPos.X + 1, (int)toPos.Y - 1] = player;
+                    if (toPos.X + 1 == fromPos.X && toPos.Y - 1 == fromPos.Y)
+                    {
+                        jump = false;
+                    }
                 }
             }
-            if (targetY < ( 6 - (moveNum - 1)))
+
+            if (toPos.X < 6)//5
             {
-                if (pieces[targetX, targetY + moveNum].Value() == (int)PlayerTurn.Green)
+                if (tempBoard[(int)toPos.X + 1, (int)toPos.Y] != 0 && tempBoard[(int)toPos.X + 1, (int)toPos.Y] != player)
                 {
-                    return true;
+                    tempBoard[(int)toPos.X + 1, (int)toPos.Y] = player;
+                    if (toPos.X + 1 == fromPos.X && toPos.Y == fromPos.Y)
+                    {
+                        jump = false;
+                    }
                 }
             }
-            if (targetY > ( 0 + (moveNum - 1)))
+
+            if (toPos.Y < 6 && toPos.X < 6)//8
             {
-                if (pieces[targetX, targetY - moveNum].Value() == (int)PlayerTurn.Green)
+                if (tempBoard[(int)toPos.X + 1, (int)toPos.Y + 1] != 0 && tempBoard[(int)toPos.X + 1, (int)toPos.Y + 1] != player)
                 {
-                    return true;
+                    tempBoard[(int)toPos.X + 1, (int)toPos.Y + 1] = player;
+                    if (toPos.X + 1 == fromPos.X && toPos.Y + 1 == fromPos.Y)
+                    {
+                        jump = false;
+                    }
                 }
             }
-            if (targetX < ( 6 - (moveNum - 1)) && targetY < ( 6 - (moveNum - 1)))
+
+            if (toPos.Y < 6)//7
             {
-                if (pieces[targetX + moveNum, targetY + moveNum].Value() == (int)PlayerTurn.Green)
+                if (tempBoard[(int)toPos.X, (int)toPos.Y + 1] != 0 && tempBoard[(int)toPos.X, (int)toPos.Y + 1] != player)
                 {
-                    return true;
+                    tempBoard[(int)toPos.X, (int)toPos.Y + 1] = player;
+                    if (toPos.X == fromPos.X && toPos.Y + 1 == fromPos.Y)
+                    {
+                        jump = false;
+                    }
                 }
             }
-            if (targetX > ( 0 + (moveNum - 1)) && targetY < ( 6 - (moveNum - 1)))
+
+            if (toPos.Y < 6 && toPos.X > 0)//6
             {
-                if (pieces[targetX - moveNum, targetY + moveNum].Value() == (int)PlayerTurn.Green)
+                if (tempBoard[(int)toPos.X - 1, (int)toPos.Y + 1] != 0 && tempBoard[(int)toPos.X - 1, (int)toPos.Y + 1] != player)
                 {
-                    return true;
+                    tempBoard[(int)toPos.X - 1, (int)toPos.Y + 1] = player;
+                    if (toPos.X - 1 == fromPos.X && toPos.Y + 1 == fromPos.Y)
+                    {
+                        jump = false;
+                    }
                 }
             }
-            if (targetX > ( 0 + (moveNum - 1)) && targetY > ( 0 + (moveNum - 1)))
+
+            if (toPos.X > 0)//4
             {
-                if (pieces[targetX - moveNum, targetY - moveNum].Value() == (int)PlayerTurn.Green)
+                if (tempBoard[(int)toPos.X - 1, (int)toPos.Y] != 0 && tempBoard[(int)toPos.X - 1, (int)toPos.Y] != player)
                 {
-                    return true;
+                    tempBoard[(int)toPos.X - 1, (int)toPos.Y] = player;
+                    if (toPos.X - 1 == fromPos.X && toPos.Y == fromPos.Y)
+                    {
+                        jump = false;
+                    }
                 }
             }
-            if (targetX < ( 6 - (moveNum - 1)) && targetY > ( 0 + (moveNum - 1)))
+
+            if (jump == true)
             {
-                if (pieces[targetX + moveNum, targetY - moveNum].Value() == (int)PlayerTurn.Green)
-                {
-                    return true;
-                }
+                tempBoard[(int)fromPos.X, (int)fromPos.Y] = 0;
             }
-            return false;
+
+            return tempBoard;
         }
+
+        private byte FindRebuttalValue(byte[,] tempBoard)
+        {
+            List<Move> moves = new List<Move>();
+            byte gainOne = 0;
+            byte gainTwo = 0;
+            int gainAverage = 0;
+
+            #region Find all available moves on the board and put them in a list
+            for (byte x = 0; x < 7; x++)
+            {
+                for (byte y = 0; y < 7; y++)
+                {
+                    // If its player 2
+                    if (tempBoard[x, y] == 1)
+                    {
+                        for (int moveNum = 1; moveNum < 3; moveNum++)
+                        {
+                            Move tempMove;
+                            // Northwest
+                            if (y > (0 + (moveNum - 1)) && x > (0 + (moveNum - 1)))
+                            {
+                                if (tempBoard[x - moveNum, y - moveNum] == 0)
+                                {
+                                    tempMove.From = new Vector2(x, y);
+                                    tempMove.To = new Vector2(x - moveNum, y - moveNum);
+                                    tempMove.Gain = FindGain(tempBoard, tempMove.From, tempMove.To);
+                                    moves.Add(tempMove);
+                                }
+                            }
+                            // North
+                            if (y > (0 + (moveNum - 1)))
+                            {
+                                if (tempBoard[x, y - moveNum] == 0)
+                                {
+                                    tempMove.From = new Vector2(x, y);
+                                    tempMove.To = new Vector2(x, y - moveNum);
+                                    tempMove.Gain = FindGain(tempBoard, tempMove.From, tempMove.To);
+                                    moves.Add(tempMove);
+                                }
+                            }
+                            // Northeast
+                            if (y > (0 + (moveNum - 1)) && x < (6 - (moveNum - 1)))
+                            {
+                                if (tempBoard[x + moveNum, y - moveNum] == 0)
+                                {
+                                    tempMove.From = new Vector2(x, y);
+                                    tempMove.To = new Vector2(x + moveNum, y - moveNum);
+                                    tempMove.Gain = FindGain(tempBoard, tempMove.From, tempMove.To);
+                                    moves.Add(tempMove);
+                                }
+                            }
+                            // East
+                            if (x < (6 - (moveNum - 1)))
+                            {
+                                if (tempBoard[x + moveNum, y] == 0)
+                                {
+                                    tempMove.From = new Vector2(x, y);
+                                    tempMove.To = new Vector2(x + moveNum, y);
+                                    tempMove.Gain = FindGain(tempBoard, tempMove.From, tempMove.To);
+                                    moves.Add(tempMove);
+                                }
+                            }
+                            // Southeast
+                            if (y < (6 - (moveNum - 1)) && x < (6 - (moveNum - 1)))
+                            {
+                                if (tempBoard[x + moveNum, y + moveNum] == 0)
+                                {
+                                    tempMove.From = new Vector2(x, y);
+                                    tempMove.To = new Vector2(x + moveNum, y + moveNum);
+                                    tempMove.Gain = FindGain(tempBoard, tempMove.From, tempMove.To);
+                                    moves.Add(tempMove);
+                                }
+                            }
+                            // South
+                            if (y < (6 - (moveNum - 1)))
+                            {
+                                if (tempBoard[x, y + moveNum] == 0)
+                                {
+                                    tempMove.From = new Vector2(x, y);
+                                    tempMove.To = new Vector2(x, y + moveNum);
+                                    tempMove.Gain = FindGain(tempBoard, tempMove.From, tempMove.To);
+                                    moves.Add(tempMove);
+                                }
+                            }
+                            // Southwest
+                            if (y < (6 - (moveNum - 1)) && x > (0 + (moveNum - 1)))
+                            {
+                                if (tempBoard[x - moveNum, y + moveNum] == 0)
+                                {
+                                    tempMove.From = new Vector2(x, y);
+                                    tempMove.To = new Vector2(x - moveNum, y + moveNum);
+                                    tempMove.Gain = FindGain(tempBoard, tempMove.From, tempMove.To);
+                                    moves.Add(tempMove);
+                                }
+                            }
+                            // West
+                            if (x > (0 + (moveNum - 1)))
+                            {
+                                if (tempBoard[x - moveNum, y] == 0)
+                                {
+                                    tempMove.From = new Vector2(x, y);
+                                    tempMove.To = new Vector2(x - moveNum, y);
+                                    tempMove.Gain = FindGain(tempBoard, tempMove.From, tempMove.To);
+                                    moves.Add(tempMove);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            #endregion
+
+            #region Find the top 2 gains in the list
+            foreach (Move move in moves)
+            {
+                if (move.Gain > gainOne)
+                {
+                    gainTwo = gainOne;
+                    gainOne = move.Gain;
+                }
+            }
+            if (gainTwo == 0)
+                gainTwo = gainOne;
+            #endregion
+
+            #region Remove Everything that is not the top two gains
+            List<int> toRemove = new List<int>();
+            int count = 0;
+            foreach (Move move in moves)
+            {
+                if (move.Gain < gainTwo)
+                    toRemove.Add(count);
+                count++;
+            }
+            count = 0;
+            foreach (int move in toRemove)
+            {
+                moves.RemoveAt(move - count);
+                count++;
+            }
+            toRemove.Clear();
+            #endregion
+
+            foreach (Move move in moves)
+            {
+                gainAverage += move.Gain;
+            }
+
+            if (moves.Count > 0)
+                gainAverage /= moves.Count;
+
+            return (byte)gainAverage;
+        }
+
+        private byte[,] GenerateBoard()
+        {
+            byte[,] tempBoard = new byte[7, 7];
+
+            for (int x = 0; x < 7; x++)
+            {
+                for (int y = 0; y < 7; y++)
+                {
+                    if (pieces[x, y].Value() == 0)
+                    {
+                        tempBoard[x, y] = 0;
+                    }
+
+                    if (pieces[x, y].Value() == 1 || pieces[x, y].Value() == 3)
+                    {
+                        tempBoard[x, y] = 1;
+                    }
+
+                    if (pieces[x, y].Value() == 2 || pieces[x, y].Value() == 4)
+                    {
+                        tempBoard[x, y] = 2;
+                    }
+                }
+            }
+
+            return tempBoard;
+        }
+
+        private struct Move
+        {
+            public byte Gain;
+            public Vector2 From;
+            public Vector2 To;
+        }
+
+        //private Vector2 PieceToSelect(Vector2 moveTo, bool jump)
+        //{
+        //    List<Vector2> pieceList = new List<Vector2>();
+        //    float x = moveTo.X;
+        //    float y = moveTo.Y;
+
+        //    float moveNum;
+
+        //    if (!jump)
+        //    {
+        //        moveNum = 1;
+        //    }
+        //    else
+        //    {
+        //        moveNum = 2;
+        //    }
+
+        //    // Northwest
+        //    if (y > (0 + (moveNum - 1)) && x > (0 + (moveNum - 1)))
+        //    {
+        //        if (pieces[(int)(x - moveNum), (int)(y - moveNum)].Value() == (int)PlayerTurn.Green)
+        //        {
+        //            pieceList.Add(new Vector2(x - moveNum, y - moveNum));
+        //        }
+        //    }
+        //    // North
+        //    if (y > (0 + (moveNum - 1)))
+        //    {
+        //        if (pieces[(int)(x), (int)(y - moveNum)].Value() == (int)PlayerTurn.Green)
+        //        {
+        //            pieceList.Add(new Vector2(x, y - moveNum));
+        //        }
+        //    }
+        //    // Northeast
+        //    if (y > (0 + (moveNum - 1)) && x < (6 - (moveNum - 1)))
+        //    {
+        //        if (pieces[(int)(x + moveNum), (int)(y - moveNum)].Value() == (int)PlayerTurn.Green)
+        //        {
+        //            pieceList.Add(new Vector2(x + moveNum, y - moveNum));
+        //        }
+        //    }
+        //    // East
+        //    if (x < (6 - (moveNum - 1)))
+        //    {
+        //        if (pieces[(int)(x + moveNum), (int)(y)].Value() == (int)PlayerTurn.Green)
+        //        {
+        //            pieceList.Add(new Vector2(x + moveNum, y));
+        //        }
+        //    }
+        //    // Southeast
+        //    if (y < (6 - (moveNum - 1)) && x < (6 - (moveNum - 1)))
+        //    {
+        //        if (pieces[(int)(x + moveNum), (int)(y + moveNum)].Value() == (int)PlayerTurn.Green)
+        //        {
+        //            pieceList.Add(new Vector2(x + moveNum, y + moveNum));
+        //        }
+        //    }
+        //    // South
+        //    if (y < (6 - (moveNum - 1)))
+        //    {
+        //        if (pieces[(int)(x), (int)(y + moveNum)].Value() == (int)PlayerTurn.Green)
+        //        {
+        //            pieceList.Add(new Vector2(x, y + moveNum));
+        //        }
+        //    }
+        //    // Southwest
+        //    if (y < (6 - (moveNum - 1)) && x > (0 + (moveNum - 1)))
+        //    {
+        //        if (pieces[(int)(x - moveNum), (int)(y + moveNum)].Value() == (int)PlayerTurn.Green)
+        //        {
+        //            pieceList.Add(new Vector2(x - moveNum, y + moveNum));
+        //        }
+        //    }
+        //    // West
+        //    if (x > (0 + (moveNum - 1)))
+        //    {
+        //        if (pieces[(int)(x - moveNum), (int)(y)].Value() == (int)PlayerTurn.Green)
+        //        {
+        //            pieceList.Add(new Vector2(x - moveNum, y));
+        //        }
+        //    }
+
+        //    Vector2 piece = new Vector2();
+        //    if (pieceList.Count == 0)
+        //    {
+        //        piece = PieceToSelect(moveTo, !jump);
+        //    }
+        //    else
+        //    {
+        //        int pieceNum = AIRandom.Next(0, pieceList.Count - 1);
+        //        piece = pieceList[pieceNum];
+        //    }
+        //    return piece; 
+        //}
+
+
+        //private bool IsValidMove(int targetX, int targetY, bool jump)
+        //{
+        //    int moveNum;
+
+        //    if (!jump)
+        //    {
+        //        moveNum = 1;
+        //    }
+        //    else
+        //    {
+        //        moveNum = 2;
+        //    }
+
+        //    if (targetX < ( 6 - (moveNum - 1)))
+        //    {
+        //        if (pieces[targetX + moveNum, targetY].Value() == (int)PlayerTurn.Green)
+        //        {
+        //            return true;
+        //        }
+        //    }
+        //    if (targetX > ( 0 + (moveNum - 1)))
+        //    {
+        //        if (pieces[targetX - moveNum, targetY].Value() == (int)PlayerTurn.Green)
+        //        {
+        //            return true;
+        //        }
+        //    }
+        //    if (targetY < ( 6 - (moveNum - 1)))
+        //    {
+        //        if (pieces[targetX, targetY + moveNum].Value() == (int)PlayerTurn.Green)
+        //        {
+        //            return true;
+        //        }
+        //    }
+        //    if (targetY > ( 0 + (moveNum - 1)))
+        //    {
+        //        if (pieces[targetX, targetY - moveNum].Value() == (int)PlayerTurn.Green)
+        //        {
+        //            return true;
+        //        }
+        //    }
+        //    if (targetX < ( 6 - (moveNum - 1)) && targetY < ( 6 - (moveNum - 1)))
+        //    {
+        //        if (pieces[targetX + moveNum, targetY + moveNum].Value() == (int)PlayerTurn.Green)
+        //        {
+        //            return true;
+        //        }
+        //    }
+        //    if (targetX > ( 0 + (moveNum - 1)) && targetY < ( 6 - (moveNum - 1)))
+        //    {
+        //        if (pieces[targetX - moveNum, targetY + moveNum].Value() == (int)PlayerTurn.Green)
+        //        {
+        //            return true;
+        //        }
+        //    }
+        //    if (targetX > ( 0 + (moveNum - 1)) && targetY > ( 0 + (moveNum - 1)))
+        //    {
+        //        if (pieces[targetX - moveNum, targetY - moveNum].Value() == (int)PlayerTurn.Green)
+        //        {
+        //            return true;
+        //        }
+        //    }
+        //    if (targetX < ( 6 - (moveNum - 1)) && targetY > ( 0 + (moveNum - 1)))
+        //    {
+        //        if (pieces[targetX + moveNum, targetY - moveNum].Value() == (int)PlayerTurn.Green)
+        //        {
+        //            return true;
+        //        }
+        //    }
+        //    return false;
+        //}
     }
 
 }
