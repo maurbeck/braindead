@@ -74,6 +74,8 @@ namespace Beta
         Vector2 aiMoveTo;
         // Piece to select
         Vector2 aiPieceToSelect;
+        // Random
+        Random aiRandom = new Random();
 
         // Board offset
         Vector2 offset;
@@ -1015,7 +1017,8 @@ namespace Beta
                                     tempMove.From = new Vector2(x, y);
                                     tempMove.To = new Vector2(x - moveNum, y - moveNum);
                                     tempMove.Gain = FindGain(board, tempMove.From, tempMove.To);
-                                    moves.Add(tempMove);
+                                    if (moveNum == 1 || (moveNum == 2 && tempMove.Gain > 4))
+                                        moves.Add(tempMove);
                                 }
                             }
                             // North
@@ -1026,7 +1029,8 @@ namespace Beta
                                     tempMove.From = new Vector2(x, y);
                                     tempMove.To = new Vector2(x, y - moveNum);
                                     tempMove.Gain = FindGain(board, tempMove.From, tempMove.To);
-                                    moves.Add(tempMove);
+                                    if (moveNum == 1 || (moveNum == 2 && tempMove.Gain > 4))
+                                        moves.Add(tempMove);
                                 }
                             }
                             // Northeast
@@ -1037,7 +1041,8 @@ namespace Beta
                                     tempMove.From = new Vector2(x, y);
                                     tempMove.To = new Vector2(x + moveNum, y - moveNum);
                                     tempMove.Gain = FindGain(board, tempMove.From, tempMove.To);
-                                    moves.Add(tempMove);
+                                    if (moveNum == 1 || (moveNum == 2 && tempMove.Gain > 4))
+                                        moves.Add(tempMove);
                                 }
                             }
                             // East
@@ -1048,7 +1053,8 @@ namespace Beta
                                     tempMove.From = new Vector2(x, y);
                                     tempMove.To = new Vector2(x + moveNum, y);
                                     tempMove.Gain = FindGain(board, tempMove.From, tempMove.To);
-                                    moves.Add(tempMove);
+                                    if (moveNum == 1 || (moveNum == 2 && tempMove.Gain > 4))
+                                        moves.Add(tempMove);
                                 }
                             }
                             // Southeast
@@ -1059,7 +1065,8 @@ namespace Beta
                                     tempMove.From = new Vector2(x, y);
                                     tempMove.To = new Vector2(x + moveNum, y + moveNum);
                                     tempMove.Gain = FindGain(board, tempMove.From, tempMove.To);
-                                    moves.Add(tempMove);
+                                    if (moveNum == 1 || (moveNum == 2 && tempMove.Gain > 4))
+                                        moves.Add(tempMove);
                                 }
                             }
                             // South
@@ -1070,7 +1077,8 @@ namespace Beta
                                     tempMove.From = new Vector2(x, y);
                                     tempMove.To = new Vector2(x, y + moveNum);
                                     tempMove.Gain = FindGain(board, tempMove.From, tempMove.To);
-                                    moves.Add(tempMove);
+                                    if (moveNum == 1 || (moveNum == 2 && tempMove.Gain > 4))
+                                        moves.Add(tempMove);
                                 }
                             }
                             // Southwest
@@ -1081,7 +1089,8 @@ namespace Beta
                                     tempMove.From = new Vector2(x, y);
                                     tempMove.To = new Vector2(x - moveNum, y + moveNum);
                                     tempMove.Gain = FindGain(board, tempMove.From, tempMove.To);
-                                    moves.Add(tempMove);
+                                    if (moveNum == 1 || (moveNum == 2 && tempMove.Gain > 4))
+                                        moves.Add(tempMove);
                                 }
                             }
                             // West
@@ -1092,7 +1101,8 @@ namespace Beta
                                     tempMove.From = new Vector2(x, y);
                                     tempMove.To = new Vector2(x - moveNum, y);
                                     tempMove.Gain = FindGain(board, tempMove.From, tempMove.To);
-                                    moves.Add(tempMove);
+                                    if (moveNum == 1 || (moveNum == 2 && tempMove.Gain > 4))
+                                        moves.Add(tempMove);
                                 }
                             }
                         }
@@ -1164,8 +1174,9 @@ namespace Beta
             #endregion
 
             #region Return the move
-            moveFrom = moves[0].From;
-            moveTo = moves[0].To;
+            int randMove = aiRandom.Next(0, moves.Count);
+            moveFrom = moves[randMove].From;
+            moveTo = moves[randMove].To;
             moves.Clear();
             rebuttle.Clear();
             return;
