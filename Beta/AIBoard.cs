@@ -988,20 +988,20 @@ namespace Beta
  /*******************************************************************
  * A.I.
  * ****************************************************************/ 
-        private void FindBestMove(byte[,] board, ref Vector2 moveFrom, ref Vector2 moveTo)
+        private void FindBestMove(int[,] board, ref Vector2 moveFrom, ref Vector2 moveTo)
         {
-            byte gainOne = 0;
-            byte gainTwo = 0;
+            int gainOne = -10;
+            int gainTwo = -10;
 
-            byte[,] tempBoard = new byte[7, 7];
+            int[,] tempBoard = new int[7, 7];
 
             List<Move> moves = new List<Move>();
-            List<byte> rebuttle = new List<byte>();
+            List<int> rebuttle = new List<int>();
 
             #region Find all available moves on the board and put them in a list
-            for (byte x = 0; x < 7; x++)
+            for (int x = 0; x < 7; x++)
             {
-                for (byte y = 0; y < 7; y++)
+                for (int y = 0; y < 7; y++)
                 {
                     // If its player 2
                     if (board[x, y] == 2)
@@ -1017,8 +1017,7 @@ namespace Beta
                                     tempMove.From = new Vector2(x, y);
                                     tempMove.To = new Vector2(x - moveNum, y - moveNum);
                                     tempMove.Gain = FindGain(board, tempMove.From, tempMove.To);
-                                    if (moveNum == 1 || (moveNum == 2 && tempMove.Gain > 4))
-                                        moves.Add(tempMove);
+                                    moves.Add(tempMove);
                                 }
                             }
                             // North
@@ -1029,8 +1028,7 @@ namespace Beta
                                     tempMove.From = new Vector2(x, y);
                                     tempMove.To = new Vector2(x, y - moveNum);
                                     tempMove.Gain = FindGain(board, tempMove.From, tempMove.To);
-                                    if (moveNum == 1 || (moveNum == 2 && tempMove.Gain > 4))
-                                        moves.Add(tempMove);
+                                    moves.Add(tempMove);
                                 }
                             }
                             // Northeast
@@ -1041,8 +1039,7 @@ namespace Beta
                                     tempMove.From = new Vector2(x, y);
                                     tempMove.To = new Vector2(x + moveNum, y - moveNum);
                                     tempMove.Gain = FindGain(board, tempMove.From, tempMove.To);
-                                    if (moveNum == 1 || (moveNum == 2 && tempMove.Gain > 4))
-                                        moves.Add(tempMove);
+                                    moves.Add(tempMove);
                                 }
                             }
                             // East
@@ -1053,8 +1050,7 @@ namespace Beta
                                     tempMove.From = new Vector2(x, y);
                                     tempMove.To = new Vector2(x + moveNum, y);
                                     tempMove.Gain = FindGain(board, tempMove.From, tempMove.To);
-                                    if (moveNum == 1 || (moveNum == 2 && tempMove.Gain > 4))
-                                        moves.Add(tempMove);
+                                    moves.Add(tempMove);
                                 }
                             }
                             // Southeast
@@ -1065,8 +1061,7 @@ namespace Beta
                                     tempMove.From = new Vector2(x, y);
                                     tempMove.To = new Vector2(x + moveNum, y + moveNum);
                                     tempMove.Gain = FindGain(board, tempMove.From, tempMove.To);
-                                    if (moveNum == 1 || (moveNum == 2 && tempMove.Gain > 4))
-                                        moves.Add(tempMove);
+                                    moves.Add(tempMove);
                                 }
                             }
                             // South
@@ -1077,8 +1072,7 @@ namespace Beta
                                     tempMove.From = new Vector2(x, y);
                                     tempMove.To = new Vector2(x, y + moveNum);
                                     tempMove.Gain = FindGain(board, tempMove.From, tempMove.To);
-                                    if (moveNum == 1 || (moveNum == 2 && tempMove.Gain > 4))
-                                        moves.Add(tempMove);
+                                    moves.Add(tempMove);
                                 }
                             }
                             // Southwest
@@ -1089,8 +1083,7 @@ namespace Beta
                                     tempMove.From = new Vector2(x, y);
                                     tempMove.To = new Vector2(x - moveNum, y + moveNum);
                                     tempMove.Gain = FindGain(board, tempMove.From, tempMove.To);
-                                    if (moveNum == 1 || (moveNum == 2 && tempMove.Gain > 4))
-                                        moves.Add(tempMove);
+                                    moves.Add(tempMove);
                                 }
                             }
                             // West
@@ -1101,8 +1094,7 @@ namespace Beta
                                     tempMove.From = new Vector2(x, y);
                                     tempMove.To = new Vector2(x - moveNum, y);
                                     tempMove.Gain = FindGain(board, tempMove.From, tempMove.To);
-                                    if (moveNum == 1 || (moveNum == 2 && tempMove.Gain > 4))
-                                        moves.Add(tempMove);
+                                    moves.Add(tempMove);
                                 }
                             }
                         }
@@ -1153,7 +1145,7 @@ namespace Beta
             for (int i = 0; i < moves.Count; i++)
             {
                 if (moves[i].Gain - rebuttle[i] > gainOne)
-                    gainOne = (byte)(moves[i].Gain - rebuttle[i]);
+                    gainOne = (int)(moves[i].Gain - rebuttle[i]);
             }
             #endregion
 
@@ -1183,22 +1175,23 @@ namespace Beta
             #endregion
         }
 
-        private byte FindGain(byte[,] tempBoard, Vector2 fromPos, Vector2 toPos)
+        private int FindGain(int[,] tempBoard, Vector2 fromPos, Vector2 toPos)
         {
-            byte player = tempBoard[(int)fromPos.X, (int)fromPos.Y];
+            int player = tempBoard[(int)fromPos.X, (int)fromPos.Y];
             bool jump = true;
-            byte count = 1;
+            int count = 1;
 
             if (toPos.Y > 0 && toPos.X > 0)//1
             {
                 if (tempBoard[(int)toPos.X - 1, (int)toPos.Y - 1] != 0 && tempBoard[(int)toPos.X - 1, (int)toPos.Y - 1] != player)
                 {
                     count++;
-                    if (toPos.X - 1 == fromPos.X && toPos.Y - 1 == fromPos.Y)
-                    {
-                        jump = false;
-                    }
+                    
                 }
+            }
+            if (toPos.X - 1 == fromPos.X && toPos.Y - 1 == fromPos.Y)
+            {
+                jump = false;
             }
 
             if (toPos.Y > 0)//2
@@ -1206,11 +1199,12 @@ namespace Beta
                 if (tempBoard[(int)toPos.X, (int)toPos.Y - 1] != 0 && tempBoard[(int)toPos.X, (int)toPos.Y - 1] != player)
                 {
                     count++;
-                    if (toPos.X == fromPos.X && toPos.Y - 1 == fromPos.Y)
-                    {
-                        jump = false;
-                    }
+                    
                 }
+            }
+            if (toPos.X == fromPos.X && toPos.Y - 1 == fromPos.Y)
+            {
+                jump = false;
             }
 
             if (toPos.Y > 0 && toPos.X < 6)//3
@@ -1218,11 +1212,12 @@ namespace Beta
                 if (tempBoard[(int)toPos.X + 1, (int)toPos.Y - 1] != 0 && tempBoard[(int)toPos.X + 1, (int)toPos.Y - 1] != player)
                 {
                     count++;
-                    if (toPos.X + 1 == fromPos.X && toPos.Y - 1 == fromPos.Y)
-                    {
-                        jump = false;
-                    }
+                    
                 }
+            }
+            if (toPos.X + 1 == fromPos.X && toPos.Y - 1 == fromPos.Y)
+            {
+                jump = false;
             }
 
             if (toPos.X < 6)//5
@@ -1230,11 +1225,12 @@ namespace Beta
                 if (tempBoard[(int)toPos.X + 1, (int)toPos.Y] != 0 && tempBoard[(int)toPos.X + 1, (int)toPos.Y] != player)
                 {
                     count++;
-                    if (toPos.X + 1 == fromPos.X && toPos.Y == fromPos.Y)
-                    {
-                        jump = false;
-                    }
+                    
                 }
+            }
+            if (toPos.X + 1 == fromPos.X && toPos.Y == fromPos.Y)
+            {
+                jump = false;
             }
 
             if (toPos.Y < 6 && toPos.X < 6)//8
@@ -1242,11 +1238,12 @@ namespace Beta
                 if (tempBoard[(int)toPos.X + 1, (int)toPos.Y + 1] != 0 && tempBoard[(int)toPos.X + 1, (int)toPos.Y + 1] != player)
                 {
                     count++;
-                    if (toPos.X + 1 == fromPos.X && toPos.Y + 1 == fromPos.Y)
-                    {
-                        jump = false;
-                    }
+                    
                 }
+            }
+            if (toPos.X + 1 == fromPos.X && toPos.Y + 1 == fromPos.Y)
+            {
+                jump = false;
             }
 
             if (toPos.Y < 6)//7
@@ -1254,11 +1251,12 @@ namespace Beta
                 if (tempBoard[(int)toPos.X, (int)toPos.Y + 1] != 0 && tempBoard[(int)toPos.X, (int)toPos.Y + 1] != player)
                 {
                     count++;
-                    if (toPos.X == fromPos.X && toPos.Y + 1 == fromPos.Y)
-                    {
-                        jump = false;
-                    }
+                    
                 }
+            }
+            if (toPos.X == fromPos.X && toPos.Y + 1 == fromPos.Y)
+            {
+                jump = false;
             }
 
             if (toPos.Y < 6 && toPos.X > 0)//6
@@ -1266,11 +1264,12 @@ namespace Beta
                 if (tempBoard[(int)toPos.X - 1, (int)toPos.Y + 1] != 0 && tempBoard[(int)toPos.X - 1, (int)toPos.Y + 1] != player)
                 {
                     count++;
-                    if (toPos.X - 1 == fromPos.X && toPos.Y + 1 == fromPos.Y)
-                    {
-                        jump = false;
-                    }
+                    
                 }
+            }
+            if (toPos.X - 1 == fromPos.X && toPos.Y + 1 == fromPos.Y)
+            {
+                jump = false;
             }
 
             if (toPos.X > 0)//4
@@ -1278,34 +1277,26 @@ namespace Beta
                 if (tempBoard[(int)toPos.X - 1, (int)toPos.Y] != 0 && tempBoard[(int)toPos.X - 1, (int)toPos.Y] != player)
                 {
                     count++;
-                    if (toPos.X - 1 == fromPos.X && toPos.Y == fromPos.Y)
-                    {
-                        jump = false;
-                    }
+                    
                 }
+            }
+            if (toPos.X - 1 == fromPos.X && toPos.Y == fromPos.Y)
+            {
+                jump = false;
             }
 
             if (jump == true)
             {
-                count--;
+                count -= 5;
             }
 
             return count;
         }
 
-        private byte[,] TestMove(byte[,] tempBoard, Vector2 fromPos, Vector2 toPos)
+        private int[,] TestMove(int[,] tempBoard, Vector2 fromPos, Vector2 toPos)
         {
-            //if (pieces[(int)toPos.X, (int)toPos.Y].Value() != 0)
-            //{
-            //    return NULL;
-            //}
 
-            //if (pieces[(int)fromPos.X, (int)fromPos.Y].Value() == 0)
-            //{
-            //    return NULL;
-            //}
-
-            byte player = tempBoard[(int)fromPos.X, (int)fromPos.Y];
+            int player = tempBoard[(int)fromPos.X, (int)fromPos.Y];
             bool jump = true;
 
             if (toPos.Y > 0 && toPos.X > 0)//1
@@ -1412,11 +1403,11 @@ namespace Beta
             return tempBoard;
         }
 
-        private byte FindRebuttalValue(byte[,] tempBoard)
+        private int FindRebuttalValue(int[,] tempBoard)
         {
             List<Move> moves = new List<Move>();
-            byte gainOne = 0;
-            byte gainTwo = 0;
+            int gainOne = 0;
+            int gainTwo = 0;
             int gainAverage = 0;
 
             #region Find all available moves on the board and put them in a list
@@ -1563,12 +1554,12 @@ namespace Beta
             if (moves.Count > 0)
                 gainAverage /= moves.Count;
 
-            return (byte)gainAverage;
+            return (int)gainAverage;
         }
 
-        private byte[,] GenerateBoard()
+        private int[,] GenerateBoard()
         {
-            byte[,] tempBoard = new byte[7, 7];
+            int[,] tempBoard = new int[7, 7];
 
             for (int x = 0; x < 7; x++)
             {
@@ -1596,178 +1587,10 @@ namespace Beta
 
         private struct Move
         {
-            public byte Gain;
+            public int Gain;
             public Vector2 From;
             public Vector2 To;
         }
-
-        //private Vector2 PieceToSelect(Vector2 moveTo, bool jump)
-        //{
-        //    List<Vector2> pieceList = new List<Vector2>();
-        //    float x = moveTo.X;
-        //    float y = moveTo.Y;
-
-        //    float moveNum;
-
-        //    if (!jump)
-        //    {
-        //        moveNum = 1;
-        //    }
-        //    else
-        //    {
-        //        moveNum = 2;
-        //    }
-
-        //    // Northwest
-        //    if (y > (0 + (moveNum - 1)) && x > (0 + (moveNum - 1)))
-        //    {
-        //        if (pieces[(int)(x - moveNum), (int)(y - moveNum)].Value() == (int)PlayerTurn.Green)
-        //        {
-        //            pieceList.Add(new Vector2(x - moveNum, y - moveNum));
-        //        }
-        //    }
-        //    // North
-        //    if (y > (0 + (moveNum - 1)))
-        //    {
-        //        if (pieces[(int)(x), (int)(y - moveNum)].Value() == (int)PlayerTurn.Green)
-        //        {
-        //            pieceList.Add(new Vector2(x, y - moveNum));
-        //        }
-        //    }
-        //    // Northeast
-        //    if (y > (0 + (moveNum - 1)) && x < (6 - (moveNum - 1)))
-        //    {
-        //        if (pieces[(int)(x + moveNum), (int)(y - moveNum)].Value() == (int)PlayerTurn.Green)
-        //        {
-        //            pieceList.Add(new Vector2(x + moveNum, y - moveNum));
-        //        }
-        //    }
-        //    // East
-        //    if (x < (6 - (moveNum - 1)))
-        //    {
-        //        if (pieces[(int)(x + moveNum), (int)(y)].Value() == (int)PlayerTurn.Green)
-        //        {
-        //            pieceList.Add(new Vector2(x + moveNum, y));
-        //        }
-        //    }
-        //    // Southeast
-        //    if (y < (6 - (moveNum - 1)) && x < (6 - (moveNum - 1)))
-        //    {
-        //        if (pieces[(int)(x + moveNum), (int)(y + moveNum)].Value() == (int)PlayerTurn.Green)
-        //        {
-        //            pieceList.Add(new Vector2(x + moveNum, y + moveNum));
-        //        }
-        //    }
-        //    // South
-        //    if (y < (6 - (moveNum - 1)))
-        //    {
-        //        if (pieces[(int)(x), (int)(y + moveNum)].Value() == (int)PlayerTurn.Green)
-        //        {
-        //            pieceList.Add(new Vector2(x, y + moveNum));
-        //        }
-        //    }
-        //    // Southwest
-        //    if (y < (6 - (moveNum - 1)) && x > (0 + (moveNum - 1)))
-        //    {
-        //        if (pieces[(int)(x - moveNum), (int)(y + moveNum)].Value() == (int)PlayerTurn.Green)
-        //        {
-        //            pieceList.Add(new Vector2(x - moveNum, y + moveNum));
-        //        }
-        //    }
-        //    // West
-        //    if (x > (0 + (moveNum - 1)))
-        //    {
-        //        if (pieces[(int)(x - moveNum), (int)(y)].Value() == (int)PlayerTurn.Green)
-        //        {
-        //            pieceList.Add(new Vector2(x - moveNum, y));
-        //        }
-        //    }
-
-        //    Vector2 piece = new Vector2();
-        //    if (pieceList.Count == 0)
-        //    {
-        //        piece = PieceToSelect(moveTo, !jump);
-        //    }
-        //    else
-        //    {
-        //        int pieceNum = AIRandom.Next(0, pieceList.Count - 1);
-        //        piece = pieceList[pieceNum];
-        //    }
-        //    return piece; 
-        //}
-
-
-        //private bool IsValidMove(int targetX, int targetY, bool jump)
-        //{
-        //    int moveNum;
-
-        //    if (!jump)
-        //    {
-        //        moveNum = 1;
-        //    }
-        //    else
-        //    {
-        //        moveNum = 2;
-        //    }
-
-        //    if (targetX < ( 6 - (moveNum - 1)))
-        //    {
-        //        if (pieces[targetX + moveNum, targetY].Value() == (int)PlayerTurn.Green)
-        //        {
-        //            return true;
-        //        }
-        //    }
-        //    if (targetX > ( 0 + (moveNum - 1)))
-        //    {
-        //        if (pieces[targetX - moveNum, targetY].Value() == (int)PlayerTurn.Green)
-        //        {
-        //            return true;
-        //        }
-        //    }
-        //    if (targetY < ( 6 - (moveNum - 1)))
-        //    {
-        //        if (pieces[targetX, targetY + moveNum].Value() == (int)PlayerTurn.Green)
-        //        {
-        //            return true;
-        //        }
-        //    }
-        //    if (targetY > ( 0 + (moveNum - 1)))
-        //    {
-        //        if (pieces[targetX, targetY - moveNum].Value() == (int)PlayerTurn.Green)
-        //        {
-        //            return true;
-        //        }
-        //    }
-        //    if (targetX < ( 6 - (moveNum - 1)) && targetY < ( 6 - (moveNum - 1)))
-        //    {
-        //        if (pieces[targetX + moveNum, targetY + moveNum].Value() == (int)PlayerTurn.Green)
-        //        {
-        //            return true;
-        //        }
-        //    }
-        //    if (targetX > ( 0 + (moveNum - 1)) && targetY < ( 6 - (moveNum - 1)))
-        //    {
-        //        if (pieces[targetX - moveNum, targetY + moveNum].Value() == (int)PlayerTurn.Green)
-        //        {
-        //            return true;
-        //        }
-        //    }
-        //    if (targetX > ( 0 + (moveNum - 1)) && targetY > ( 0 + (moveNum - 1)))
-        //    {
-        //        if (pieces[targetX - moveNum, targetY - moveNum].Value() == (int)PlayerTurn.Green)
-        //        {
-        //            return true;
-        //        }
-        //    }
-        //    if (targetX < ( 6 - (moveNum - 1)) && targetY > ( 0 + (moveNum - 1)))
-        //    {
-        //        if (pieces[targetX + moveNum, targetY - moveNum].Value() == (int)PlayerTurn.Green)
-        //        {
-        //            return true;
-        //        }
-        //    }
-        //    return false;
-        //}
     }
 
 }
