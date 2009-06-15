@@ -19,7 +19,9 @@ namespace Beta
             Instructions = 2,
             Game = 3,
             Quit = 4,
-            Credits = 5
+            Credits = 5,
+            AIGame = 6,
+            Othello = 7
         }
 
         // Background image
@@ -244,7 +246,7 @@ namespace Beta
                     {
                         mouseClick.Play(1.0f, 0.0f, 0.0f, false);
                         screen = 1;
-                        state = (int)State.Game;
+                        state = (int)State.AIGame;
                         Initialize();
                     }
                     break;
