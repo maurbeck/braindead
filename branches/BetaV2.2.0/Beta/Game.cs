@@ -91,6 +91,8 @@ namespace Beta
         Texture2D player2OthelloTex;
         Texture2D player1ToPlayer2Othello;
         Texture2D player2ToPlayer1Othello;
+        Texture2D transparentToPlayer1Othello;
+        Texture2D transparentToPlayer2Othello;
         Texture2D player1OthelloBanner;
         Texture2D player2OthelloBanner;
        
@@ -238,6 +240,10 @@ namespace Beta
             player2OthelloTex = Content.Load<Texture2D>("White");
             player1ToPlayer2Othello = Content.Load<Texture2D>("blackToWhite");
             player2ToPlayer1Othello = Content.Load<Texture2D>("whiteToBlack");
+
+            transparentToPlayer1Othello = Content.Load<Texture2D>("TransToBlack");
+            transparentToPlayer2Othello = Content.Load<Texture2D>("TransToWhite");
+
             player1OthelloBanner = Content.Load<Texture2D>("BlackBanner");
             player2OthelloBanner = Content.Load<Texture2D>("WhiteBanner");
             player1OthelloCursor = Content.Load<Texture2D>("BlackCursor");
@@ -291,7 +297,7 @@ namespace Beta
             othello.LoadContent(spriteBatch, othelloBoardTex, player1OthelloTex,
                                 player2OthelloTex, player1ToPlayer2Othello, player2ToPlayer1Othello,
                                 player1OthelloBanner, player2OthelloBanner, player1OthelloCursor, player2OthelloCursor,
-                                transparentToPlayer1, transparentToPlayer2);
+                                transparentToPlayer1Othello, transparentToPlayer2Othello);
 
             othello.LoadAudio(  selectPiece, unavailableMove, availableMove,
                                 playerOneToPlayerTwo);
