@@ -52,16 +52,63 @@ namespace Beta
         
         public void Initialize()
         {
+//#if WINDOWS
+//            Game.screenW = 0;
+//            int bgCenterX = 0;
+//            int bgCenterY = 0;
+//#endif
+//#if XBOX
+//            int bgCenterX = 384;
+//            int bgCenterY = 384;
+//#endif
+
+
 #if WINDOWS
-            Game.screenW = 0;
-            int bgCenterX = 0;
-            int bgCenterY = 0;
+            // Initialize background
+            background.Initialize(Vector2.Zero, new Rectangle(0, 0, 798, 798),
+                                    Color.White, Vector2.Zero,
+                                    new Vector2(0.5f), 1.0f);
+            // Initialize cursor
+            cursor.Initialize(Vector2.Zero, new Rectangle(0, 0, 50, 50),
+                                Color.White, Vector2.Zero,
+                                new Vector2(0.5f), 0.0f);
+
+            // Initialize buttons
+            //gameButton.Initialize(  new Vector2(279/2, 200/2), new Rectangle(0, 0, 240, 100),
+            //                        Vector2.Zero, new Vector2(0.5f),
+            //                        0.5f, 10, 2, false);
+
+            //tutorialButton.Initialize(  new Vector2(279/2, 349/2), new Rectangle(0, 0, 240, 100),
+            //                            Vector2.Zero, new Vector2(0.5f),
+            //                            0.5f, 10, 2, false);
+
+            //quitButton.Initialize(  new Vector2(279/2, 500/2), new Rectangle(0, 0, 240, 100),
+            //                        Vector2.Zero, new Vector2(0.5f),
+            //                        0.5f, 10, 2, false);
+
+
+            onePlayerJojamianButton.Initialize(new Vector2(92 / 2, 300 / 2), new Rectangle(0, 0, 280, 80),
+                                    Vector2.Zero, new Vector2(0.5f),
+                                    0.5f, 10, 2, false);
+
+
+            twoPlayerJojamianButton.Initialize(new Vector2(92 / 2, 400 / 2), new Rectangle(0, 0, 280, 80),
+                                    Vector2.Zero, new Vector2(0.5f),
+                                    0.5f, 10, 2, false);
+
+            rulesJojamianButton.Initialize(new Vector2(92 / 2, 500 / 2), new Rectangle(0, 0, 280, 80),
+                                    Vector2.Zero, new Vector2(0.5f),
+                                    0.5f, 10, 2, false);
+
+            onePlayerOthelloButton.Initialize(new Vector2(442 / 2, 400 / 2), new Rectangle(0, 0, 280, 80),
+                        Vector2.Zero, new Vector2(0.5f),
+                        0.5f, 10, 2, false);
+
+            endGameButton.Initialize(new Vector2(300 / 2, 625 / 2), new Rectangle(0, 0, 280, 80),
+                                    Vector2.Zero, new Vector2(0.5f),
+                                    0.5f, 10, 2, false);
 #endif
 #if XBOX
-            int bgCenterX = 384;
-            int bgCenterY = 384;
-#endif
-
             // Initialize background
             background.Initialize(new Vector2(Game.screenW / 2,Game.screenH /2), new Rectangle(0, 0, 798, 798),
                                     Color.White, new Vector2(bgCenterX, bgCenterY), 
@@ -106,7 +153,7 @@ namespace Beta
             endGameButton.Initialize(new Vector2(300 / 2 + Game.screenW / 4, 625 / 2 + Game.screenH / 4), new Rectangle(0, 0, 280, 80),
                                     Vector2.Zero, new Vector2(0.5f),
                                     0.5f, 10, 2, false);
-
+#endif
 
 
 
