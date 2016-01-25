@@ -1,0 +1,1 @@
+This project is the finalization of the prototype game developed at the 1st Annual Global Game Jam called Braindead.  It is being finished by three of the seven team members from the original project.
